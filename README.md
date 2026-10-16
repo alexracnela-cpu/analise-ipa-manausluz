@@ -6,7 +6,7 @@ Site: https://analise-ipa-manausluz.netlify.app/ (publicado pela Netlify a cada 
 
 - `index.html` é fixo (visual, cards e gráfico). **Não precisa ser alterado no dia a dia.**
 - `dados/dados.json` traz os números do cabeçalho e do gráfico:
-  - `atualizado_em`, `periodo`, `os_fechadas`, `no_prazo`, `fora_do_prazo`, `ipa` (número, ex. 92.4), `nota` (texto, ex. "0,8")
+  - `atualizado_em`, `periodo`, `os_fechadas`, `no_prazo`, `fora_do_prazo`, `ipa` (número com **2 casas decimais**, ex. 92.39 — a página calcula e mostra o IPA como no_prazo/os_fechadas com 2 casas), `nota` (texto, ex. "0,8")
   - `ipa_anterior` e `atualizado_anterior` (da atualização anterior, para a variação)
   - `dias`: lista `{dia, os, atrasos}` com os fechamentos e atrasos de cada dia do mês (a soma deve bater com `os_fechadas` e `fora_do_prazo`)
 - `dados/analise.md` é o texto da análise do dia (exportado da aba nova do doc do IPA em markdown), **sem** o título, a linha de data e a tabela de KPIs do topo.

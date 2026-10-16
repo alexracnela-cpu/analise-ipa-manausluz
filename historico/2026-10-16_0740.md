@@ -4,7 +4,7 @@
 
 ## Resumo executivo
 
-O IPA de outubro está em **92,4% — nota 0,8** (2.709 de 2.932 OS no prazo). Desde a aba anterior (15/10, 16h13) entraram 119 fechamentos com só 1 atraso, e o índice subiu 0,3 p.p. Para estar em 95% hoje seriam necessários 77 atrasos a menos.
+O IPA de outubro está em **92,39% — nota 0,8** (2.709 de 2.932 OS no prazo). Desde a aba anterior (15/10, 16h13) entraram 119 fechamentos com só 1 atraso, e o índice subiu 0,28 p.p. Para estar em 95% hoje seriam necessários 77 atrasos a menos.
 
 O atraso continua na fila, não em campo: as OS atrasadas esperaram de 93 a 107 horas (mediana) até entrar num lote e levaram ~4 horas do lote ao fechamento, o mesmo tempo das OS no prazo.
 
@@ -26,7 +26,7 @@ O IPA geral passou de 90% em 06/10 e desde então oscila entre 90% e 92%. Os tr�
 
 | Recorte (01/10–16/10) | OS | No prazo | Nota IPA |
 | --- | --- | --- | --- |
-| Todas as OS, exceto origem Obra (base adotada) | 2.932 | 92,4% | 0,8 |
+| Todas as OS, exceto origem Obra (base adotada) | 2.932 | 92,39% | 0,8 |
 | Cada OS uma vez, pelo último fechamento | 2.816 | 93,1% | 0,8 |
 | Sem o evento Mário Andreazza (110 OS, 42 atrasos) | 2.822 | 93,6% | 0,8 |
 | Só reclamações de usuários (Call Center, App, Web) | 2.173 | 90,1% | 0,8 |
@@ -194,7 +194,7 @@ As ações 5 a 19 da aba de 15/10 continuam valendo. Hoje a prioridade é o back
 
 | Indicador | Hoje (01/10–16/10) | Ontem (aba de 15/10) | Meta outubro | Meta novembro |
 | --- | --- | --- | --- | --- |
-| IPA acumulado do mês | 92,4% (2.709 de 2.932) | 92,1% (2.590 de 2.812) | ≥ 90% (buscar 95%) | ≥ 95% |
+| IPA acumulado do mês | 92,39% (2.709 de 2.932) | 92,11% (2.590 de 2.812) | ≥ 90% (buscar 95%) | ≥ 95% |
 | Atrasos novos por dia | ~9 desde 10/10 (1 desde ontem às 16h) | ~10 desde 10/10 | ≤ 3 | ≤ 2 |
 | OS de vias vencidas em aberto | 20 (6 de via especial) | 11 | 0 até 17/10 | 0 |
 | Fila mediana (abertura → lote) das demais vias | 7,4 h | 7,8 h | < 8 h | < 6 h |
