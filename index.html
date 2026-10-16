@@ -45,6 +45,15 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 #conteudo h3{font-size:16px;margin:22px 0 6px;color:var(--accent)}
 #conteudo strong{font-weight:600}
 .tbl{overflow-x:auto;margin:12px 0}
+.secao-plano{margin:32px -8px 8px;padding:20px 22px 12px;border-radius:12px;background:linear-gradient(180deg,#eaf1fb,#f6f9fd);
+  border:1px solid #cfdcef;border-left:6px solid var(--navy);box-shadow:0 4px 14px rgba(10,51,102,.08)}
+#conteudo .secao-plano h2{border-top:0;margin-top:0;padding-top:0;display:flex;align-items:center;gap:10px}
+#conteudo .secao-plano h2::before{content:"";width:12px;height:12px;border-radius:3px;background:var(--accent);flex:none}
+.secao-plano table{background:#fff;border-radius:8px;overflow:hidden}
+.secao-plano tbody tr:nth-child(even) td{background:#f7f9fd}
+.secao-plano td:nth-child(2){font-weight:500}
+.secao-plano .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;
+  background:var(--navy);color:#fff;font-weight:700;font-size:12px}
 .destaque{margin:16px 0;padding:14px 18px 14px 18px;border-radius:10px;border:1px solid;border-left-width:5px}
 .destaque p{margin:6px 0 0}
 .destaque .selo-d{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
@@ -171,6 +180,14 @@ async function abrir(id){
     const c = document.getElementById('conteudo');
     c.innerHTML = mdParaHtml(md);
     c.querySelectorAll('table').forEach(t=>{const w=document.createElement('div');w.className='tbl';t.parentNode.insertBefore(w,t);w.appendChild(t);});
+    // destaque da seção Plano de ação (do título até o próximo título de mesmo nível)
+    c.querySelectorAll('h2').forEach(h=>{
+      if(!/plano de a[cç][aã]o/i.test(h.textContent)) return;
+      const box=document.createElement('section'); box.className='secao-plano';
+      h.parentNode.insertBefore(box,h);
+      let n=h; while(n && !(n!==h && n.tagName==='H2')){ const prox=n.nextElementSibling; box.appendChild(n); n=prox; }
+      box.querySelectorAll('tbody tr').forEach(tr=>{const td=tr.querySelector('td'); if(td && /^\d+$/.test(td.textContent.trim())) td.innerHTML=`<span class="num">${td.textContent.trim()}</span>`;});
+    });
     document.getElementById('rodape').innerHTML = `Fonte: GisWorks (Manaus Luz) · análise completa e histórico no <a href="${d.doc}" target="_blank" rel="noopener">doc do IPA</a>`;
     if(location.hash.slice(1)!==id) history.replaceState(null,'', id===INDICE[0].id ? location.pathname : '#'+id);
   }catch(e){
