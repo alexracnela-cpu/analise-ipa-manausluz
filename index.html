@@ -54,6 +54,7 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .secao-plano td:nth-child(2){font-weight:500}
 .secao-plano .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;
   background:var(--navy);color:#fff;font-weight:700;font-size:12px}
+.nota-plano{margin:4px 0 6px;font-size:12.5px;color:var(--muted);font-style:italic}
 .destaque{margin:16px 0;padding:14px 18px 14px 18px;border-radius:10px;border:1px solid;border-left-width:5px}
 .destaque p{margin:6px 0 0}
 .destaque .selo-d{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
@@ -187,6 +188,17 @@ async function abrir(id){
       h.parentNode.insertBefore(box,h);
       let n=h; while(n && !(n!==h && n.tagName==='H2')){ const prox=n.nextElementSibling; box.appendChild(n); n=prox; }
       box.querySelectorAll('tbody tr').forEach(tr=>{const td=tr.querySelector('td'); if(td && /^\d+$/.test(td.textContent.trim())) td.innerHTML=`<span class="num">${td.textContent.trim()}</span>`;});
+      // sobe o plano para logo depois da Meta do resumo executivo (ou para o fim do resumo, se não houver Meta)
+      let ancora=c.querySelector('.destaque.meta');
+      if(!ancora){
+        const res=[...c.querySelectorAll('h2')].find(x=>/resumo executivo/i.test(x.textContent));
+        if(res){ let k=res; while(k.nextElementSibling && k.nextElementSibling.tagName!=='H2' && k.nextElementSibling!==box) k=k.nextElementSibling; ancora=k; }
+      }
+      if(ancora && ancora.compareDocumentPosition(box) & Node.DOCUMENT_POSITION_FOLLOWING){
+        ancora.after(box);
+        const nota=document.createElement('p'); nota.className='nota-plano'; nota.textContent='Os números das ações estão detalhados nas seções abaixo.';
+        box.appendChild(nota);
+      }
     });
     document.getElementById('rodape').innerHTML = `Fonte: GisWorks (Manaus Luz) · análise completa e histórico no <a href="${d.doc}" target="_blank" rel="noopener">doc do IPA</a>`;
     if(location.hash.slice(1)!==id) history.replaceState(null,'', id===INDICE[0].id ? location.pathname : '#'+id);
