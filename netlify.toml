@@ -2,6 +2,6 @@
   publish = "."
 
 [[headers]]
-  for = "/dados/*"
+  for = "/historico/*"
   [headers.values]
     Cache-Control = "no-cache"

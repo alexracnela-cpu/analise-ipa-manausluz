@@ -23,6 +23,13 @@ header .wrap{padding:0;display:flex;align-items:center;gap:22px}
 .logo{height:96px;width:auto;flex:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
 header h1{margin:0 0 4px;font-size:clamp(20px,3.2vw,28px);font-weight:700;letter-spacing:-.01em;color:var(--navy)}
 header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
+.abas{max-width:1040px;margin:18px auto 0;display:flex;gap:8px;flex-wrap:wrap}
+.aba{border:1px solid var(--line);background:rgba(255,255,255,.85);color:var(--navy);font:600 13px Inter,system-ui,sans-serif;
+  padding:7px 14px;border-radius:999px;cursor:pointer}
+.aba:hover{background:#fff;border-color:var(--accent)}
+.aba.ativa{background:var(--navy);border-color:var(--navy);color:#fff}
+.aba .novo{font-size:10px;font-weight:700;background:var(--accent);color:#fff;border-radius:6px;padding:1px 5px;margin-left:6px}
+.aba.ativa .novo{background:#fff;color:var(--navy)}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:-60px;position:relative}
 .kpi{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:12px;padding:16px 18px;box-shadow:0 6px 18px rgba(10,51,102,.10)}
 .kpi .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
@@ -58,7 +65,9 @@ footer a,.card a{color:var(--accent)}
     <h1 id="titulo">Análise do Indicador de Prazo (Manaus Luz)</h1>
     <p id="sub">Carregando…</p>
   </div>
-</div></header>
+</div>
+<nav class="abas" id="abas" aria-label="Atualizações"></nav>
+</header>
 
 <main class="wrap">
   <section class="kpis" id="kpis"></section>
@@ -121,29 +130,44 @@ function grafico(d){
   return s;
 }
 
-async function carregar(){
-  const v = '?v=' + Date.now();
+let INDICE=[];
+const sem = () => '?v=' + Date.now();
+async function abrir(id){
   try{
     const [d, md] = await Promise.all([
-      fetch('dados/dados.json'+v, {cache:'no-store'}).then(r=>r.json()),
-      fetch('dados/analise.md'+v, {cache:'no-store'}).then(r=>r.text())
+      fetch(`historico/${id}.json`+sem(), {cache:'no-store'}).then(r=>r.json()),
+      fetch(`historico/${id}.md`+sem(), {cache:'no-store'}).then(r=>r.text())
     ]);
+    document.querySelectorAll('.aba').forEach(b=>b.classList.toggle('ativa', b.dataset.id===id));
     document.getElementById('titulo').textContent = d.titulo;
     document.getElementById('sub').textContent = `Fechamentos de ${d.periodo} · atualizado em ${d.atualizado_em}`;
     const ipa = 100*d.no_prazo/d.os_fechadas;
     const delta = d.ipa_anterior!=null ? ipa - d.ipa_anterior : null;
-    const dtxt = delta==null ? '' : `<span class="${delta>=0?'up':'down'}">${delta>=0?'▲':'▼'} ${fmt(Math.abs(delta),2)} p.p.</span> vs ${d.atualizado_anterior}`;
+    const dtxt = delta==null ? '' : ` · <span class="${delta>=0?'up':'down'}">${delta>=0?'▲':'▼'} ${fmt(Math.abs(delta),2)} p.p.</span> vs ${d.atualizado_anterior}`;
     document.getElementById('kpis').innerHTML = `
-      <div class="kpi ipa"><div class="l">IPA</div><div class="v">${fmt(ipa,2)}%</div><div class="s">nota ${d.nota} · ${dtxt}</div></div>
+      <div class="kpi ipa"><div class="l">IPA</div><div class="v">${fmt(ipa,2)}%</div><div class="s">nota ${d.nota}${dtxt}</div></div>
       <div class="kpi"><div class="l">OS fechadas</div><div class="v">${fmt(d.os_fechadas)}</div><div class="s">exceto origem Obra</div></div>
       <div class="kpi"><div class="l">No prazo</div><div class="v">${fmt(d.no_prazo)}</div><div class="s">${fmt(ipa,2)}% do total</div></div>
       <div class="kpi"><div class="l">Fora do prazo</div><div class="v">${fmt(d.fora_do_prazo)}</div><div class="s">atrasos no mês</div></div>`;
     document.getElementById('grafico').innerHTML = grafico(d);
-    const html = mdParaHtml(md);
     const c = document.getElementById('conteudo');
-    c.innerHTML = html;
+    c.innerHTML = mdParaHtml(md);
     c.querySelectorAll('table').forEach(t=>{const w=document.createElement('div');w.className='tbl';t.parentNode.insertBefore(w,t);w.appendChild(t);});
     document.getElementById('rodape').innerHTML = `Fonte: GisWorks (Manaus Luz) · análise completa e histórico no <a href="${d.doc}" target="_blank" rel="noopener">doc do IPA</a>`;
+    if(location.hash.slice(1)!==id) history.replaceState(null,'', id===INDICE[0].id ? location.pathname : '#'+id);
+  }catch(e){
+    document.getElementById('sub').innerHTML = '<span class="erro">Não foi possível carregar esta atualização.</span>';
+    console.error(e);
+  }
+}
+async function carregar(){
+  try{
+    INDICE = await fetch('historico/indice.json'+sem(), {cache:'no-store'}).then(r=>r.json());
+    document.getElementById('abas').innerHTML = INDICE.map((it,i)=>
+      `<button class="aba" data-id="${it.id}">${it.rotulo}${i===0?'<span class="novo">ATUAL</span>':''}</button>`).join('');
+    document.querySelectorAll('.aba').forEach(b=>b.addEventListener('click',()=>{abrir(b.dataset.id); window.scrollTo({top:0,behavior:'smooth'});}));
+    const h = location.hash.slice(1);
+    abrir(INDICE.some(x=>x.id===h) ? h : INDICE[0].id);
   }catch(e){
     document.getElementById('sub').innerHTML = '<span class="erro">Não foi possível carregar os dados.</span>';
     console.error(e);
