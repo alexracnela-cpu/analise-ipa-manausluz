@@ -20,11 +20,7 @@ body{margin:0;color:var(--text);font:15px/1.6 Inter,system-ui,-apple-system,"Seg
 header{padding:28px 16px 86px;position:relative}
 .wrap{max-width:1040px;margin:0 auto;padding:0 16px}
 header .wrap{padding:0;display:flex;align-items:center;gap:22px}
-.marca{flex:none;position:relative;padding:6px}
-.marca::before{content:"";position:absolute;inset:-18px -26px;z-index:0;pointer-events:none;
-  background:radial-gradient(closest-side,rgba(255,255,255,.92),rgba(255,255,255,.55) 55%,rgba(255,255,255,0))}
-.logo{height:96px;width:auto;display:block;position:relative;z-index:1;
-  filter:drop-shadow(0 0 2px rgba(255,255,255,.95)) drop-shadow(0 0 8px rgba(255,255,255,.85)) drop-shadow(0 0 16px rgba(255,255,255,.6))}
+.logo{height:96px;width:auto;flex:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
 header h1{margin:0 0 4px;font-size:clamp(20px,3.2vw,28px);font-weight:700;letter-spacing:-.01em;color:var(--navy)}
 header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .abas{max-width:1040px;margin:18px auto 0;display:flex;gap:8px;flex-wrap:wrap}
@@ -64,7 +60,7 @@ footer a,.card a{color:var(--accent)}
 </head>
 <body>
 <header><div class="wrap">
-  <div class="marca"><img class="logo" src="img/logo-manaus-luz.png" alt="Manaus Luz"></div>
+  <img class="logo" src="img/logo-manaus-luz.png" alt="Manaus Luz">
   <div>
     <h1 id="titulo">Análise do Indicador de Prazo (Manaus Luz)</h1>
     <p id="sub">Carregando…</p>
