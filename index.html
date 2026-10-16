@@ -45,6 +45,16 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 #conteudo h3{font-size:16px;margin:22px 0 6px;color:var(--accent)}
 #conteudo strong{font-weight:600}
 .tbl{overflow-x:auto;margin:12px 0}
+.destaque{margin:16px 0;padding:14px 18px 14px 18px;border-radius:10px;border:1px solid;border-left-width:5px}
+.destaque p{margin:6px 0 0}
+.destaque .selo-d{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  padding:2px 9px;border-radius:999px;color:#fff}
+.destaque.alerta{background:#fff6e8;border-color:#f3d39b;border-left-color:#d9822b}
+.destaque.alerta .selo-d{background:#c96f12}
+.destaque.alerta strong{color:#9a4f00}
+.destaque.meta{background:#eef0fa;border-color:#cdd2ee;border-left-color:var(--accent)}
+.destaque.meta .selo-d{background:var(--accent)}
+.destaque.meta strong{color:var(--accent)}
 table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
 th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 th{font-weight:600;color:#fff;font-size:12.5px;background:var(--navy)}
@@ -99,7 +109,15 @@ function mdParaHtml(md){
     }
     if(ls.every(l=>/^\s*[-*]\s+/.test(l))){ out+='<ul>'+ls.map(l=>`<li>${inl(l.replace(/^\s*[-*]\s+/,''))}</li>`).join('')+'</ul>'; continue; }
     if(ls.every(l=>/^\s*\d+\.\s+/.test(l))){ out+='<ol>'+ls.map(l=>`<li>${inl(l.replace(/^\s*\d+\.\s+/,''))}</li>`).join('')+'</ol>'; continue; }
-    out+=`<p>${ls.map(inl).join('<br>')}</p>`;
+    const corpo=ls.map(inl).join('<br>');
+    const dm=t.match(/^\*\*((Alerta|Meta)[^*]*?)\*\*\s*([\s\S]*)$/i);
+    if(dm){
+      const tipo=/^alerta/i.test(dm[1])?'alerta':'meta';
+      const partes=dm[1].replace(/[:.]\s*$/,'').split(/\s+[—–-]\s+/);
+      const resto=(partes[1]?`<strong>${inl((x=>x.charAt(0).toUpperCase()+x.slice(1))(partes.slice(1).join(' — ')))}:</strong> `:'')+inl(dm[3].replace(/\n/g,' '));
+      out+=`<div class="destaque ${tipo}"><span class="selo-d">${esc(partes[0])}</span><p>${resto}</p></div>`; continue;
+    }
+    out+=`<p>${corpo}</p>`;
   }
   return out;
 }
