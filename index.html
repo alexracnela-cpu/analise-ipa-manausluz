@@ -197,7 +197,7 @@ async function abrir(id){
       if(ancora && ancora.compareDocumentPosition(box) & Node.DOCUMENT_POSITION_FOLLOWING){
         ancora.after(box);
         const nota=document.createElement('p'); nota.className='nota-plano'; nota.textContent='Os números das ações estão detalhados nas seções abaixo.';
-        box.appendChild(nota);
+        if(!/detalhad[oa]s nas se[cç][oõ]es abaixo/i.test(box.textContent)) box.appendChild(nota);
       }
     });
     document.getElementById('rodape').innerHTML = `Fonte: GisWorks (Manaus Luz) · análise completa e histórico no <a href="${d.doc}" target="_blank" rel="noopener">doc do IPA</a>`;
