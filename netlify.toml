@@ -1,0 +1,7 @@
+[build]
+  publish = "."
+
+[[headers]]
+  for = "/dados/*"
+  [headers.values]
+    Cache-Control = "no-cache"
