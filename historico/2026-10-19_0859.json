@@ -1,6 +1,6 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "19/10/2026 08h43",
+ "atualizado_em": "19/10/2026 08h59",
  "periodo": "01/10 a 19/10/2026",
  "mes": "10/2026",
  "os_fechadas": 3339,
@@ -108,5 +108,121 @@
    "atrasos": 0
   }
  ],
- "auto": true
+ "auto": true,
+ "extra": {
+  "ritmo": 7.5,
+  "fila_demais": 7.7,
+  "sem_exec": 18.3,
+  "equipes": {
+   "ADA AMORIM": [
+    4,
+    0
+   ],
+   "BRUNO PIMENTEL DE LIMA": [
+    8,
+    0
+   ],
+   "Equipe Apoio 1": [
+    20,
+    0
+   ],
+   "Equipe apoio 2 - OBRA": [
+    13,
+    0
+   ],
+   "Equipe apoio 5": [
+    108,
+    23
+   ],
+   "JOÃO PEDRO": [
+    11,
+    2
+   ],
+   "OBRAS LEVES - 01 - MOT. MATHEUS": [
+    7,
+    0
+   ],
+   "OBRAS LEVES - 03 - MOT. LEANDRO": [
+    77,
+    0
+   ],
+   "OBRAS LEVES - 05 - MOT. EDUARDO": [
+    7,
+    0
+   ],
+   "OBRAS PESADAS  - 03 - MOT. TEÓFILO": [
+    2,
+    0
+   ],
+   "OBRAS PESADAS - 01 - MOT. MARCELO": [
+    4,
+    0
+   ],
+   "OBRAS PESADAS - 04 - MOT. FABRICIO": [
+    1,
+    0
+   ],
+   "TURNO 1-1": [
+    252,
+    12
+   ],
+   "TURNO 1-2": [
+    226,
+    14
+   ],
+   "TURNO 1-3": [
+    278,
+    29
+   ],
+   "TURNO 1-4": [
+    40,
+    17
+   ],
+   "TURNO 2-1": [
+    174,
+    29
+   ],
+   "TURNO 2-2": [
+    232,
+    11
+   ],
+   "TURNO 2-3": [
+    207,
+    28
+   ],
+   "TURNO 2-4": [
+    270,
+    1
+   ],
+   "TURNO 2-5": [
+    193,
+    17
+   ],
+   "TURNO 3-1": [
+    340,
+    16
+   ],
+   "TURNO 3-2": [
+    316,
+    15
+   ],
+   "TURNO 3-4": [
+    71,
+    9
+   ],
+   "TURNO 3-5": [
+    163,
+    3
+   ],
+   "TURNO 3-6": [
+    315,
+    7
+   ]
+  },
+  "esp": [
+   84.94,
+   94.57
+  ],
+  "erros": 34.7
+ }
 }
