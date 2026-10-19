@@ -142,8 +142,10 @@ def ler_abertas(arquivo):
     try:
         brut = pd.read_excel(arquivo, header=None)
         # cabeçalho = primeira linha que tenha "ID" e "Data"
-        lin = next(i for i in range(min(10, len(brut)))
-                   if {"ID", "Data"} <= {str(x).strip() for x in brut.iloc[i].tolist()})
+        def cab(i):
+            c = {str(x).strip() for x in brut.iloc[i].tolist()}
+            return "Data" in c and ("ID" in c or "Número da OS" in c)
+        lin = next(i for i in range(min(10, len(brut))) if cab(i))
         ab = pd.read_excel(arquivo, header=lin)
         ab.columns = [str(c).strip() for c in ab.columns]
         ab["ab"] = data_br(ab["Data"])
@@ -748,7 +750,10 @@ def backlog(ab, agora):
     eqcol = "Equipe" if "Equipe" in v else None
     if eqcol:
         e = v[eqcol].fillna("").astype(str).str.strip()
-        v["quem"] = e.where(~e.isin(["", "nan", "-", "None"]), "Sem equipe (status Aberta)")
+        sem_eq = e.isin(["", "nan", "-", "None"])
+        if "Status" in v:
+            sem_eq |= v["Status"].fillna("").astype(str).str.strip().str.lower().eq("aberta")
+        v["quem"] = e.where(~sem_eq, "Sem equipe (status Aberta)")
     else:
         v["quem"] = "Sem informação de equipe"
     g = v.groupby("quem").agg(n=("vencida", "size"), venc=("vencida", "sum"), v24=("v24", "sum"))
