@@ -1,11 +1,9 @@
 name: Atualizar IPA
 
 on:
-  schedule:
-    # 6h, 8h, 12h e 16h em Manaus (UTC-4) = 10h, 12h, 16h e 20h UTC.
-    # Minuto 7 para fugir do pico do GitHub; o GitHub pode atrasar alguns minutos.
-    - cron: "7 10,12,16,20 * * *"
-  workflow_dispatch: {} # botão "Run workflow" para rodar na hora
+  # Disparado pelo cron-job.org às 6h, 8h, 12h e 16h (Manaus) via API (workflow_dispatch).
+  # O agendamento interno do GitHub (schedule) foi retirado porque pulava horários.
+  workflow_dispatch: {} # também dá para rodar pelo botão "Run workflow"
 
 permissions:
   contents: write

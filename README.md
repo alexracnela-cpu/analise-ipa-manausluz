@@ -22,7 +22,7 @@ Site: https://analise-ipa-manausluz.netlify.app/ (publicado pela Netlify a cada 
 
 ## Robô automático (GitHub Actions)
 
-O workflow `.github/workflows/atualizar-ipa.yml` roda às **6h, 8h, 12h e 16h (Manaus)** e também pelo botão *Actions → Atualizar IPA → Run workflow*:
+O workflow `.github/workflows/atualizar-ipa.yml` é disparado pelo **cron-job.org** às **6h, 8h, 12h e 16h (Manaus)** (POST na API `.../actions/workflows/atualizar-ipa.yml/dispatches` com token fine-grained, permissão Actions: write, só neste repositório) e também pelo botão *Actions → Atualizar IPA → Run workflow*:
 
 1. `robo/baixar_relatorio.py` entra no GisWorks (Manaus) e baixa o relatório "Ordens Executadas e Inspeções/Materiais por Município" do dia 01 do mês até agora e o de "Todas as Ordens em Aberto ou em Andamento" (backlog).
 2. `robo/atualizar_site.py` calcula o IPA (OS exceto origem/reclamante Obra, sem inspeções, campo "Fechada no Prazo", 2 casas) e gera a análise completa no formato do doc: resumo executivo (alerta e meta), plano de ação (por regras), recortes, causa raiz fila x campo, turnos e equipes, motivos de não execução, OS fechadas mais de uma vez, materiais e erros de lançamento, backlog e orçamento de atrasos, metas e premissas. Comparações com a aba anterior usam o campo `extra` do json.
