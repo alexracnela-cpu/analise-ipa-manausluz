@@ -5,3 +5,16 @@
   for = "/historico/*"
   [headers.values]
     Cache-Control = "no-cache"
+
+# scripts do robô não precisam ficar públicos no site
+[[redirects]]
+  from = "/robo/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/.github/*"
+  to = "/404"
+  status = 404
+  force = true
