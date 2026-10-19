@@ -1,6 +1,6 @@
 # Análise IPA – Manaus Luz
 
-Site: https://analise-ipa-manausluz.netlify.app/ (publicado pela Netlify a cada push na branch `main`).
+Site: https://alexracnela-cpu.github.io/analise-ipa-manausluz/ (GitHub Pages, publicado a cada push na branch `main`, sem limite de publicações). A versão na Netlify (analise-ipa-manausluz.netlify.app) parou por limite de créditos do plano grátis.
 
 ## Como a página funciona
 
