@@ -149,7 +149,15 @@ def ler_abertas(arquivo):
         ab["ab"] = data_br(ab["Data"])
         return ab
     except Exception as e:
-        print(f"Aviso: não consegui ler as OS em aberto ({e})")
+        msg = f"Aviso: não consegui ler as OS em aberto ({e})"
+        try:
+            brut = pd.read_excel(arquivo, header=None, nrows=4)
+            msg += "\nPrimeiras linhas: " + " || ".join(" | ".join(map(str, r)) for r in brut.values.tolist())
+        except Exception:
+            pass
+        print(msg)
+        with open(Path(__file__).parent / "diagnostico.txt", "a", encoding="utf-8") as f:
+            f.write(msg + "\n")
         return None
 
 
@@ -725,6 +733,8 @@ def materiais(dfm, mat):
 
 def backlog(ab, agora):
     if ab is None or ab.empty or "Prioridade" not in ab:
+        with open(Path(__file__).parent / "diagnostico.txt", "a", encoding="utf-8") as f:
+            f.write(f"Aviso: OS em aberto sem coluna Prioridade. Colunas: {list(ab.columns) if ab is not None else None}\n")
         return None
     if "Tipo" in ab:
         ab = ab[ab["Tipo"].astype(str).str.contains("Ordem", case=False)]

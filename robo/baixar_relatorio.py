@@ -9,6 +9,7 @@ Precisa das variáveis de ambiente GISWORKS_USUARIO e GISWORKS_SENHA
 (no GitHub ficam em Settings > Secrets and variables > Actions).
 """
 import base64
+import json
 import os
 import sys
 from datetime import datetime, timedelta
@@ -18,6 +19,28 @@ from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get("GISWORKS_URL", "https://manaus.gestoriluminacaopublica.com.br")
 TZ = ZoneInfo("America/Manaus")
+DIAG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "diagnostico.txt")
+
+
+def diag(msg):
+    """Grava avisos em robo/diagnostico.txt (vai para o repositório, não para o site)."""
+    print(msg)
+    with open(DIAG, "a", encoding="utf-8") as f:
+        f.write(msg + "\n")
+
+
+JS_DIAG = r"""
+() => {
+  const links = [...document.querySelectorAll('a')]
+    .filter(a => /aberto|andamento/i.test(a.textContent || '') || /Abert/i.test(a.getAttribute('onclick') || ''))
+    .map(a => ({texto: (a.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 120),
+                onclick: a.getAttribute('onclick'), href: a.getAttribute('href')}));
+  const forms = [...document.querySelectorAll('.modal form, form')].map(f => ({
+    action: f.getAttribute('action'), visivel: !!f.closest('.modal.in, .modal.show'),
+    campos: [...f.elements].map(e => (e.name || e.id || e.tagName) + ':' + e.type).slice(0, 40)}));
+  return {url: location.href, links, forms};
+}
+"""
 
 JS_GERAR = r"""
 async ({ini, fim}) => {
@@ -105,6 +128,8 @@ async () => {
 
 
 def main(saida: str, saida_abertas: str | None = None) -> None:
+    with open(DIAG, "w", encoding="utf-8") as f:
+        f.write(f"Execução {datetime.now(TZ):%d/%m/%Y %H:%M}\n")
     usuario = os.environ["GISWORKS_USUARIO"]
     senha = os.environ["GISWORKS_SENHA"]
     agora = datetime.now(TZ)
@@ -142,7 +167,11 @@ def main(saida: str, saida_abertas: str | None = None) -> None:
                     pagina.wait_for_load_state("networkidle")
                     ra = pagina.evaluate(JS_ABERTAS)
                 except Exception as e:  # o backlog é opcional: a análise sai sem ele
-                    print(f"Aviso: não consegui baixar as OS em aberto ({e})")
+                    diag(f"Aviso: não consegui baixar as OS em aberto ({e})")
+                    try:
+                        diag(json.dumps(pagina.evaluate(JS_DIAG), ensure_ascii=False, indent=1))
+                    except Exception as e2:
+                        diag(f"(diagnóstico da página falhou: {e2})")
         except Exception:
             pagina.screenshot(path="erro_gisworks.png", full_page=True)
             raise
@@ -160,9 +189,10 @@ def main(saida: str, saida_abertas: str | None = None) -> None:
         if da.startswith(b"PK"):
             with open(saida_abertas, "wb") as f:
                 f.write(da)
-            print(f"OS em aberto baixadas: {saida_abertas} ({len(da):,} bytes)")
+            diag(f"OS em aberto baixadas: {len(da):,} bytes")
         else:
-            print(f"Aviso: OS em aberto não vieram em Excel (tipo {ra['tipo']})")
+            diag(f"Aviso: OS em aberto não vieram em Excel (tipo {ra['tipo']}, {ra['tamanho']} bytes): "
+                 + da[:300].decode("utf-8", "replace"))
 
 
 if __name__ == "__main__":
