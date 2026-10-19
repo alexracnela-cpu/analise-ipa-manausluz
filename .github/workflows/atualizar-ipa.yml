@@ -36,10 +36,10 @@ jobs:
         env:
           GISWORKS_USUARIO: ${{ secrets.GISWORKS_USUARIO }}
           GISWORKS_SENHA: ${{ secrets.GISWORKS_SENHA }}
-        run: python robo/baixar_relatorio.py "$RUNNER_TEMP/relatorio.xlsx"
+        run: python robo/baixar_relatorio.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx"
 
-      - name: Calcular IPA e criar a aba
-        run: python robo/atualizar_site.py "$RUNNER_TEMP/relatorio.xlsx"
+      - name: Calcular IPA e gerar a análise
+        run: python robo/atualizar_site.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx"
 
       - name: Publicar (commit na main → Netlify republica)
         run: |
@@ -53,6 +53,17 @@ jobs:
             sleep 10
           done
           exit 1
+
+      - name: Guardar os relatórios baixados (3 dias, só no GitHub)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorios-gisworks
+          path: |
+            ${{ runner.temp }}/relatorio.xlsx
+            ${{ runner.temp }}/abertas.xlsx
+          retention-days: 3
+          if-no-files-found: ignore
 
       - name: Guardar print do erro
         if: failure()
