@@ -160,11 +160,23 @@ function grafico(d){
 
 let INDICE=[];
 const sem = () => '?v=' + Date.now();
+// Os dados vêm direto do GitHub (o robô grava lá 4x ao dia), sem republicar o site na Netlify.
+// Se o GitHub falhar, usa a cópia publicada junto com o site.
+const GH = 'https://raw.githubusercontent.com/alexracnela-cpu/analise-ipa-manausluz/main/';
+async function dado(arq, tipo){
+  for (const base of [GH, '']) {
+    try {
+      const r = await fetch(base + arq + sem(), {cache:'no-store'});
+      if (r.ok) return tipo==='json' ? r.json() : r.text();
+    } catch(e) {}
+  }
+  throw new Error('não carregou ' + arq);
+}
 async function abrir(id){
   try{
     const [d, md] = await Promise.all([
-      fetch(`historico/${id}.json`+sem(), {cache:'no-store'}).then(r=>r.json()),
-      fetch(`historico/${id}.md`+sem(), {cache:'no-store'}).then(r=>r.text())
+      dado(`historico/${id}.json`, 'json'),
+      dado(`historico/${id}.md`, 'text')
     ]);
     document.querySelectorAll('.aba').forEach(b=>b.classList.toggle('ativa', b.dataset.id===id));
     document.getElementById('titulo').textContent = d.titulo;
@@ -209,7 +221,7 @@ async function abrir(id){
 }
 async function carregar(){
   try{
-    INDICE = await fetch('historico/indice.json'+sem(), {cache:'no-store'}).then(r=>r.json());
+    INDICE = await dado('historico/indice.json', 'json');
     document.getElementById('abas').innerHTML = INDICE.map((it,i)=>
       `<button class="aba" data-id="${it.id}">${it.rotulo}${i===0?'<span class="novo">ATUAL</span>':''}</button>`).join('');
     document.querySelectorAll('.aba').forEach(b=>b.addEventListener('click',()=>{abrir(b.dataset.id); window.scrollTo({top:0,behavior:'smooth'});}));

@@ -44,13 +44,13 @@ jobs:
           python robo/atualizar_site.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx" | tee "$RUNNER_TEMP/resumo.txt"
           echo "### $(cat "$RUNNER_TEMP/resumo.txt")" >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Publicar (commit na main → Netlify republica)
+      - name: Publicar (commit na main; o site lê do GitHub, a Netlify não republica)
         run: |
           git config user.name "robo-ipa"
           git config user.email "robo-ipa@users.noreply.github.com"
           git add historico/ robo/diagnostico.txt 2>/dev/null || git add historico/
           if git diff --cached --quiet; then echo "Nada mudou."; exit 0; fi
-          git commit -m "IPA automático $(TZ=America/Manaus date '+%d/%m %Hh%M')"
+          git commit -m "IPA automático $(TZ=America/Manaus date '+%d/%m %Hh%M') [skip netlify]"
           for i in 1 2 3; do
             git fetch origin main && git rebase origin/main && git push origin HEAD:main && exit 0
             git rebase --abort 2>/dev/null || true
