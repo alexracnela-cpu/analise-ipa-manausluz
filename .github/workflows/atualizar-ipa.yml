@@ -20,6 +20,9 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0 # histórico completo: o rebase antes do push precisa dele
 
       - uses: actions/setup-python@v5
         with:
@@ -39,7 +42,9 @@ jobs:
         run: python robo/baixar_relatorio.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx"
 
       - name: Calcular IPA e gerar a análise
-        run: python robo/atualizar_site.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx"
+        run: |
+          python robo/atualizar_site.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx" | tee "$RUNNER_TEMP/resumo.txt"
+          echo "### $(cat "$RUNNER_TEMP/resumo.txt")" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Publicar (commit na main → Netlify republica)
         run: |
@@ -49,9 +54,11 @@ jobs:
           if git diff --cached --quiet; then echo "Nada mudou."; exit 0; fi
           git commit -m "IPA automático $(TZ=America/Manaus date '+%d/%m %Hh%M')"
           for i in 1 2 3; do
-            git pull --rebase origin main && git push origin HEAD:main && exit 0
+            git fetch origin main && git rebase origin/main && git push origin HEAD:main && exit 0
+            git rebase --abort 2>/dev/null || true
             sleep 10
           done
+          echo "::error::Não consegui enviar para a main. Confira em Settings > Actions > General > Workflow permissions se está marcado 'Read and write permissions'."
           exit 1
 
       - name: Guardar os relatórios baixados (3 dias, só no GitHub)
