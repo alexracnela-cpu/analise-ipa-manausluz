@@ -1,15 +1,15 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "20/10/2026 06h47",
+ "atualizado_em": "20/10/2026 08h02",
  "periodo": "01/10 a 20/10/2026",
  "mes": "10/2026",
- "os_fechadas": 3559,
- "no_prazo": 3326,
+ "os_fechadas": 3560,
+ "no_prazo": 3327,
  "fora_do_prazo": 233,
- "ipa": 93.45,
+ "ipa": 93.46,
  "nota": "0,8",
- "ipa_anterior": 93.23,
- "atualizado_anterior": "19/10/2026 16h47",
+ "ipa_anterior": 93.45,
+ "atualizado_anterior": "20/10/2026 07h29",
  "doc": "https://claude.ai/code/artifact/7456a4e2-628b-4eff-b59f-681bb4a9cf3d",
  "dias": [
   {
@@ -109,7 +109,7 @@
   },
   {
    "dia": "20",
-   "os": 78,
+   "os": 79,
    "atrasos": 0
   }
  ],
@@ -160,7 +160,7 @@
     0
    ],
    "OBRAS PESADAS - 01 - MOT. MARCELO": [
-    4,
+    5,
     0
    ],
    "OBRAS PESADAS - 04 - MOT. FABRICIO": [
@@ -224,13 +224,13 @@
     7
    ]
   },
-  "abertas": 118,
+  "abertas": 119,
   "vencidas": 45,
   "venc_esp": 5,
-  "sem_equipe": 73,
+  "sem_equipe": 21,
   "venc_sem_equipe": 0,
   "esp": [
-   86.01,
+   86.03,
    94.9
   ],
   "erros": 34.7
