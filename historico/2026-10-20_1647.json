@@ -1,10 +1,10 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "20/10/2026 16h32",
+ "atualizado_em": "20/10/2026 16h47",
  "periodo": "01/10 a 20/10/2026",
  "mes": "10/2026",
- "os_fechadas": 3648,
- "no_prazo": 3415,
+ "os_fechadas": 3649,
+ "no_prazo": 3416,
  "fora_do_prazo": 233,
  "ipa": 93.61,
  "nota": "0,8",
@@ -109,7 +109,7 @@
   },
   {
    "dia": "20",
-   "os": 167,
+   "os": 168,
    "atrasos": 0
   }
  ],
@@ -120,7 +120,7 @@
   "sem_exec": 18.2,
   "equipes": {
    "ADA AMORIM": [
-    5,
+    6,
     0
    ],
    "BRUNO PIMENTEL DE LIMA": [
@@ -224,11 +224,11 @@
     7
    ]
   },
-  "abertas": 153,
+  "abertas": 221,
   "vencidas": 45,
   "venc_esp": 5,
-  "sem_equipe": 33,
-  "venc_sem_equipe": 1,
+  "sem_equipe": 12,
+  "venc_sem_equipe": 0,
   "esp": [
    86.57,
    95.01
