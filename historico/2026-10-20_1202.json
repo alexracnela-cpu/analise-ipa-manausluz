@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "20/10/2026 08h47",
+ "atualizado_em": "20/10/2026 12h02",
  "periodo": "01/10 a 20/10/2026",
  "mes": "10/2026",
- "os_fechadas": 3560,
- "no_prazo": 3327,
+ "os_fechadas": 3567,
+ "no_prazo": 3334,
  "fora_do_prazo": 233,
- "ipa": 93.46,
+ "ipa": 93.47,
  "nota": "0,8",
  "ipa_anterior": 93.45,
  "atualizado_anterior": "20/10/2026 07h29",
@@ -109,14 +109,14 @@
   },
   {
    "dia": "20",
-   "os": 79,
+   "os": 86,
    "atrasos": 0
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 5.7,
-  "fila_demais": 7.5,
+  "ritmo": 5.6,
+  "fila_demais": 7.6,
   "sem_exec": 17.9,
   "equipes": {
    "ADA AMORIM": [
@@ -124,7 +124,7 @@
     0
    ],
    "BRUNO PIMENTEL DE LIMA": [
-    8,
+    9,
     0
    ],
    "Equipe Apoio 1": [
@@ -136,7 +136,7 @@
     0
    ],
    "Equipe apoio 5": [
-    110,
+    112,
     23
    ],
    "JOÃO PEDRO": [
@@ -152,7 +152,7 @@
     0
    ],
    "OBRAS LEVES - 05 - MOT. EDUARDO": [
-    7,
+    8,
     0
    ],
    "OBRAS PESADAS  - 03 - MOT. TEÓFILO": [
@@ -168,7 +168,7 @@
     0
    ],
    "TURNO 1-1": [
-    281,
+    284,
     12
    ],
    "TURNO 1-2": [
@@ -224,14 +224,14 @@
     7
    ]
   },
-  "abertas": 119,
+  "abertas": 126,
   "vencidas": 45,
   "venc_esp": 5,
-  "sem_equipe": 21,
-  "venc_sem_equipe": 0,
+  "sem_equipe": 36,
+  "venc_sem_equipe": 3,
   "esp": [
-   86.03,
-   94.9
+   86.11,
+   94.91
   ],
   "erros": 34.7
  }
