@@ -28,7 +28,7 @@ HIST = RAIZ / "historico"
 TZ = ZoneInfo("America/Manaus")
 
 # faixas de nota do IPA (Anexo 3, Tabela 3-4). Ajuste aqui se a tabela tiver mais faixas.
-FAIXAS_NOTA = [(95.0, "1,0"), (90.0, "0,8"), (0.0, "0,0")]
+FAIXAS_NOTA = [(95.0, "1,0"), (90.0, "0,8"), (85.0, "0,6"), (0.0, "0,0")]
 ORIGENS_RECLAMACAO = {"Sistema - Criada no Call Center", "App - Android", "App - iOS", "Web"}
 METAS = {"atrasos_dia": 3, "fila_h": 8, "sem_exec": 12, "erros": 20}
 

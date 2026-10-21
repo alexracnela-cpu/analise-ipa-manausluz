@@ -78,7 +78,7 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 #grafico{position:relative}
 #grafico svg{width:100%;height:auto;display:block}
 #grafico .barra{cursor:pointer;transition:opacity .12s}
-#grafico svg.foco .barra{opacity:.45}#grafico svg.foco .barra.on{opacity:1}
+#grafico svg.foco .barra{opacity:.6}#grafico svg.foco .barra.on{opacity:1}
 .tip{position:absolute;z-index:5;pointer-events:none;opacity:0;transition:opacity .12s;white-space:nowrap;font-variant-numeric:tabular-nums}
 .tip.vis{opacity:1}
 .tip .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
@@ -202,22 +202,16 @@ const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).
 // faixas de nota (Anexo 3, Tabela 3-4)
 const FAIXAS = [{min:95, nota:'1,0'}, {min:90, nota:'0,8'}, {min:85, nota:'0,6'}, {min:0, nota:'0'}];
 const faixa = v => FAIXAS.findIndex(f => v >= f.min);
-const CORES_OPC = (new URLSearchParams(location.search).get('cores')) || 'A';
-const PALETAS = {
-  A:{claro:['#1e8a4c','#1d5fc2','#d9822b','#c23b31'], escuro:['#4cc27e','#4f9dff','#f0a63a','#ff7468']},
-  B:{claro:['#a6dcbb','#b3cbef','#f5d3a3','#f2b1ab'], escuro:['#2f6b4a','#2b4c7e','#7a5524','#7a3631'],
-     forte:{claro:['#1e8a4c','#1d5fc2','#d9822b','#c23b31'], escuro:['#4cc27e','#4f9dff','#f0a63a','#ff7468']}},
-  C:{claro:['#0a3366','#2f72d0','#7fa9e3','#c9daf3'], escuro:['#a9d0ff','#4f9dff','#2f62ad','#2a3a5c']}
+// cores das barras por nota: suave nos dias anteriores, forte no dia atual e na barra em foco
+const CORES_NOTA = {
+  claro:  {suave:['#a6dcbb','#b3cbef','#f5d3a3','#f2b1ab'], forte:['#1e8a4c','#1d5fc2','#d9822b','#c23b31']},
+  escuro: {suave:['#2f6b4a','#2b4c7e','#7a5524','#7a3631'], forte:['#4cc27e','#4f9dff','#f0a63a','#ff7468']}
 };
-function corBarra(v, last){
-  const t = document.documentElement.dataset.tema==='escuro' ? 'escuro' : 'claro', P = PALETAS[CORES_OPC], k = faixa(v);
-  return (last && P.forte ? P.forte[t] : P[t])[k];
-}
+const coresTema = () => CORES_NOTA[document.documentElement.dataset.tema==='escuro' ? 'escuro' : 'claro'];
 function legenda(x, yy){
-  const t = document.documentElement.dataset.tema==='escuro' ? 'escuro' : 'claro', P = PALETAS[CORES_OPC];
   const nomes = ['Nota 1,0 (≥95%)', 'Nota 0,8 (90% a 94,99%)', 'Nota 0,6 (85% a 89,99%)', 'Nota 0 (abaixo de 85%)'];
   let s='', cx=x;
-  nomes.forEach((nm,i)=>{ s += `<rect x="${cx}" y="${yy-9}" width="11" height="11" rx="2.5" fill="${(P.forte?P.forte[t]:P[t])[i]}"/><text x="${cx+16}" y="${yy}" fill="${css('--text')}" font-size="11">${nm}</text>`; cx += 16 + nm.length*5.9 + 18; });
+  nomes.forEach((nm,i)=>{ s += `<rect x="${cx}" y="${yy-9}" width="11" height="11" rx="2.5" fill="${coresTema().forte[i]}"/><text x="${cx+16}" y="${yy}" fill="${css('--text')}" font-size="11">${nm}</text>`; cx += 16 + nm.length*5.9 + 18; });
   return s;
 }
 function grafico(d){
@@ -235,7 +229,7 @@ function grafico(d){
   });
   d.dias.forEach((r,i)=>{
     const x=L+i*band+(band-bw)/2, yy=y(pts[i]), last=i===n-1;
-    s += `<rect x="${x}" y="${yy}" width="${bw}" height="${T+h-yy}" rx="3" fill="${corBarra(pts[i], last)}" data-i="${i}" class="barra${last?' atual':''}"/>`;
+    s += `<rect x="${x}" y="${yy}" width="${bw}" height="${T+h-yy}" rx="3" fill="${coresTema()[last?'forte':'suave'][faixa(pts[i])]}" data-i="${i}" data-k="${faixa(pts[i])}" data-ultima="${last?1:0}" class="barra"/>`;
     s += `<text x="${x+bw/2}" y="${yy-5}" text-anchor="middle" font-size="9.5" fill="${css('--text')}">${fmt(pts[i],2)}</text>`;
     s += `<text x="${x+bw/2}" y="${T+h+16}" text-anchor="middle" fill="${css('--muted')}">${r.dia}</text>`;
   });
@@ -259,7 +253,7 @@ function ligarDica(d){
   };
   const mostrar=b=>{
     const i=+b.dataset.i; tip.innerHTML=html(i);
-    svg.classList.add('foco'); svg.querySelectorAll('.barra').forEach(x=>x.classList.toggle('on',x===b));
+    svg.classList.add('foco'); svg.querySelectorAll('.barra').forEach(x=>{ const on=x===b; x.classList.toggle('on',on); x.setAttribute('fill', coresTema()[(on||x.dataset.ultima==='1')?'forte':'suave'][+x.dataset.k]); });
     const gr=g.getBoundingClientRect(), br=b.getBoundingClientRect();
     const w=tip.offsetWidth, h=tip.offsetHeight, bx=br.left-gr.left, by=br.top-gr.top;
     let x=bx+br.width+12;
@@ -267,7 +261,7 @@ function ligarDica(d){
     const y=Math.max(8, Math.min(gr.height-h-8, by-24));
     tip.style.left=x+'px'; tip.style.top=y+'px'; tip.classList.add('vis');
   };
-  const esconder=()=>{tip.classList.remove('vis'); svg.classList.remove('foco'); svg.querySelectorAll('.barra.on').forEach(x=>x.classList.remove('on'));};
+  const esconder=()=>{tip.classList.remove('vis'); svg.classList.remove('foco'); svg.querySelectorAll('.barra').forEach(x=>{ x.classList.remove('on'); x.setAttribute('fill', coresTema()[x.dataset.ultima==='1'?'forte':'suave'][+x.dataset.k]); });};
   // mouse: mostra ao passar e some ao sair; toque: mostra ao tocar e some ao tocar fora
   svg.querySelectorAll('.barra').forEach(b=>{
     b.addEventListener('pointerenter',e=>{ if(e.pointerType==='mouse') mostrar(b); });
