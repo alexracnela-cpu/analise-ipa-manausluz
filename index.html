@@ -54,7 +54,11 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .layout{max-width:1320px;margin:-60px auto 0;padding:0 16px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:16px;align-items:start;position:relative}
 .versoes{position:sticky;top:16px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px 10px;
   box-shadow:0 6px 18px var(--sombra);max-height:calc(100vh - 32px);overflow-y:auto}
-.versoes h2{margin:0 6px 10px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+.versoes{padding:0;overflow:hidden}
+.versoes h2{margin:0 0 8px;padding:12px 16px;background:var(--th);color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+.versoes h2 svg{width:17px;height:17px;flex:none}
+.versoes h2 .cont{margin-left:auto;font-size:11px;font-weight:700;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:1px 8px}
+.versoes .abas{padding:0 10px 12px}
 .abas{display:flex;flex-direction:column;gap:4px}
 .aba{border:1px solid transparent;background:transparent;color:var(--titulo);font:600 13px Inter,system-ui,sans-serif;
   padding:8px 10px;border-radius:8px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:6px}
@@ -110,7 +114,8 @@ footer a,.card a{color:var(--accent)}
   header .wrap{grid-template-columns:auto minmax(0,1fr) auto;column-gap:20px}
   .titulos{text-align:left;padding:0}
   .logo{width:auto;height:96px}
-  .versoes{position:static;max-height:none;padding:12px}
+  .versoes{position:static;max-height:none}
+  .versoes .abas{padding:0 12px 12px}
   .abas{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:4px}
   .aba{flex:none;border-color:var(--line);border-radius:999px;padding:7px 12px;background:var(--aba)}}
 @media (max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}.kpi .v{font-size:24px}.card{padding:16px}
@@ -131,7 +136,7 @@ footer a,.card a{color:var(--accent)}
 
 <div class="layout">
   <aside class="versoes" aria-label="Versões">
-    <h2>Versões</h2>
+    <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Histórico<span class="cont" id="cont"></span></h2>
     <nav class="abas" id="abas"></nav>
   </aside>
   <main id="principal">
@@ -284,6 +289,7 @@ async function abrir(id){
 async function carregar(){
   try{
     INDICE = await dado('historico/indice.json', 'json');
+    document.getElementById('cont').textContent = INDICE.length;
     document.getElementById('abas').innerHTML = INDICE.map((it,i)=>
       `<button class="aba" data-id="${it.id}">${it.rotulo}${i===0?'<span class="novo">ATUAL</span>':''}</button>`).join('');
     document.querySelectorAll('.aba').forEach(b=>b.addEventListener('click',()=>{abrir(b.dataset.id); window.scrollTo({top:0,behavior:'smooth'});}));
