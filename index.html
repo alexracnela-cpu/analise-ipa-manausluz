@@ -43,9 +43,9 @@ document.documentElement.dataset.tema=t;})();
 html{background:var(--bg)}
 body{margin:0;color:var(--text);font:15px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
   background:linear-gradient(var(--veu),var(--veu)) fixed,var(--bg) url("img/fundo.jpg") center/cover fixed no-repeat;min-height:100vh}
-header{padding:28px 16px 86px;position:relative}
+header{padding:28px 0 86px;position:relative}
 .wrap{max-width:1320px;margin:0 auto;padding:0 16px}
-header .wrap{padding:0;display:flex;align-items:center;gap:22px}
+header .wrap{padding:0 16px;display:grid;grid-template-columns:230px minmax(0,1fr) auto;column-gap:16px;align-items:center}
 .logo{height:96px;width:auto;flex:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
 header h1{margin:0 0 4px;font-size:clamp(20px,3.2vw,28px);font-weight:700;letter-spacing:-.01em;color:var(--titulo)}
 header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
@@ -105,11 +105,12 @@ footer{color:var(--muted);font-size:13px;padding:24px 16px 40px;text-align:cente
 footer a,.card a{color:var(--accent)}
 .erro{color:var(--bad)}
 @media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}
+  header .wrap{grid-template-columns:auto minmax(0,1fr) auto;column-gap:20px}
   .versoes{position:static;max-height:none;padding:12px}
   .abas{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:4px}
   .aba{flex:none;border-color:var(--line);border-radius:999px;padding:7px 12px;background:var(--aba)}}
 @media (max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}.kpi .v{font-size:24px}.card{padding:16px}
-  header .wrap{flex-direction:column;align-items:flex-start;gap:12px}.logo{height:64px}body{background-attachment:scroll}
+  header .wrap{display:flex;flex-direction:column;align-items:flex-start;gap:12px}.logo{height:64px}body{background-attachment:scroll}
   .tema{position:absolute;top:20px;right:16px}}
 </style>
 </head>
