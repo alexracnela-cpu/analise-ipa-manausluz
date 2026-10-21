@@ -199,10 +199,31 @@ function mdParaHtml(md){
 const fmt = (n, d=0) => Number(n).toLocaleString('pt-BR', {minimumFractionDigits:d, maximumFractionDigits:d});
 const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 
+// faixas de nota (Anexo 3, Tabela 3-4)
+const FAIXAS = [{min:95, nota:'1,0'}, {min:90, nota:'0,8'}, {min:0, nota:'0'}];
+const faixa = v => FAIXAS.findIndex(f => v >= f.min);
+const CORES_OPC = (new URLSearchParams(location.search).get('cores')) || 'A';
+const PALETAS = {
+  A:{claro:['#1e8a4c','#1d5fc2','#c23b31'], escuro:['#4cc27e','#4f9dff','#ff7468']},
+  B:{claro:['#a6dcbb','#b3cbef','#f2b1ab'], escuro:['#2f6b4a','#2b4c7e','#7a3631'],
+     forte:{claro:['#1e8a4c','#1d5fc2','#c23b31'], escuro:['#4cc27e','#4f9dff','#ff7468']}},
+  C:{claro:['#0a3366','#4f86d6','#bcd2f2'], escuro:['#9ccaff','#3a7bd6','#2a3c63']}
+};
+function corBarra(v, last){
+  const t = document.documentElement.dataset.tema==='escuro' ? 'escuro' : 'claro', P = PALETAS[CORES_OPC], k = faixa(v);
+  return (last && P.forte ? P.forte[t] : P[t])[k];
+}
+function legenda(x, yy){
+  const t = document.documentElement.dataset.tema==='escuro' ? 'escuro' : 'claro', P = PALETAS[CORES_OPC];
+  const nomes = ['Nota 1,0 (≥95%)', 'Nota 0,8 (90% a 94,99%)', 'Nota 0 (abaixo de 90%)'];
+  let s='', cx=x;
+  nomes.forEach((nm,i)=>{ s += `<rect x="${cx}" y="${yy-9}" width="11" height="11" rx="2.5" fill="${(P.forte?P.forte[t]:P[t])[i]}"/><text x="${cx+16}" y="${yy}" fill="${css('--text')}" font-size="11">${nm}</text>`; cx += 16 + nm.length*5.9 + 18; });
+  return s;
+}
 function grafico(d){
   let cn=0, ca=0;
   const pts = d.dias.map(r => { cn+=r.os; ca+=r.atrasos; return 100*(1-ca/cn); });
-  const W=760, H=360, L=40, T=60, h=230, w=670, n=d.dias.length, band=w/n, bw=band*0.62;
+  const W=760, H=384, L=40, T=60, h=230, w=670, n=d.dias.length, band=w/n, bw=band*0.62;
   const min=70, y = v => T + h - (Math.max(v,min)-min)/(100-min)*h;
   let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="IPA acumulado por dia de fechamento" font-family="Inter,sans-serif" font-size="11">`;
   s += `<text x="${L}" y="22" font-size="16" font-weight="600" fill="${css('--text')}">IPA acumulado do mês por dia de fechamento</text>`;
@@ -214,12 +235,13 @@ function grafico(d){
   });
   d.dias.forEach((r,i)=>{
     const x=L+i*band+(band-bw)/2, yy=y(pts[i]), last=i===n-1;
-    s += `<rect x="${x}" y="${yy}" width="${bw}" height="${T+h-yy}" rx="3" fill="${last?css('--accent'):css('--bar')}" data-i="${i}" class="barra"/>`;
+    s += `<rect x="${x}" y="${yy}" width="${bw}" height="${T+h-yy}" rx="3" fill="${corBarra(pts[i], last)}" data-i="${i}" class="barra${last?' atual':''}"/>`;
     s += `<text x="${x+bw/2}" y="${yy-5}" text-anchor="middle" font-size="9.5" fill="${css('--text')}">${fmt(pts[i],2)}</text>`;
     s += `<text x="${x+bw/2}" y="${T+h+16}" text-anchor="middle" fill="${css('--muted')}">${r.dia}</text>`;
   });
   s += `<line x1="${L}" x2="${L+w}" y1="${T+h}" y2="${T+h}" stroke="${css('--muted')}"/>`;
-  s += `<text x="${L}" y="${T+h+38}" fill="${css('--muted')}">Dia de fechamento · tracejado: 95% = nota 1,0; 90% = nota 0,8 · eixo começa em 70%</text></svg>`;
+  s += legenda(L, T+h+40);
+  s += `<text x="${L}" y="${T+h+62}" fill="${css('--muted')}">Dia de fechamento · tracejado: 95% = nota 1,0; 90% = nota 0,8 · eixo começa em 70%</text></svg>`;
   return s;
 }
 
@@ -231,7 +253,7 @@ function ligarDica(d){
   const tip=document.createElement('div'); tip.className='tip'; g.appendChild(tip);
   const html=i=>{
     const r=d.dias[i], a=acc[i], dia=`${r.dia}/${mes}`;
-    return `<div class="l">Dia ${dia}</div><div class="v">${fmt(a.ipa,2)}%</div><div class="s">IPA acumulado</div>
+    return `<div class="l">Dia ${dia}</div><div class="v">${fmt(a.ipa,2)}%</div><div class="s">IPA acumulado · nota ${FAIXAS[faixa(a.ipa)].nota}</div>
       <div class="lin"><span>OS fechadas no dia</span><b>${fmt(r.os)}</b></div>
       <div class="lin"><span>Fora do prazo no dia</span><b class="bad">${fmt(r.atrasos)}</b></div>`;
   };
