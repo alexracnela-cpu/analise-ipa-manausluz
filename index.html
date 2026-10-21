@@ -200,14 +200,14 @@ const fmt = (n, d=0) => Number(n).toLocaleString('pt-BR', {minimumFractionDigits
 const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
 
 // faixas de nota (Anexo 3, Tabela 3-4)
-const FAIXAS = [{min:95, nota:'1,0'}, {min:90, nota:'0,8'}, {min:0, nota:'0'}];
+const FAIXAS = [{min:95, nota:'1,0'}, {min:90, nota:'0,8'}, {min:85, nota:'0,6'}, {min:0, nota:'0'}];
 const faixa = v => FAIXAS.findIndex(f => v >= f.min);
 const CORES_OPC = (new URLSearchParams(location.search).get('cores')) || 'A';
 const PALETAS = {
-  A:{claro:['#1e8a4c','#1d5fc2','#c23b31'], escuro:['#4cc27e','#4f9dff','#ff7468']},
-  B:{claro:['#a6dcbb','#b3cbef','#f2b1ab'], escuro:['#2f6b4a','#2b4c7e','#7a3631'],
-     forte:{claro:['#1e8a4c','#1d5fc2','#c23b31'], escuro:['#4cc27e','#4f9dff','#ff7468']}},
-  C:{claro:['#0a3366','#4f86d6','#bcd2f2'], escuro:['#9ccaff','#3a7bd6','#2a3c63']}
+  A:{claro:['#1e8a4c','#1d5fc2','#d9822b','#c23b31'], escuro:['#4cc27e','#4f9dff','#f0a63a','#ff7468']},
+  B:{claro:['#a6dcbb','#b3cbef','#f5d3a3','#f2b1ab'], escuro:['#2f6b4a','#2b4c7e','#7a5524','#7a3631'],
+     forte:{claro:['#1e8a4c','#1d5fc2','#d9822b','#c23b31'], escuro:['#4cc27e','#4f9dff','#f0a63a','#ff7468']}},
+  C:{claro:['#0a3366','#2f72d0','#7fa9e3','#c9daf3'], escuro:['#a9d0ff','#4f9dff','#2f62ad','#2a3a5c']}
 };
 function corBarra(v, last){
   const t = document.documentElement.dataset.tema==='escuro' ? 'escuro' : 'claro', P = PALETAS[CORES_OPC], k = faixa(v);
@@ -215,7 +215,7 @@ function corBarra(v, last){
 }
 function legenda(x, yy){
   const t = document.documentElement.dataset.tema==='escuro' ? 'escuro' : 'claro', P = PALETAS[CORES_OPC];
-  const nomes = ['Nota 1,0 (≥95%)', 'Nota 0,8 (90% a 94,99%)', 'Nota 0 (abaixo de 90%)'];
+  const nomes = ['Nota 1,0 (≥95%)', 'Nota 0,8 (90% a 94,99%)', 'Nota 0,6 (85% a 89,99%)', 'Nota 0 (abaixo de 85%)'];
   let s='', cx=x;
   nomes.forEach((nm,i)=>{ s += `<rect x="${cx}" y="${yy-9}" width="11" height="11" rx="2.5" fill="${(P.forte?P.forte[t]:P[t])[i]}"/><text x="${cx+16}" y="${yy}" fill="${css('--text')}" font-size="11">${nm}</text>`; cx += 16 + nm.length*5.9 + 18; });
   return s;
