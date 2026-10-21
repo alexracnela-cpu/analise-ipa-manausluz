@@ -75,7 +75,20 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .kpi.ipa .v{color:var(--accent)}
 .up{color:var(--ok);font-weight:600}.down{color:var(--bad);font-weight:600}
 .card{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:16px;box-shadow:0 6px 18px var(--sombra)}
+#grafico{position:relative}
 #grafico svg{width:100%;height:auto;display:block}
+#grafico .barra{cursor:pointer;transition:opacity .12s}
+#grafico svg.foco .barra{opacity:.45}#grafico svg.foco .barra.on{opacity:1}
+.tip{position:absolute;z-index:5;pointer-events:none;opacity:0;transition:opacity .12s;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tip.vis{opacity:1}
+.tip .l{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
+.tip{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:12px;padding:12px 16px;box-shadow:0 10px 26px var(--sombra);min-width:200px}
+.tip .v{font-size:26px;font-weight:700;color:var(--accent);line-height:1.15;margin-top:2px}
+.tip .s{font-size:12px;color:var(--muted);margin-bottom:8px}
+.tip .lin{display:flex;justify-content:space-between;gap:18px;font-size:13px;padding:5px 0;border-top:1px solid var(--line);color:var(--text)}
+.tip .lin b{font-weight:700}
+.tip .bad{color:var(--bad)}
+@media (max-width:720px){.tip{padding:7px 10px;min-width:0;border-top-width:3px;border-radius:9px}.tip .l{font-size:9.5px}.tip .v{font-size:17px}.tip .s{font-size:10.5px;margin-bottom:4px}.tip .lin{font-size:11px;gap:10px;padding:3px 0}}
 #conteudo h2{font-size:20px;margin:32px 0 8px;padding-top:20px;border-top:1px solid var(--line);color:var(--navy)}
 #conteudo h2:first-child{border-top:0;margin-top:0;padding-top:0}
 #conteudo h3{font-size:16px;margin:22px 0 6px;color:var(--accent)}
@@ -201,7 +214,7 @@ function grafico(d){
   });
   d.dias.forEach((r,i)=>{
     const x=L+i*band+(band-bw)/2, yy=y(pts[i]), last=i===n-1;
-    s += `<rect x="${x}" y="${yy}" width="${bw}" height="${T+h-yy}" rx="3" fill="${last?css('--accent'):css('--bar')}"><title>${r.dia}: IPA acumulado ${fmt(pts[i],2)}% · no dia ${r.os} OS, ${r.atrasos} fora do prazo</title></rect>`;
+    s += `<rect x="${x}" y="${yy}" width="${bw}" height="${T+h-yy}" rx="3" fill="${last?css('--accent'):css('--bar')}" data-i="${i}" class="barra"/>`;
     s += `<text x="${x+bw/2}" y="${yy-5}" text-anchor="middle" font-size="9.5" fill="${css('--text')}">${fmt(pts[i],2)}</text>`;
     s += `<text x="${x+bw/2}" y="${T+h+16}" text-anchor="middle" fill="${css('--muted')}">${r.dia}</text>`;
   });
@@ -211,6 +224,38 @@ function grafico(d){
 }
 
 let INDICE=[], ULTIMO=null;
+function ligarDica(d){
+  const g=document.getElementById('grafico'), svg=g.querySelector('svg');
+  const mes=(d.mes||'').split('/')[0];
+  let cn=0, ca=0; const acc=d.dias.map(r=>{cn+=r.os; ca+=r.atrasos; return {os:cn, at:ca, ipa:100*(1-ca/cn)};});
+  const tip=document.createElement('div'); tip.className='tip'; g.appendChild(tip);
+  const html=i=>{
+    const r=d.dias[i], a=acc[i], dia=`${r.dia}/${mes}`;
+    return `<div class="l">Dia ${dia}</div><div class="v">${fmt(a.ipa,2)}%</div><div class="s">IPA acumulado</div>
+      <div class="lin"><span>OS fechadas no dia</span><b>${fmt(r.os)}</b></div>
+      <div class="lin"><span>Fora do prazo no dia</span><b class="bad">${fmt(r.atrasos)}</b></div>`;
+  };
+  const mostrar=b=>{
+    const i=+b.dataset.i; tip.innerHTML=html(i);
+    svg.classList.add('foco'); svg.querySelectorAll('.barra').forEach(x=>x.classList.toggle('on',x===b));
+    const gr=g.getBoundingClientRect(), br=b.getBoundingClientRect();
+    const w=tip.offsetWidth, h=tip.offsetHeight, bx=br.left-gr.left, by=br.top-gr.top;
+    let x=bx+br.width+12;
+    if(x+w>gr.width-8) x=bx-w-12;
+    const y=Math.max(8, Math.min(gr.height-h-8, by-24));
+    tip.style.left=x+'px'; tip.style.top=y+'px'; tip.classList.add('vis');
+  };
+  const esconder=()=>{tip.classList.remove('vis'); svg.classList.remove('foco'); svg.querySelectorAll('.barra.on').forEach(x=>x.classList.remove('on'));};
+  // mouse: mostra ao passar e some ao sair; toque: mostra ao tocar e some ao tocar fora
+  svg.querySelectorAll('.barra').forEach(b=>{
+    b.addEventListener('pointerenter',e=>{ if(e.pointerType==='mouse') mostrar(b); });
+    b.addEventListener('click',e=>{ e.stopPropagation(); mostrar(b); });
+  });
+  svg.addEventListener('pointerleave',e=>{ if(e.pointerType==='mouse') esconder(); });
+  ESCONDER_DICA=esconder;
+}
+let ESCONDER_DICA=null;
+document.addEventListener('click',()=>{ if(ESCONDER_DICA) ESCONDER_DICA(); });
 function rotuloTema(){
   const esc = document.documentElement.dataset.tema==='escuro';
   const b = document.getElementById('tema');
@@ -222,7 +267,7 @@ document.getElementById('tema').addEventListener('click', ()=>{
   document.documentElement.dataset.tema = novo;
   try{ localStorage.setItem('tema', novo); }catch(e){}
   rotuloTema();
-  if(ULTIMO) document.getElementById('grafico').innerHTML = grafico(ULTIMO);
+  if(ULTIMO){ document.getElementById('grafico').innerHTML = grafico(ULTIMO); ligarDica(ULTIMO); }
 });
 rotuloTema();
 const sem = () => '?v=' + Date.now();
@@ -258,6 +303,7 @@ async function abrir(id){
       <div class="kpi"><div class="l">Fora do prazo</div><div class="v">${fmt(d.fora_do_prazo)}</div><div class="s">atrasos no mês</div></div>`;
     ULTIMO = d;
     document.getElementById('grafico').innerHTML = grafico(d);
+    ligarDica(d);
     const c = document.getElementById('conteudo');
     c.innerHTML = mdParaHtml(md);
     c.querySelectorAll('table').forEach(t=>{const w=document.createElement('div');w.className='tbl';t.parentNode.insertBefore(w,t);w.appendChild(t);});
