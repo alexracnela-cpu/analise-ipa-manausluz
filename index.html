@@ -45,7 +45,9 @@ body{margin:0;color:var(--text);font:15px/1.6 Inter,system-ui,-apple-system,"Seg
   background:linear-gradient(var(--veu),var(--veu)) fixed,var(--bg) url("img/fundo.jpg") center/cover fixed no-repeat;min-height:100vh}
 header{padding:28px 0 86px;position:relative}
 .wrap{max-width:1320px;margin:0 auto;padding:0 16px}
-header .wrap{padding:0 16px;display:grid;grid-template-columns:230px minmax(0,1fr) auto;column-gap:16px;align-items:center}
+header .wrap{padding:0 16px;display:grid;grid-template-columns:230px minmax(0,1fr);column-gap:16px;align-items:center;position:relative}
+.titulos{text-align:center;padding:0 150px}
+@media (min-width:901px){.tema{position:absolute;top:0;right:16px}}
 .logo{width:100%;height:auto;display:block;flex:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
 header h1{margin:0 0 4px;font-size:clamp(20px,3.2vw,28px);font-weight:700;letter-spacing:-.01em;color:var(--titulo)}
 header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
@@ -106,6 +108,7 @@ footer a,.card a{color:var(--accent)}
 .erro{color:var(--bad)}
 @media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}
   header .wrap{grid-template-columns:auto minmax(0,1fr) auto;column-gap:20px}
+  .titulos{text-align:left;padding:0}
   .logo{width:auto;height:96px}
   .versoes{position:static;max-height:none;padding:12px}
   .abas{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:4px}
@@ -118,7 +121,7 @@ footer a,.card a{color:var(--accent)}
 <body>
 <header><div class="wrap">
   <img class="logo" src="img/logo-manaus-luz.png" alt="Manaus Luz">
-  <div>
+  <div class="titulos">
     <h1 id="titulo">Análise do Indicador de Prazo (Manaus Luz)</h1>
     <p id="sub">Carregando…</p>
   </div>
