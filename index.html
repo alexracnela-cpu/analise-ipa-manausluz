@@ -8,74 +8,101 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="img/logo-manaus-luz.png">
+<script>
+// aplica o tema antes de desenhar a página (evita piscar claro→escuro)
+(function(){var t=null;try{t=localStorage.getItem('tema')}catch(e){}
+if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'escuro':'claro';
+document.documentElement.dataset.tema=t;})();
+</script>
 <style>
 :root{
   --bg:#eef2f7; --card:#ffffff; --text:#14213d; --muted:#5b6780; --line:#dfe5ee;
   --accent:#404292; --navy:#0a3366; --ok:#1e8a4c; --warn:#c77700; --bad:#c23b31; --bar:#c3cde0;
+  --titulo:#0a3366; --card2:rgba(255,255,255,.96); --aba:rgba(255,255,255,.85); --aba-hover:#fff;
+  --zebra:#f5f7fb; --hover:#e8ebf7; --th:#0a3366; --sombra:rgba(10,51,102,.10);
+  --plano1:#eaf1fb; --plano2:#f6f9fd; --plano-borda:#cfdcef; --plano-tbl:#fff; --plano-zebra:#f7f9fd;
+  --alerta-bg:#fff6e8; --alerta-borda:#f3d39b; --alerta-forte:#9a4f00;
+  --meta-bg:#eef0fa; --meta-borda:#cdd2ee; --meta-forte:#404292;
+  --veu:rgba(0,0,0,0); color-scheme:light;
 }
+:root[data-tema="escuro"]{
+  --bg:#0d1526; --card:#16213a; --text:#e6ebf5; --muted:#9aa7c0; --line:#2a3757;
+  --accent:#8f93ff; --navy:#7fb0f0; --ok:#4cc27e; --warn:#f0a63a; --bad:#ff7468; --bar:#3b4a6e;
+  --titulo:#e6ebf5; --card2:rgba(22,33,58,.96); --aba:rgba(22,33,58,.85); --aba-hover:#1e2b4a;
+  --zebra:#1a2642; --hover:#24335a; --th:#22325a; --sombra:rgba(0,0,0,.35);
+  --plano1:#18264a; --plano2:#141f38; --plano-borda:#2c3d66; --plano-tbl:#16213a; --plano-zebra:#1a2642;
+  --alerta-bg:#33240f; --alerta-borda:#6b4a1a; --alerta-forte:#f5b766;
+  --meta-bg:#1d2148; --meta-borda:#363c80; --meta-forte:#aeb1ff;
+  --veu:rgba(8,13,26,.86); color-scheme:dark;
+}
+.tema{margin-left:auto;align-self:flex-start;flex:none;border:1px solid var(--line);background:var(--aba);color:var(--titulo);
+  font:600 13px Inter,system-ui,sans-serif;padding:7px 14px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.tema:hover{border-color:var(--accent);background:var(--aba-hover)}
+:root[data-tema="escuro"] .logo{background:#fff;border-radius:12px;padding:6px 10px;filter:none}
 *{box-sizing:border-box}
 html{background:var(--bg)}
 body{margin:0;color:var(--text);font:15px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
-  background:var(--bg) url("img/fundo.jpg") center/cover fixed no-repeat;min-height:100vh}
+  background:linear-gradient(var(--veu),var(--veu)) fixed,var(--bg) url("img/fundo.jpg") center/cover fixed no-repeat;min-height:100vh}
 header{padding:28px 16px 86px;position:relative}
 .wrap{max-width:1040px;margin:0 auto;padding:0 16px}
 header .wrap{padding:0;display:flex;align-items:center;gap:22px}
 .logo{height:96px;width:auto;flex:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
-header h1{margin:0 0 4px;font-size:clamp(20px,3.2vw,28px);font-weight:700;letter-spacing:-.01em;color:var(--navy)}
+header h1{margin:0 0 4px;font-size:clamp(20px,3.2vw,28px);font-weight:700;letter-spacing:-.01em;color:var(--titulo)}
 header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .abas{max-width:1040px;margin:18px auto 0;display:flex;gap:8px;flex-wrap:wrap}
-.aba{border:1px solid var(--line);background:rgba(255,255,255,.85);color:var(--navy);font:600 13px Inter,system-ui,sans-serif;
+.aba{border:1px solid var(--line);background:var(--aba);color:var(--titulo);font:600 13px Inter,system-ui,sans-serif;
   padding:7px 14px;border-radius:999px;cursor:pointer}
-.aba:hover{background:#fff;border-color:var(--accent)}
-.aba.ativa{background:var(--navy);border-color:var(--navy);color:#fff}
-.aba .novo{font-size:10px;font-weight:700;background:var(--accent);color:#fff;border-radius:6px;padding:1px 5px;margin-left:6px}
-.aba.ativa .novo{background:#fff;color:var(--navy)}
+.aba:hover{background:var(--aba-hover);border-color:var(--accent)}
+.aba.ativa{background:var(--th);border-color:var(--navy);color:#fff}
+.aba .novo{font-size:10px;font-weight:700;background:#404292;color:#fff;border-radius:6px;padding:1px 5px;margin-left:6px}
+.aba.ativa .novo{background:#fff;color:#0a3366}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:-60px;position:relative}
-.kpi{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:12px;padding:16px 18px;box-shadow:0 6px 18px rgba(10,51,102,.10)}
+.kpi{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:12px;padding:16px 18px;box-shadow:0 6px 18px var(--sombra)}
 .kpi .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
 .kpi .v{font-size:30px;font-weight:700;line-height:1.2;margin-top:4px;font-variant-numeric:tabular-nums;color:var(--navy)}
 .kpi .s{font-size:13px;color:var(--muted)}
 .kpi.ipa{border-top-color:var(--accent)}
 .kpi.ipa .v{color:var(--accent)}
 .up{color:var(--ok);font-weight:600}.down{color:var(--bad);font-weight:600}
-.card{background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:16px;box-shadow:0 6px 18px rgba(10,51,102,.08)}
+.card{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:16px;box-shadow:0 6px 18px var(--sombra)}
 #grafico svg{width:100%;height:auto;display:block}
 #conteudo h2{font-size:20px;margin:32px 0 8px;padding-top:20px;border-top:1px solid var(--line);color:var(--navy)}
 #conteudo h2:first-child{border-top:0;margin-top:0;padding-top:0}
 #conteudo h3{font-size:16px;margin:22px 0 6px;color:var(--accent)}
 #conteudo strong{font-weight:600}
 .tbl{overflow-x:auto;margin:12px 0}
-.secao-plano{margin:32px -8px 8px;padding:20px 22px 12px;border-radius:12px;background:linear-gradient(180deg,#eaf1fb,#f6f9fd);
-  border:1px solid #cfdcef;border-left:6px solid var(--navy);box-shadow:0 4px 14px rgba(10,51,102,.08)}
+.secao-plano{margin:32px -8px 8px;padding:20px 22px 12px;border-radius:12px;background:linear-gradient(180deg,var(--plano1),var(--plano2));
+  border:1px solid var(--plano-borda);border-left:6px solid var(--navy);box-shadow:0 4px 14px var(--sombra)}
 #conteudo .secao-plano h2{border-top:0;margin-top:0;padding-top:0;display:flex;align-items:center;gap:10px}
 #conteudo .secao-plano h2::before{content:"";width:12px;height:12px;border-radius:3px;background:var(--accent);flex:none}
-.secao-plano table{background:#fff;border-radius:8px;overflow:hidden}
-.secao-plano tbody tr:nth-child(even) td{background:#f7f9fd}
+.secao-plano table{background:var(--plano-tbl);border-radius:8px;overflow:hidden}
+.secao-plano tbody tr:nth-child(even) td{background:var(--plano-zebra)}
 .secao-plano td:nth-child(2){font-weight:500}
 .secao-plano .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;
-  background:var(--navy);color:#fff;font-weight:700;font-size:12px}
+  background:var(--th);color:#fff;font-weight:700;font-size:12px}
 .nota-plano{margin:4px 0 6px;font-size:12.5px;color:var(--muted);font-style:italic}
 .destaque{margin:16px 0;padding:14px 18px 14px 18px;border-radius:10px;border:1px solid;border-left-width:5px}
 .destaque p{margin:6px 0 0}
 .destaque .selo-d{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
   padding:2px 9px;border-radius:999px;color:#fff}
-.destaque.alerta{background:#fff6e8;border-color:#f3d39b;border-left-color:#d9822b}
+.destaque.alerta{background:var(--alerta-bg);border-color:var(--alerta-borda);border-left-color:#d9822b}
 .destaque.alerta .selo-d{background:#c96f12}
-.destaque.alerta strong{color:#9a4f00}
-.destaque.meta{background:#eef0fa;border-color:#cdd2ee;border-left-color:var(--accent)}
-.destaque.meta .selo-d{background:var(--accent)}
-.destaque.meta strong{color:var(--accent)}
+.destaque.alerta strong{color:var(--alerta-forte)}
+.destaque.meta{background:var(--meta-bg);border-color:var(--meta-borda);border-left-color:var(--accent)}
+.destaque.meta .selo-d{background:#404292}
+.destaque.meta strong{color:var(--meta-forte)}
 table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
 th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
-th{font-weight:600;color:#fff;font-size:12.5px;background:var(--navy)}
+th{font-weight:600;color:#fff;font-size:12.5px;background:var(--th)}
 th:first-child{border-top-left-radius:6px}th:last-child{border-top-right-radius:6px}
-tbody tr:nth-child(even) td{background:#f5f7fb}
-tbody tr:hover td{background:#e8ebf7}
+tbody tr:nth-child(even) td{background:var(--zebra)}
+tbody tr:hover td{background:var(--hover)}
 footer{color:var(--muted);font-size:13px;padding:24px 16px 40px;text-align:center}
 footer a,.card a{color:var(--accent)}
 .erro{color:var(--bad)}
 @media (max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}.kpi .v{font-size:24px}.card{padding:16px}
-  header .wrap{flex-direction:column;align-items:flex-start;gap:12px}.logo{height:64px}body{background-attachment:scroll}}
+  header .wrap{flex-direction:column;align-items:flex-start;gap:12px}.logo{height:64px}body{background-attachment:scroll}
+  .tema{position:absolute;top:20px;right:16px}}
 </style>
 </head>
 <body>
@@ -85,6 +112,7 @@ footer a,.card a{color:var(--accent)}
     <h1 id="titulo">Análise do Indicador de Prazo (Manaus Luz)</h1>
     <p id="sub">Carregando…</p>
   </div>
+  <button class="tema" id="tema" type="button" aria-label="Alternar modo escuro"></button>
 </div>
 <nav class="abas" id="abas" aria-label="Atualizações"></nav>
 </header>
@@ -158,7 +186,21 @@ function grafico(d){
   return s;
 }
 
-let INDICE=[];
+let INDICE=[], ULTIMO=null;
+function rotuloTema(){
+  const esc = document.documentElement.dataset.tema==='escuro';
+  const b = document.getElementById('tema');
+  b.textContent = esc ? '☀️ Modo claro' : '🌙 Modo escuro';
+  b.setAttribute('aria-pressed', esc);
+}
+document.getElementById('tema').addEventListener('click', ()=>{
+  const novo = document.documentElement.dataset.tema==='escuro' ? 'claro' : 'escuro';
+  document.documentElement.dataset.tema = novo;
+  try{ localStorage.setItem('tema', novo); }catch(e){}
+  rotuloTema();
+  if(ULTIMO) document.getElementById('grafico').innerHTML = grafico(ULTIMO);
+});
+rotuloTema();
 const sem = () => '?v=' + Date.now();
 // Os dados vêm direto do GitHub (o robô grava lá 4x ao dia), sem republicar o site na Netlify.
 // Se o GitHub falhar, usa a cópia publicada junto com o site.
@@ -189,6 +231,7 @@ async function abrir(id){
       <div class="kpi"><div class="l">OS fechadas</div><div class="v">${fmt(d.os_fechadas)}</div><div class="s">exceto origem Obra</div></div>
       <div class="kpi"><div class="l">No prazo</div><div class="v">${fmt(d.no_prazo)}</div><div class="s">${fmt(ipa,2)}% do total</div></div>
       <div class="kpi"><div class="l">Fora do prazo</div><div class="v">${fmt(d.fora_do_prazo)}</div><div class="s">atrasos no mês</div></div>`;
+    ULTIMO = d;
     document.getElementById('grafico').innerHTML = grafico(d);
     const c = document.getElementById('conteudo');
     c.innerHTML = mdParaHtml(md);
