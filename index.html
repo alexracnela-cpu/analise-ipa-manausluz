@@ -44,19 +44,23 @@ html{background:var(--bg)}
 body{margin:0;color:var(--text);font:15px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
   background:linear-gradient(var(--veu),var(--veu)) fixed,var(--bg) url("img/fundo.jpg") center/cover fixed no-repeat;min-height:100vh}
 header{padding:28px 16px 86px;position:relative}
-.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 16px}
 header .wrap{padding:0;display:flex;align-items:center;gap:22px}
 .logo{height:96px;width:auto;flex:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
 header h1{margin:0 0 4px;font-size:clamp(20px,3.2vw,28px);font-weight:700;letter-spacing:-.01em;color:var(--titulo)}
 header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
-.abas{max-width:1040px;margin:18px auto 0;display:flex;gap:8px;flex-wrap:wrap}
-.aba{border:1px solid var(--line);background:var(--aba);color:var(--titulo);font:600 13px Inter,system-ui,sans-serif;
-  padding:7px 14px;border-radius:999px;cursor:pointer}
-.aba:hover{background:var(--aba-hover);border-color:var(--accent)}
+.layout{max-width:1320px;margin:-60px auto 0;padding:0 16px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:16px;align-items:start;position:relative}
+.versoes{position:sticky;top:16px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px 10px;
+  box-shadow:0 6px 18px var(--sombra);max-height:calc(100vh - 32px);overflow-y:auto}
+.versoes h2{margin:0 6px 10px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+.abas{display:flex;flex-direction:column;gap:4px}
+.aba{border:1px solid transparent;background:transparent;color:var(--titulo);font:600 13px Inter,system-ui,sans-serif;
+  padding:8px 10px;border-radius:8px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:6px}
+.aba:hover{background:var(--hover);border-color:var(--line)}
 .aba.ativa{background:var(--th);border-color:var(--navy);color:#fff}
 .aba .novo{font-size:10px;font-weight:700;background:#404292;color:#fff;border-radius:6px;padding:1px 5px;margin-left:6px}
 .aba.ativa .novo{background:#fff;color:#0a3366}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:-60px;position:relative}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;position:relative}
 .kpi{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:12px;padding:16px 18px;box-shadow:0 6px 18px var(--sombra)}
 .kpi .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
 .kpi .v{font-size:30px;font-weight:700;line-height:1.2;margin-top:4px;font-variant-numeric:tabular-nums;color:var(--navy)}
@@ -100,6 +104,10 @@ tbody tr:hover td{background:var(--hover)}
 footer{color:var(--muted);font-size:13px;padding:24px 16px 40px;text-align:center}
 footer a,.card a{color:var(--accent)}
 .erro{color:var(--bad)}
+@media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}
+  .versoes{position:static;max-height:none;padding:12px}
+  .abas{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:4px}
+  .aba{flex:none;border-color:var(--line);border-radius:999px;padding:7px 12px;background:var(--aba)}}
 @media (max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}.kpi .v{font-size:24px}.card{padding:16px}
   header .wrap{flex-direction:column;align-items:flex-start;gap:12px}.logo{height:64px}body{background-attachment:scroll}
   .tema{position:absolute;top:20px;right:16px}}
@@ -114,14 +122,19 @@ footer a,.card a{color:var(--accent)}
   </div>
   <button class="tema" id="tema" type="button" aria-label="Alternar modo escuro"></button>
 </div>
-<nav class="abas" id="abas" aria-label="Atualizações"></nav>
 </header>
 
-<main class="wrap">
-  <section class="kpis" id="kpis"></section>
-  <section class="card" id="grafico" aria-label="Gráfico do IPA acumulado"></section>
-  <article class="card" id="conteudo"></article>
-</main>
+<div class="layout">
+  <aside class="versoes" aria-label="Versões">
+    <h2>Versões</h2>
+    <nav class="abas" id="abas"></nav>
+  </aside>
+  <main id="principal">
+    <section class="kpis" id="kpis"></section>
+    <section class="card" id="grafico" aria-label="Gráfico do IPA acumulado"></section>
+    <article class="card" id="conteudo"></article>
+  </main>
+</div>
 <footer id="rodape"></footer>
 
 <script>
@@ -221,6 +234,7 @@ async function abrir(id){
       dado(`historico/${id}.md`, 'text')
     ]);
     document.querySelectorAll('.aba').forEach(b=>b.classList.toggle('ativa', b.dataset.id===id));
+    const at=document.querySelector('.aba.ativa'); if(at) at.scrollIntoView({block:'nearest',inline:'nearest'});
     document.getElementById('titulo').textContent = d.titulo;
     document.getElementById('sub').textContent = `Fechamentos de ${d.periodo} · atualizado em ${d.atualizado_em}`;
     const ipa = 100*d.no_prazo/d.os_fechadas;
