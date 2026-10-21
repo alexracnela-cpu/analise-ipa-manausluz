@@ -22,6 +22,7 @@ document.documentElement.dataset.tema=t;})();
   --zebra:#f5f7fb; --hover:#e4edf9; --th:#0a3366; --sombra:rgba(10,51,102,.10);
   --plano-bg:linear-gradient(180deg,#e9f7f6,#f5fbfb); --plano-borda:#b5e2df; --plano-barra:#0f9a95; --plano-titulo:#0b6a67; --plano-ponto:#0f9a95; --plano-th:#0e5f5c; --plano-num:#0f8b87; --plano-tbl:#fff; --plano-zebra:#f7f9fd;
   --alerta-bg:#fff6e8; --alerta-borda:#f3d39b; --alerta-forte:#9a4f00;
+  --atr-bg:#fdeeee; --atr-borda:#f1c2bf; --atr-barra:#c23b31; --atr-titulo:#9b2a22; --atr-th:#a8322a; --atr-tbl:#fff; --atr-zebra:#fdf6f6;
   --meta-bg:#ecf8f0; --meta-borda:#bfe3cb; --meta-barra:#1e8a4c; --meta-selo:#1e8a4c; --meta-forte:#146b3a;
   --veu:rgba(0,0,0,0); color-scheme:light;
 }
@@ -32,6 +33,7 @@ document.documentElement.dataset.tema=t;})();
   --zebra:#1a2642; --hover:#24335a; --th:#22325a; --sombra:rgba(0,0,0,.35);
   --plano-bg:linear-gradient(180deg,#0f2f33,#122530); --plano-borda:#225a5e; --plano-barra:#3cc9c1; --plano-titulo:#7fe3dc; --plano-ponto:#3cc9c1; --plano-th:#1a5552; --plano-num:#169e98; --plano-tbl:#16213a; --plano-zebra:#1a2642;
   --alerta-bg:#33240f; --alerta-borda:#6b4a1a; --alerta-forte:#f5b766;
+  --atr-bg:#3a1a1c; --atr-borda:#6e2f2f; --atr-barra:#ff7468; --atr-titulo:#ff9d93; --atr-th:#7a2c2a; --atr-tbl:#16213a; --atr-zebra:#1f2540;
   --meta-bg:#13301f; --meta-borda:#2c5a3d; --meta-barra:#4cc27e; --meta-selo:#2e9a5c; --meta-forte:#7fdca5;
   --veu:rgba(8,13,26,.86); color-scheme:dark;
 }
@@ -105,6 +107,15 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .secao-plano .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;
   background:var(--plano-num);color:#fff;font-weight:700;font-size:12px}
 .nota-plano{margin:4px 0 6px;font-size:12.5px;color:var(--muted);font-style:italic}
+.secao-atrasos{margin:16px 0;padding:14px 18px;border-radius:10px;border:1px solid var(--atr-borda);border-left:5px solid var(--atr-barra);background:var(--atr-bg)}
+#conteudo .secao-atrasos h3{margin-top:0;color:var(--atr-titulo);display:flex;align-items:center;gap:8px}
+#conteudo .secao-atrasos h3::before{content:"";width:12px;height:12px;border-radius:3px;background:var(--atr-barra);flex:none}
+#conteudo .secao-atrasos h4{margin:14px 0 6px;color:var(--atr-titulo)}
+.secao-atrasos th{background:var(--atr-th)}
+.secao-atrasos table{background:var(--atr-tbl);border-radius:8px;overflow:hidden}
+.secao-atrasos tbody tr:nth-child(even) td{background:var(--atr-zebra)}
+.secao-atrasos td:nth-child(5){color:var(--bad);font-weight:600}
+.secao-atrasos p{margin:6px 0 0}
 .destaque{margin:16px 0;padding:14px 18px 14px 18px;border-radius:10px;border:1px solid;border-left-width:5px}
 .destaque p{margin:6px 0 0}
 .destaque .selo-d{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
@@ -325,6 +336,13 @@ async function abrir(id){
     const c = document.getElementById('conteudo');
     c.innerHTML = mdParaHtml(md);
     c.querySelectorAll('table').forEach(t=>{const w=document.createElement('div');w.className='tbl';t.parentNode.insertBefore(w,t);w.appendChild(t);});
+    // destaque vermelho da tabela de OS fechadas fora do prazo (do título até o alerta ou o próximo título)
+    c.querySelectorAll('h3').forEach(h=>{
+      if(!/^OS fechadas fora do prazo/i.test(h.textContent.trim())) return;
+      const box=document.createElement('section'); box.className='secao-atrasos';
+      h.parentNode.insertBefore(box,h);
+      let n=h; while(n && !(n!==h && (/^H[23]$/.test(n.tagName) || n.classList.contains('destaque')))){ const prox=n.nextElementSibling; box.appendChild(n); n=prox; }
+    });
     // destaque da seção Plano de ação (do título até o próximo título de mesmo nível)
     c.querySelectorAll('h2').forEach(h=>{
       if(!/plano de a[cç][aã]o/i.test(h.textContent)) return;

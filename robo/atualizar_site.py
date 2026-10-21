@@ -122,6 +122,49 @@ def parse_atualizado(s):
         return None
 
 
+def dur(td):
+    if td is None or pd.isna(td):
+        return "—"
+    m = int(round(td.total_seconds() / 60))
+    return f"{m // 60}h {m % 60:02d}min"
+
+
+def secao_fora_do_prazo(atr, agora, ini_mes):
+    """Tabelas das OS fechadas fora do prazo no dia anterior e hoje (antes do alerta do dia)."""
+    hoje0 = datetime(agora.year, agora.month, agora.day)
+    ontem0 = hoje0 - timedelta(days=1)
+    out = [f"### OS fechadas fora do prazo — {ontem0:%d/%m} e {hoje0:%d/%m}"]
+    for rot, ini, fim, ate in (("Dia anterior", ontem0, hoje0, ""),
+                               ("Hoje", hoje0, hoje0 + timedelta(days=1), f" (até {agora:%H:%M})")):
+        out.append(f"#### {rot} — {ini:%d/%m}{ate}")
+        if ini < ini_mes:
+            out.append("O dia anterior é do mês passado e está na última aba daquele mês.")
+            continue
+        g = atr[(atr["fech"] >= ini) & (atr["fech"] < fim)].copy()
+        if g.empty:
+            out.append("Nenhuma OS fechada fora do prazo.")
+            continue
+        g["atraso"] = g["fech"] - g["venc"]
+        g["desde"] = g["fech"] - g["ab"]
+        g = g.sort_values("atraso", ascending=False)
+        linhas = []
+        for _, r in g.iterrows():
+            idv = r.get("ID", "")
+            try:
+                idv = str(int(float(idv)))
+            except (TypeError, ValueError):
+                idv = str(idv).strip()
+            atraso = dur(r["atraso"]) if pd.notna(r["atraso"]) and r["atraso"].total_seconds() > 0 \
+                else "— (sistema: fora do prazo)"
+            linhas.append([idv, r["equipe"] or "—", f"{r['fech']:%H:%M}", "24h" if r["esp"] else "48h",
+                           atraso, dur(r["desde"])])
+        out.append(tabela(["OS", "Equipe", "Fechada às", "Prazo", "Atraso", "Desde a abertura"], linhas))
+        pos = g["atraso"][g["atraso"] > pd.Timedelta(0)]
+        out.append(f"**Total:** {br(len(g))} OS fora do prazo"
+                   + (f" · atraso médio de {dur(pos.mean())}" if len(pos) else "") + ".")
+    return out
+
+
 # ---------------------------------------------------------------- leitura
 def ler_relatorio(arquivo):
     df = pd.read_excel(arquivo, sheet_name="Relatório", header=1)
@@ -356,6 +399,7 @@ def analisar(df, mat, abertas, agora, ant):
         bl.append(f"- **Equipes:** {lista_e(f'{k} ({pc(r.ipa)})' for k, r in p3.iterrows())} somam "
                   f"{br(int(p3['atrasos'].sum()))} dos {br(fora)} atrasos.")
     S.append("\n".join(bl))
+    S.extend(secao_fora_do_prazo(atr, agora, ini_mes))
     if B and B["vencidas"]:
         cmp = ""
         if "vencidas" in ant_ex:
