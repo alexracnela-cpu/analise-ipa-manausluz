@@ -1,7 +1,7 @@
 name: Atualizar IPA
 
 on:
-  # Disparado pelo cron-job.org às 6h, 8h, 12h e 16h (Manaus) via API (workflow_dispatch).
+  # Disparado pelo cron-job.org a cada 2h, das 5h às 17h (Manaus), via API (workflow_dispatch).
   # O agendamento interno do GitHub (schedule) foi retirado porque pulava horários.
   workflow_dispatch: {} # também dá para rodar pelo botão "Run workflow"
 
