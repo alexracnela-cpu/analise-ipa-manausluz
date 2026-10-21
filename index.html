@@ -46,7 +46,7 @@ body{margin:0;color:var(--text);font:15px/1.6 Inter,system-ui,-apple-system,"Seg
 header{padding:28px 0 86px;position:relative}
 .wrap{max-width:1320px;margin:0 auto;padding:0 16px}
 header .wrap{padding:0 16px;display:grid;grid-template-columns:230px minmax(0,1fr) auto;column-gap:16px;align-items:center}
-.logo{height:96px;width:auto;flex:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
+.logo{width:100%;height:auto;display:block;flex:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
 header h1{margin:0 0 4px;font-size:clamp(20px,3.2vw,28px);font-weight:700;letter-spacing:-.01em;color:var(--titulo)}
 header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .layout{max-width:1320px;margin:-60px auto 0;padding:0 16px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:16px;align-items:start;position:relative}
@@ -106,6 +106,7 @@ footer a,.card a{color:var(--accent)}
 .erro{color:var(--bad)}
 @media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}
   header .wrap{grid-template-columns:auto minmax(0,1fr) auto;column-gap:20px}
+  .logo{width:auto;height:96px}
   .versoes{position:static;max-height:none;padding:12px}
   .abas{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:4px}
   .aba{flex:none;border-color:var(--line);border-radius:999px;padding:7px 12px;background:var(--aba)}}
