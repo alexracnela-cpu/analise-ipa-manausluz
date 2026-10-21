@@ -212,7 +212,8 @@ const coresTema = () => CORES_NOTA[document.documentElement.dataset.tema==='escu
 function legenda(x, yy){
   const nomes = ['Nota 1,0 (≥95%)', 'Nota 0,8 (90% a 94,99%)', 'Nota 0,6 (85% a 89,99%)', 'Nota 0 (abaixo de 85%)'];
   let s='', cx=x;
-  nomes.forEach((nm,i)=>{ s += `<rect x="${cx}" y="${yy-9}" width="11" height="11" rx="2.5" fill="${coresTema().forte[i]}"/><text x="${cx+16}" y="${yy}" fill="${css('--text')}" font-size="11">${nm}</text>`; cx += 16 + nm.length*5.9 + 18; });
+  // ordem da legenda: da nota 0 até a nota 1,0
+  [3,2,1,0].forEach(i=>{ const nm=nomes[i]; s += `<rect x="${cx}" y="${yy-9}" width="11" height="11" rx="2.5" fill="${coresTema().forte[i]}"/><text x="${cx+16}" y="${yy}" fill="${css('--text')}" font-size="11">${nm}</text>`; cx += 16 + nm.length*5.9 + 18; });
   return s;
 }
 function grafico(d){
