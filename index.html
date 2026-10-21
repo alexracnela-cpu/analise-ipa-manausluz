@@ -17,12 +17,12 @@ document.documentElement.dataset.tema=t;})();
 <style>
 :root{
   --bg:#eef2f7; --card:#ffffff; --text:#14213d; --muted:#5b6780; --line:#dfe5ee;
-  --accent:#404292; --navy:#0a3366; --ok:#1e8a4c; --warn:#c77700; --bad:#c23b31; --bar:#c3cde0;
+  --accent:#1d5fc2; --navy:#0a3366; --ok:#1e8a4c; --warn:#c77700; --bad:#c23b31; --bar:#c3cde0;
   --titulo:#0a3366; --card2:rgba(255,255,255,.96); --aba:rgba(255,255,255,.85); --aba-hover:#fff;
-  --zebra:#f5f7fb; --hover:#e8ebf7; --th:#0a3366; --sombra:rgba(10,51,102,.10);
+  --zebra:#f5f7fb; --hover:#e4edf9; --th:#0a3366; --sombra:rgba(10,51,102,.10);
   --plano1:#eaf1fb; --plano2:#f6f9fd; --plano-borda:#cfdcef; --plano-tbl:#fff; --plano-zebra:#f7f9fd;
   --alerta-bg:#fff6e8; --alerta-borda:#f3d39b; --alerta-forte:#9a4f00;
-  --meta-bg:#eef0fa; --meta-borda:#cdd2ee; --meta-forte:#404292;
+  --meta-bg:#eaf2fd; --meta-borda:#c3d7f3; --meta-forte:#1d5fc2;
   --veu:rgba(0,0,0,0); color-scheme:light;
 }
 :root[data-tema="escuro"]{
@@ -64,7 +64,7 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
   padding:8px 10px;border-radius:8px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:6px}
 .aba:hover{background:var(--hover);border-color:var(--line)}
 .aba.ativa{background:var(--th);border-color:var(--navy);color:#fff}
-.aba .novo{font-size:10px;font-weight:700;background:#404292;color:#fff;border-radius:6px;padding:1px 5px;margin-left:6px}
+.aba .novo{font-size:10px;font-weight:700;background:#1d5fc2;color:#fff;border-radius:6px;padding:1px 5px;margin-left:6px}
 .aba.ativa .novo{background:#fff;color:#0a3366}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;position:relative}
 .kpi{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:12px;padding:16px 18px;box-shadow:0 6px 18px var(--sombra)}
@@ -99,7 +99,7 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .destaque.alerta .selo-d{background:#c96f12}
 .destaque.alerta strong{color:var(--alerta-forte)}
 .destaque.meta{background:var(--meta-bg);border-color:var(--meta-borda);border-left-color:var(--accent)}
-.destaque.meta .selo-d{background:#404292}
+.destaque.meta .selo-d{background:#1d5fc2}
 :root[data-tema="escuro"] .destaque.meta .selo-d,:root[data-tema="escuro"] .aba .novo{background:#1f6fd6}
 .destaque.meta strong{color:var(--meta-forte)}
 table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
