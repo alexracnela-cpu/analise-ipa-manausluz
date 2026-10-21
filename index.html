@@ -20,9 +20,9 @@ document.documentElement.dataset.tema=t;})();
   --accent:#1d5fc2; --navy:#0a3366; --ok:#1e8a4c; --warn:#c77700; --bad:#c23b31; --bar:#c3cde0;
   --titulo:#0a3366; --card2:rgba(255,255,255,.96); --aba:rgba(255,255,255,.85); --aba-hover:#fff;
   --zebra:#f5f7fb; --hover:#e4edf9; --th:#0a3366; --sombra:rgba(10,51,102,.10);
-  --plano1:#eaf1fb; --plano2:#f6f9fd; --plano-borda:#cfdcef; --plano-tbl:#fff; --plano-zebra:#f7f9fd;
+  --plano-bg:#fff; --plano-borda:#dfe5ee; --plano-barra:#0a3366; --plano-titulo-bg:#0a3366; --plano-ponto:#4f9dff; --plano-tbl:#fff; --plano-zebra:#f7f9fd;
   --alerta-bg:#fff6e8; --alerta-borda:#f3d39b; --alerta-forte:#9a4f00;
-  --meta-bg:#eaf2fd; --meta-borda:#c3d7f3; --meta-forte:#1d5fc2;
+  --meta-bg:#e7f7f6; --meta-borda:#b5e2df; --meta-barra:#0f9a95; --meta-selo:#0f8b87; --meta-forte:#0b6a67;
   --veu:rgba(0,0,0,0); color-scheme:light;
 }
 :root[data-tema="escuro"]{
@@ -30,9 +30,9 @@ document.documentElement.dataset.tema=t;})();
   --accent:#4f9dff; --navy:#a3c6f0; --ok:#4cc27e; --warn:#f0a63a; --bad:#ff7468; --bar:#3b4a6e;
   --titulo:#e6ebf5; --card2:rgba(22,33,58,.96); --aba:rgba(22,33,58,.85); --aba-hover:#1e2b4a;
   --zebra:#1a2642; --hover:#24335a; --th:#22325a; --sombra:rgba(0,0,0,.35);
-  --plano1:#18264a; --plano2:#141f38; --plano-borda:#2c3d66; --plano-tbl:#16213a; --plano-zebra:#1a2642;
+  --plano-bg:#16213a; --plano-borda:#2a3757; --plano-barra:#1d4f9a; --plano-titulo-bg:#1d4f9a; --plano-ponto:#9ccaff; --plano-tbl:#16213a; --plano-zebra:#1a2642;
   --alerta-bg:#33240f; --alerta-borda:#6b4a1a; --alerta-forte:#f5b766;
-  --meta-bg:#14294a; --meta-borda:#2a4a7c; --meta-forte:#8cc1ff;
+  --meta-bg:#0f2f33; --meta-borda:#225a5e; --meta-barra:#3cc9c1; --meta-selo:#169e98; --meta-forte:#7fe3dc;
   --veu:rgba(8,13,26,.86); color-scheme:dark;
 }
 .tema{margin-left:auto;align-self:flex-start;flex:none;border:1px solid var(--line);background:var(--aba);color:var(--titulo);
@@ -94,10 +94,10 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 #conteudo h3{font-size:16px;margin:22px 0 6px;color:var(--accent)}
 #conteudo strong{font-weight:600}
 .tbl{overflow-x:auto;margin:12px 0}
-.secao-plano{margin:32px -8px 8px;padding:20px 22px 12px;border-radius:12px;background:linear-gradient(180deg,var(--plano1),var(--plano2));
-  border:1px solid var(--plano-borda);border-left:6px solid var(--navy);box-shadow:0 4px 14px var(--sombra)}
-#conteudo .secao-plano h2{border-top:0;margin-top:0;padding-top:0;display:flex;align-items:center;gap:10px}
-#conteudo .secao-plano h2::before{content:"";width:12px;height:12px;border-radius:3px;background:var(--accent);flex:none}
+.secao-plano{margin:32px -8px 8px;padding:0 22px 12px;border-radius:12px;background:var(--plano-bg);overflow:hidden;
+  border:1px solid var(--plano-borda);border-left:6px solid var(--plano-barra);box-shadow:0 4px 14px var(--sombra)}
+#conteudo .secao-plano h2{border-top:0;margin:0 -22px 16px;padding:14px 22px;background:var(--plano-titulo-bg);color:#fff;display:flex;align-items:center;gap:10px}
+#conteudo .secao-plano h2::before{content:"";width:12px;height:12px;border-radius:3px;background:var(--plano-ponto);flex:none}
 .secao-plano table{background:var(--plano-tbl);border-radius:8px;overflow:hidden}
 .secao-plano tbody tr:nth-child(even) td{background:var(--plano-zebra)}
 .secao-plano td:nth-child(2){font-weight:500}
@@ -111,9 +111,9 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .destaque.alerta{background:var(--alerta-bg);border-color:var(--alerta-borda);border-left-color:#d9822b}
 .destaque.alerta .selo-d{background:#c96f12}
 .destaque.alerta strong{color:var(--alerta-forte)}
-.destaque.meta{background:var(--meta-bg);border-color:var(--meta-borda);border-left-color:var(--accent)}
-.destaque.meta .selo-d{background:#1d5fc2}
-:root[data-tema="escuro"] .destaque.meta .selo-d,:root[data-tema="escuro"] .aba .novo{background:#1f6fd6}
+.destaque.meta{background:var(--meta-bg);border-color:var(--meta-borda);border-left-color:var(--meta-barra)}
+.destaque.meta .selo-d{background:var(--meta-selo)}
+:root[data-tema="escuro"] .aba .novo{background:#1f6fd6}
 .destaque.meta strong{color:var(--meta-forte)}
 table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
 th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
