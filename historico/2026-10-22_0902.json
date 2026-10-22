@@ -1,10 +1,10 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "22/10/2026 07h08",
+ "atualizado_em": "22/10/2026 09h02",
  "periodo": "01/10 a 22/10/2026",
  "mes": "10/2026",
- "os_fechadas": 4000,
- "no_prazo": 3764,
+ "os_fechadas": 4001,
+ "no_prazo": 3765,
  "fora_do_prazo": 236,
  "ipa": 94.1,
  "nota": "0,8",
@@ -119,7 +119,7 @@
   },
   {
    "dia": "22",
-   "os": 49,
+   "os": 50,
    "atrasos": 0
   }
  ],
@@ -150,7 +150,7 @@
     23
    ],
    "JOÃO PEDRO": [
-    11,
+    12,
     2
    ],
    "OBRAS LEVES - 01 - MOT. MATHEUS": [
@@ -234,10 +234,10 @@
     7
    ]
   },
-  "abertas": 115,
-  "vencidas": 43,
+  "abertas": 116,
+  "vencidas": 44,
   "venc_esp": 4,
-  "sem_equipe": 58,
+  "sem_equipe": 10,
   "venc_sem_equipe": 0,
   "esp": [
    88.09,
