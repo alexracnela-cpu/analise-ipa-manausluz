@@ -75,6 +75,8 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .kpi .s{font-size:13px;color:var(--muted)}
 .kpi.ipa{border-top-color:var(--accent)}
 .kpi.ipa .v{color:var(--accent)}
+.kpi.ipa .v.n0{color:#1e8a4c}.kpi.ipa .v.n1{color:#1d5fc2}.kpi.ipa .v.n2{color:#d9822b}.kpi.ipa .v.n3{color:#c23b31}
+:root[data-tema="escuro"] .kpi.ipa .v.n0{color:#4cc27e}:root[data-tema="escuro"] .kpi.ipa .v.n1{color:#4f9dff}:root[data-tema="escuro"] .kpi.ipa .v.n2{color:#f0a63a}:root[data-tema="escuro"] .kpi.ipa .v.n3{color:#ff7468}
 .up{color:var(--ok);font-weight:600}.down{color:var(--bad);font-weight:600}
 .card{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-top:16px;box-shadow:0 6px 18px var(--sombra)}
 #grafico{position:relative}
@@ -326,7 +328,7 @@ async function abrir(id){
     const delta = d.ipa_anterior!=null ? ipa - d.ipa_anterior : null;
     const dtxt = delta==null ? '' : ` · <span class="${delta>=0?'up':'down'}">${delta>=0?'▲':'▼'} ${fmt(Math.abs(delta),2)} p.p.</span> vs ${d.atualizado_anterior}`;
     document.getElementById('kpis').innerHTML = `
-      <div class="kpi ipa"><div class="l">IPA</div><div class="v">${fmt(ipa,2)}%</div><div class="s">nota ${d.nota}${dtxt}</div></div>
+      <div class="kpi ipa"><div class="l">IPA</div><div class="v n${faixa(ipa)}">${fmt(ipa,2)}%</div><div class="s">nota ${d.nota}${dtxt}</div></div>
       <div class="kpi"><div class="l">OS fechadas</div><div class="v">${fmt(d.os_fechadas)}</div><div class="s">exceto origem Obra</div></div>
       <div class="kpi"><div class="l">No prazo</div><div class="v">${fmt(d.no_prazo)}</div><div class="s">${fmt(ipa,2)}% do total</div></div>
       <div class="kpi"><div class="l">Fora do prazo</div><div class="v">${fmt(d.fora_do_prazo)}</div><div class="s">atrasos no mês</div></div>`;
