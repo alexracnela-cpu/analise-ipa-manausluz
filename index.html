@@ -260,7 +260,7 @@ function ligarDica(d){
   const tip=document.createElement('div'); tip.className='tip'; g.appendChild(tip);
   const html=i=>{
     const r=d.dias[i], a=acc[i], dia=`${r.dia}/${mes}`;
-    return `<div class="l">Dia ${dia}</div><div class="v">${fmt(a.ipa,2)}%</div><div class="s">IPA acumulado · nota ${FAIXAS[faixa(a.ipa)].nota}</div>
+    return `<div class="l">Dia ${dia}</div><div class="v" style="color:${coresTema().forte[faixa(a.ipa)]}">${fmt(a.ipa,2)}%</div><div class="s">IPA acumulado · nota ${FAIXAS[faixa(a.ipa)].nota}</div>
       <div class="lin"><span>OS fechadas no dia</span><b>${fmt(r.os)}</b></div>
       <div class="lin"><span>Fora do prazo no dia</span><b class="bad">${fmt(r.atrasos)}</b></div>`;
   };
