@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "22/10/2026 15h02",
+ "atualizado_em": "22/10/2026 17h02",
  "periodo": "01/10 a 22/10/2026",
  "mes": "10/2026",
- "os_fechadas": 4069,
- "no_prazo": 3833,
+ "os_fechadas": 4124,
+ "no_prazo": 3888,
  "fora_do_prazo": 236,
- "ipa": 94.2,
+ "ipa": 94.28,
  "nota": "0,8",
  "ipa_anterior": 93.96,
  "atualizado_anterior": "21/10/2026 17h02",
@@ -119,15 +119,15 @@
   },
   {
    "dia": "22",
-   "os": 118,
+   "os": 173,
    "atrasos": 0
   }
  ],
  "auto": true,
  "extra": {
   "ritmo": 2.7,
-  "fila_demais": 7.4,
-  "sem_exec": 19.0,
+  "fila_demais": 7.5,
+  "sem_exec": 19.2,
   "equipes": {
    "ADA AMORIM": [
     8,
@@ -146,7 +146,7 @@
     0
    ],
    "Equipe apoio 5": [
-    123,
+    128,
     23
    ],
    "JOÃO PEDRO": [
@@ -178,11 +178,11 @@
     0
    ],
    "TURNO 1-1": [
-    359,
+    363,
     12
    ],
    "TURNO 1-2": [
-    277,
+    289,
     14
    ],
    "TURNO 1-3": [
@@ -198,11 +198,11 @@
     29
    ],
    "TURNO 2-2": [
-    267,
+    269,
     11
    ],
    "TURNO 2-3": [
-    239,
+    241,
     28
    ],
    "TURNO 2-4": [
@@ -210,15 +210,15 @@
     1
    ],
    "TURNO 2-5": [
-    233,
+    252,
     18
    ],
    "TURNO 3-1": [
-    413,
+    421,
     17
    ],
    "TURNO 3-2": [
-    354,
+    357,
     15
    ],
    "TURNO 3-4": [
@@ -234,15 +234,15 @@
     7
    ]
   },
-  "abertas": 145,
-  "vencidas": 45,
+  "abertas": 129,
+  "vencidas": 44,
   "venc_esp": 4,
-  "sem_equipe": 13,
-  "venc_sem_equipe": 0,
+  "sem_equipe": 11,
+  "venc_sem_equipe": 1,
   "esp": [
-   88.16,
-   95.46
+   88.47,
+   95.51
   ],
-  "erros": 34.1
+  "erros": 34.3
  }
 }
