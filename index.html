@@ -137,6 +137,8 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .destaque.meta .selo-d{background:var(--meta-selo)}
 :root[data-tema="escuro"] .aba .novo{background:#1f6fd6}
 .destaque.meta strong{color:var(--meta-forte)}
+.destaque .tbl-meta{margin:12px 0 2px}.destaque .tbl-meta table{background:var(--card);border-radius:8px;overflow:hidden}
+.destaque .tbl-meta th{background:var(--meta-selo)}.destaque .tbl-meta td:nth-child(3){font-weight:700;color:var(--meta-forte)}
 table{border-collapse:collapse;width:100%;font-size:13.5px;font-variant-numeric:tabular-nums}
 th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 th{font-weight:600;color:#fff;font-size:12.5px;background:var(--th)}
@@ -358,6 +360,11 @@ async function abrir(id){
     const c = document.getElementById('conteudo');
     c.innerHTML = mdParaHtml(md);
     c.querySelectorAll('table').forEach(t=>{const w=document.createElement('div');w.className='tbl';t.parentNode.insertBefore(w,t);w.appendChild(t);});
+    // tabela da meta por turno vai para dentro do quadro verde de META
+    c.querySelectorAll('.tbl').forEach(w=>{
+      const th=w.querySelector('th'); const ant=w.previousElementSibling;
+      if(th && /^Para fechar o mês/i.test(th.textContent.trim()) && ant && ant.matches('.destaque.meta')){ w.classList.add('tbl-meta'); ant.appendChild(w); }
+    });
     // destaque vermelho da tabela de OS fechadas fora do prazo (do título até o alerta ou o próximo título)
     c.querySelectorAll('h3').forEach(h=>{
       if(!/^OS fechadas fora do prazo/i.test(h.textContent.trim())) return;

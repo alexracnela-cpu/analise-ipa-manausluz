@@ -429,7 +429,11 @@ def analisar(df, mat, abertas, agora, ant):
                          + (f"com as {br(vencidas)} vencidas, " if vencidas else "")
                          + f"já são {br(fora + vencidas)} atrasos para um limite de cerca de {br(o95[2])}. "
                          f"O foco passa a ser zerar as vencidas e chegar ao próximo mês sem passivo.")
+    if o95[3] > 0:
+        meta_txt += " Cada atraso novo exige 19 OS no prazo para compensar; a divisão por turno está abaixo."
     S.append(f"**Meta:** {meta_txt}")
+    if o95[3] > 0:
+        S.append(tabela_meta_turnos(base, u10, dias_dec, dias10, agora, o95[3], dias_mes))
 
     # ---------- PLANO DE AÇÃO ----------
     S.append("## Plano de ação")
@@ -686,6 +690,33 @@ def analisar(df, mat, abertas, agora, ant):
              "dias": dias, "ultimo": ultimo, "extra": R}
     return dados, "\n\n".join(S) + "\n"
 
+
+
+def tabela_meta_turnos(base, u10, dias_dec, dias10, agora, saldo, dias_mes):
+    """Quanto cada turno precisa fechar no prazo para o mês terminar em 95%."""
+    fim = datetime(agora.year, agora.month, dias_mes) + timedelta(days=1)
+    dias_rest = max((fim - agora).total_seconds() / 86400, 0.5)
+    grp = base["turno"].where(base["turno"].str.startswith("Turno "), "Apoio e obra")
+    grp10 = u10["turno"].where(u10["turno"].str.startswith("Turno "), "Apoio e obra")
+    nomes = sorted(n for n in grp.unique() if n.startswith("Turno ")) + (["Apoio e obra"] if (grp == "Apoio e obra").any() else [])
+    n = grp.value_counts()
+    # divide o saldo de atrasos pelo peso de cada grupo no volume (maiores restos, soma = saldo)
+    cota = {k: saldo * n[k] / len(base) for k in nomes}
+    perm = {k: int(cota[k]) for k in nomes}
+    for k in sorted(nomes, key=lambda k: cota[k] - perm[k], reverse=True)[: saldo - sum(perm.values())]:
+        perm[k] += 1
+    linhas = []
+    for k in nomes:
+        vol = n[k] / dias_dec
+        mn = max(0, math.ceil(vol - perm[k] / dias_rest - 1e-9))
+        atr10 = int((grp10.eq(k) & ~u10["prazo"]).sum()) / dias10
+        rot = k + (" (por dia)" if k == "Apoio e obra" else "")
+        linhas.append((rot, br(vol), br(mn), br(perm[k]), br(atr10, 1)))
+    vol_t = len(base) / dias_dec
+    linhas.append(("**Total por dia**", f"**{br(vol_t)}**", f"**{br(max(0, math.ceil(vol_t - saldo / dias_rest - 1e-9)))}**",
+                   f"**{br(saldo)}**", f"**{br((len(u10) - int(u10['prazo'].sum())) / dias10, 1)}**"))
+    return tabela(["Para fechar o mês em 95,00%", "OS por turno (média do mês)", "Mínimo no prazo por turno",
+                   f"Atrasos permitidos até {dias_mes}/{agora:%m}", "Atrasos por turno hoje (últimos 10 dias)"], linhas)
 
 def materiais(dfm, mat):
     if mat.empty or "ID da Ordem/Inspeção" not in mat:
