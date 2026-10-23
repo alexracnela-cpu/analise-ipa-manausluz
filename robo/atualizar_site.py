@@ -500,23 +500,25 @@ def analisar(df, mat, abertas, agora, ant):
     def it(nome, r):
         return f"{nome} {pc(r.ipa)} ({br(int(r.atrasos))} atrasos em {br(int(r.os))})"
 
-    # recortes por prioridade, origem, execução e zona: uma tabela só
-    def lin(dim, nome, r, ant_v=None):
-        return (dim, nome, br(int(r.os)), br(int(r.atrasos)), pc(r.ipa), pc(ant_v) if ant_v is not None else "—")
+    # recortes por prioridade, origem, execução e zona: uma tabela por categoria
+    def lin(nome, r):
+        return (nome, br(int(r.os)), br(int(r.atrasos)), pc(r.ipa))
 
-    rl = []
     pr_ant = ant_ex.get("esp") or [None, None]
+    rl = []
     for k, r in pri.sort_index(ascending=False).iterrows():
-        rl.append(lin("Prioridade", "Vias especiais" if k else "Demais vias", r, pr_ant[0] if k else pr_ant[1]))
+        a = pr_ant[0] if k else pr_ant[1]
+        rl.append(lin("Vias especiais" if k else "Demais vias", r) + (pc(a) if a is not None else "—",))
+    S.append(tabela(["Prioridade", "OS", "Atrasos", "IPA", "Aba anterior"], rl))
     R["esp"] = [round(float(pri.loc[True, "ipa"]), 2) if True in pri.index else None,
                 round(float(pri.loc[False, "ipa"]), 2) if False in pri.index else None]
     ori = agrega(base, "Origem").sort_values("ipa", ascending=False)
-    rl += [lin("Origem", k, r) for k, r in ori.iterrows()]
+    S.append(tabela(["Origem", "OS", "Atrasos", "IPA"], [lin(k, r) for k, r in ori.iterrows()]))
     exe = agrega(base, "exec")
-    rl += [lin("Execução", "Executadas" if k else "Não executadas", r) for k, r in exe.sort_index(ascending=False).iterrows()]
+    S.append(tabela(["Execução", "OS", "Atrasos", "IPA"],
+                    [lin("Executadas" if k else "Não executadas", r) for k, r in exe.sort_index(ascending=False).iterrows()]))
     zon = agrega(base[base["Área"].astype(str).str.upper().str.startswith("ZONA")], "Área").sort_values("atrasos", ascending=False)
-    rl += [lin("Zona", str(k).title(), r) for k, r in zon.iterrows()]
-    S.append(tabela(["Recorte", "Grupo", "OS", "Atrasos", "IPA", "Aba anterior"], rl))
+    S.append(tabela(["Zona", "OS", "Atrasos", "IPA"], [lin(str(k).title(), r) for k, r in zon.iterrows()]))
 
     # ---------- CAUSA RAIZ ----------
     S.append("## Causa raiz dos atrasos: fila x campo")
