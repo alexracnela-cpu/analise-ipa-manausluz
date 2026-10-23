@@ -68,7 +68,15 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .aba.ativa{background:var(--th);border-color:var(--navy);color:#fff}
 .aba .novo{font-size:10px;font-weight:700;background:#1d5fc2;color:#fff;border-radius:6px;padding:1px 5px;margin-left:6px}
 .aba.ativa .novo{background:#fff;color:#0a3366}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;position:relative}
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;position:relative}
+@media (max-width:1240px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.kpi.aberta{border-top-color:var(--warn);background:linear-gradient(180deg,color-mix(in srgb,var(--warn) 10%,var(--card)),var(--card))}
+.kpi.aberta .v{color:var(--warn)}
+.kpi.vencida{border-top-color:var(--bad);background:linear-gradient(180deg,color-mix(in srgb,var(--bad) 10%,var(--card)),var(--card))}
+.kpi.vencida .v{color:var(--bad)}
+.kpi .selo{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;font-size:10px;letter-spacing:.04em;vertical-align:1px;
+  color:#fff;background:var(--muted)}
+.kpi.aberta .selo{background:var(--warn)}.kpi.vencida .selo{background:var(--bad)}
 .kpi{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:12px;padding:16px 18px;box-shadow:0 6px 18px var(--sombra)}
 .kpi .l{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;font-weight:600}
 .kpi .v{font-size:30px;font-weight:700;line-height:1.2;margin-top:4px;font-variant-numeric:tabular-nums;color:var(--navy)}
@@ -314,6 +322,17 @@ async function dado(arq, tipo){
   }
   throw new Error('não carregou ' + arq);
 }
+function cardsAbertas(x){
+  const tem = x.abertas!=null;
+  const n = v => tem && v!=null ? fmt(v) : '—';
+  const semEq = !tem ? 'sem dados de OS em aberto nesta aba'
+    : `de ${fmt(x.abertas)} em aberto${x.venc_sem_equipe ? ` · <strong>${fmt(x.venc_sem_equipe)} já vencidas</strong>` : ' · nenhuma vencida'}`;
+  const venc = !tem ? 'sem dados de OS em aberto nesta aba'
+    : `de ${fmt(x.abertas)} em aberto${x.venc_esp ? ` · ${fmt(x.venc_esp)} de via especial` : ''}`;
+  return `
+      <div class="kpi aberta"><div class="l">Sem equipe<span class="selo">ABERTA</span></div><div class="v">${n(x.sem_equipe)}</div><div class="s">${semEq}</div></div>
+      <div class="kpi vencida"><div class="l">Em atraso<span class="selo">ABERTA</span></div><div class="v">${n(x.vencidas)}</div><div class="s">${venc}</div></div>`;
+}
 async function abrir(id){
   try{
     const [d, md] = await Promise.all([
@@ -331,7 +350,8 @@ async function abrir(id){
       <div class="kpi ipa"><div class="l">IPA</div><div class="v n${faixa(ipa)}">${fmt(ipa,2)}%</div><div class="s">nota ${d.nota}${dtxt}</div></div>
       <div class="kpi"><div class="l">OS fechadas</div><div class="v">${fmt(d.os_fechadas)}</div><div class="s">exceto origem Obra</div></div>
       <div class="kpi"><div class="l">No prazo</div><div class="v">${fmt(d.no_prazo)}</div><div class="s">${fmt(ipa,2)}% do total</div></div>
-      <div class="kpi"><div class="l">Fora do prazo</div><div class="v">${fmt(d.fora_do_prazo)}</div><div class="s">atrasos no mês</div></div>`;
+      <div class="kpi"><div class="l">Fora do prazo</div><div class="v">${fmt(d.fora_do_prazo)}</div><div class="s">atrasos no mês</div></div>
+      ${cardsAbertas(d.extra||{})}`;
     ULTIMO = d;
     document.getElementById('grafico').innerHTML = grafico(d);
     ligarDica(d);
