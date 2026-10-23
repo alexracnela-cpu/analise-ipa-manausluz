@@ -60,7 +60,16 @@ header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .versoes h2{margin:0 0 8px;padding:12px 16px;background:var(--th);color:#fff;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
 .versoes h2 svg{width:17px;height:17px;flex:none}
 .versoes h2 .cont{margin-left:auto;font-size:11px;font-weight:700;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:1px 8px}
-.versoes .abas{padding:0 10px 12px}
+.versoes{display:flex;flex-direction:column}
+.versoes .abas{padding:0 10px 12px;overflow-y:auto;min-height:0}
+.grupo>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;
+  font:700 11px Inter,system-ui,sans-serif;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);user-select:none}
+.grupo>summary::-webkit-details-marker{display:none}
+.grupo>summary::before{content:'';width:5px;height:5px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s;flex:none}
+.grupo[open]>summary::before{transform:rotate(45deg)}
+.grupo>summary:hover{background:var(--hover);color:var(--titulo)}
+.grupo>summary .n{margin-left:auto;font-weight:600;letter-spacing:0}
+.grupo .itens{display:flex;flex-direction:column;gap:4px;padding-bottom:4px}
 .abas{display:flex;flex-direction:column;gap:4px}
 .aba{border:1px solid transparent;background:transparent;color:var(--titulo);font:600 13px Inter,system-ui,sans-serif;
   padding:8px 10px;border-radius:8px;cursor:pointer;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:6px}
@@ -154,7 +163,8 @@ footer a,.card a{color:var(--accent)}
   .logo{width:auto;height:96px}
   .versoes{position:static;max-height:none}
   .versoes .abas{padding:0 12px 12px}
-  .abas{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:4px}
+  .abas{gap:2px}
+  .grupo .itens{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:6px}
   .aba{flex:none;border-color:var(--line);border-radius:999px;padding:7px 12px;background:var(--aba)}}
 @media (max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}.kpi .v{font-size:24px}.card{padding:16px}
   header .wrap{display:flex;flex-direction:column;align-items:flex-start;gap:12px}.logo{height:64px}body{background-attachment:scroll}
@@ -342,7 +352,7 @@ async function abrir(id){
       dado(`historico/${id}.md`, 'text')
     ]);
     document.querySelectorAll('.aba').forEach(b=>b.classList.toggle('ativa', b.dataset.id===id));
-    const at=document.querySelector('.aba.ativa'); if(at) at.scrollIntoView({block:'nearest',inline:'nearest'});
+    const at=document.querySelector('.aba.ativa'); if(at){ const g=at.closest('details'); if(g) g.open=true; } if(at) at.scrollIntoView({block:'nearest',inline:'nearest'});
     document.getElementById('titulo').textContent = d.titulo;
     document.getElementById('sub').textContent = `Fechamentos de ${d.periodo} · atualizado em ${d.atualizado_em}`;
     const ipa = 100*d.no_prazo/d.os_fechadas;
@@ -402,8 +412,15 @@ async function carregar(){
   try{
     INDICE = await dado('historico/indice.json', 'json');
     document.getElementById('cont').textContent = INDICE.length;
-    document.getElementById('abas').innerHTML = INDICE.map((it,i)=>
-      `<button class="aba" data-id="${it.id}">${it.rotulo}${i===0?'<span class="novo">ATUAL</span>':''}</button>`).join('');
+    const MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+    const grupos=[];
+    INDICE.forEach((it,i)=>{ const k=it.id.slice(0,7); let g=grupos[grupos.length-1];
+      if(!g||g.k!==k){ g={k,itens:[]}; grupos.push(g); } g.itens.push(
+      `<button class="aba" data-id="${it.id}">${it.rotulo}${i===0?'<span class="novo">ATUAL</span>':''}</button>`); });
+    document.getElementById('abas').innerHTML = grupos.map((g,gi)=>{
+      const [a,m]=g.k.split('-'); const nome=(MESES[+m-1]||g.k)+'/'+a;
+      return `<details class="grupo"${gi===0?' open':''}><summary>${nome}<span class="n">${g.itens.length}</span></summary><div class="itens">${g.itens.join('')}</div></details>`;
+    }).join('');
     document.querySelectorAll('.aba').forEach(b=>b.addEventListener('click',()=>{abrir(b.dataset.id); window.scrollTo({top:0,behavior:'smooth'});}));
     const h = location.hash.slice(1);
     abrir(INDICE.some(x=>x.id===h) ? h : INDICE[0].id);
