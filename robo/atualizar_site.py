@@ -496,25 +496,23 @@ def analisar(df, mat, abertas, agora, ant):
     def it(nome, r):
         return f"{nome} {pc(r.ipa)} ({br(int(r.atrasos))} atrasos em {br(int(r.os))})"
 
-    bl = []
-    pr = [it("vias especiais" if k else "demais vias", r) for k, r in pri.sort_index(ascending=False).iterrows()]
-    if "esp" in ant_ex:
-        pr_ant = ant_ex["esp"]
-        bl.append(f"- **Prioridade:** {'; '.join(pr)}. Na aba anterior: {pc(pr_ant[0])} e {pc(pr_ant[1])}.")
-    else:
-        bl.append(f"- **Prioridade:** {'; '.join(pr)}.")
+    # recortes por prioridade, origem, execução e zona: uma tabela só
+    def lin(dim, nome, r, ant_v=None):
+        return (dim, nome, br(int(r.os)), br(int(r.atrasos)), pc(r.ipa), pc(ant_v) if ant_v is not None else "—")
+
+    rl = []
+    pr_ant = ant_ex.get("esp") or [None, None]
+    for k, r in pri.sort_index(ascending=False).iterrows():
+        rl.append(lin("Prioridade", "Vias especiais" if k else "Demais vias", r, pr_ant[0] if k else pr_ant[1]))
     R["esp"] = [round(float(pri.loc[True, "ipa"]), 2) if True in pri.index else None,
                 round(float(pri.loc[False, "ipa"]), 2) if False in pri.index else None]
     ori = agrega(base, "Origem").sort_values("ipa", ascending=False)
-    bl.append("- **Origem:** " + "; ".join(
-        f"{k} {pc(r.ipa)}" + (f" ({br(int(r.atrasos))} atrasos em {br(int(r.os))})" if r.ipa < 95 else f" ({br(int(r.os))})")
-        for k, r in ori.iterrows()) + ".")
+    rl += [lin("Origem", k, r) for k, r in ori.iterrows()]
     exe = agrega(base, "exec")
-    bl.append("- **Executada x não executada:** " + "; ".join(
-        it("executadas" if k else "não executadas", r) for k, r in exe.sort_index(ascending=False).iterrows()) + ".")
+    rl += [lin("Execução", "Executadas" if k else "Não executadas", r) for k, r in exe.sort_index(ascending=False).iterrows()]
     zon = agrega(base[base["Área"].astype(str).str.upper().str.startswith("ZONA")], "Área").sort_values("atrasos", ascending=False)
-    bl.append("- **Zonas:** " + "; ".join(it(str(k).title(), r) for k, r in zon.iterrows()) + ".")
-    S.append("\n".join(bl))
+    rl += [lin("Zona", str(k).title(), r) for k, r in zon.iterrows()]
+    S.append(tabela(["Recorte", "Grupo", "OS", "Atrasos", "IPA", "Aba anterior"], rl))
 
     # ---------- CAUSA RAIZ ----------
     S.append("## Causa raiz dos atrasos: fila x campo")
