@@ -705,16 +705,24 @@ def tabela_meta_turnos(base, u10, dias_dec, dias10, agora, saldo, dias_mes):
     perm = {k: int(cota[k]) for k in nomes}
     for k in sorted(nomes, key=lambda k: cota[k] - perm[k], reverse=True)[: saldo - sum(perm.values())]:
         perm[k] += 1
+    def soma_fechada(vals, casas):
+        """Arredonda as partes pelo maior resto para que a soma exibida bata com o total exibido."""
+        f = 10 ** casas
+        alvo = round(sum(vals) * f)
+        base_i = [math.floor(v * f) for v in vals]
+        for i in sorted(range(len(vals)), key=lambda i: vals[i] * f - base_i[i], reverse=True)[: max(0, alvo - sum(base_i))]:
+            base_i[i] += 1
+        return [b / f for b in base_i], alvo / f
+
+    vols, vol_t = soma_fechada([n[k] / dias_dec for k in nomes], 0)
+    atr10s, atr_t = soma_fechada([int((grp10.eq(k) & ~u10["prazo"]).sum()) / dias10 for k in nomes], 1)
     linhas = []
-    for k in nomes:
-        vol = n[k] / dias_dec
-        mn = max(0, math.ceil(vol - perm[k] / dias_rest - 1e-9))
-        atr10 = int((grp10.eq(k) & ~u10["prazo"]).sum()) / dias10
+    for k, vol, atr10 in zip(nomes, vols, atr10s):
+        mn = max(0, math.ceil(n[k] / dias_dec - perm[k] / dias_rest - 1e-9))
         rot = k + (" (por dia)" if k == "Apoio e obra" else "")
         linhas.append((rot, br(vol), br(mn), br(perm[k]), br(atr10, 1)))
-    vol_t = len(base) / dias_dec
-    linhas.append(("**Total por dia**", f"**{br(vol_t)}**", f"**{br(max(0, math.ceil(vol_t - saldo / dias_rest - 1e-9)))}**",
-                   f"**{br(saldo)}**", f"**{br((len(u10) - int(u10['prazo'].sum())) / dias10, 1)}**"))
+    linhas.append(("**Total por dia**", f"**{br(vol_t)}**", f"**{br(max(0, math.ceil(len(base) / dias_dec - saldo / dias_rest - 1e-9)))}**",
+                   f"**{br(saldo)}**", f"**{br(atr_t, 1)}**"))
     return tabela(["Para fechar o mês em 95,00%", "OS por turno (média do mês)", "Mínimo no prazo por turno",
                    f"Atrasos permitidos até {dias_mes}/{agora:%m}", "Atrasos por turno hoje (últimos 10 dias)"], linhas)
 
