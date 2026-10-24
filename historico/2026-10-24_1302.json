@@ -1,6 +1,6 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "24/10/2026 12h09",
+ "atualizado_em": "24/10/2026 13h02",
  "periodo": "01/10 a 24/10/2026",
  "mes": "10/2026",
  "os_fechadas": 4575,
@@ -135,7 +135,7 @@
  ],
  "auto": true,
  "extra": {
-  "ritmo": 3.1,
+  "ritmo": 3.0,
   "fila_demais": 6.9,
   "sem_exec": 19.0,
   "equipes": {
