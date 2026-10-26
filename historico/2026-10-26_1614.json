@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "26/10/2026 15h02",
+ "atualizado_em": "26/10/2026 16h14",
  "periodo": "01/10 a 26/10/2026",
  "mes": "10/2026",
- "os_fechadas": 4774,
- "no_prazo": 4527,
+ "os_fechadas": 4809,
+ "no_prazo": 4562,
  "fora_do_prazo": 247,
- "ipa": 94.83,
+ "ipa": 94.86,
  "nota": "0,8",
  "ipa_anterior": 94.74,
  "atualizado_anterior": "25/10/2026 23h03",
@@ -139,7 +139,7 @@
   },
   {
    "dia": "26",
-   "os": 78,
+   "os": 113,
    "atrasos": 0
   }
  ],
@@ -147,7 +147,7 @@
  "extra": {
   "ritmo": 2.1,
   "fila_demais": 7.1,
-  "sem_exec": 18.9,
+  "sem_exec": 18.8,
   "equipes": {
    "ADA AMORIM": [
     9,
@@ -166,7 +166,7 @@
     0
    ],
    "Equipe apoio 5": [
-    148,
+    149,
     23
    ],
    "JOÃO PEDRO": [
@@ -214,7 +214,7 @@
     17
    ],
    "TURNO 2-1": [
-    225,
+    247,
     29
    ],
    "TURNO 2-2": [
@@ -246,7 +246,7 @@
     9
    ],
    "TURNO 3-5": [
-    299,
+    311,
     3
    ],
    "TURNO 3-6": [
@@ -254,14 +254,14 @@
     7
    ]
   },
-  "abertas": 136,
+  "abertas": 108,
   "vencidas": 40,
   "venc_esp": 4,
-  "sem_equipe": 21,
+  "sem_equipe": 11,
   "venc_sem_equipe": 0,
   "esp": [
-   89.88,
-   95.85
+   89.89,
+   95.89
   ],
   "erros": 34.2
  }
