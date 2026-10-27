@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "27/10/2026 13h02",
+ "atualizado_em": "27/10/2026 14h03",
  "periodo": "01/10 a 27/10/2026",
  "mes": "10/2026",
- "os_fechadas": 4966,
- "no_prazo": 4718,
+ "os_fechadas": 4994,
+ "no_prazo": 4746,
  "fora_do_prazo": 248,
- "ipa": 95.01,
+ "ipa": 95.03,
  "nota": "1,0",
  "ipa_anterior": 94.89,
  "atualizado_anterior": "26/10/2026 23h02",
@@ -144,7 +144,7 @@
   },
   {
    "dia": "27",
-   "os": 105,
+   "os": 133,
    "atrasos": 0
   }
  ],
@@ -159,7 +159,7 @@
     0
    ],
    "BRUNO PIMENTEL DE LIMA": [
-    10,
+    14,
     1
    ],
    "Equipe Apoio 1": [
@@ -171,7 +171,7 @@
     0
    ],
    "Equipe apoio 5": [
-    151,
+    156,
     23
    ],
    "JOÃO PEDRO": [
@@ -203,15 +203,15 @@
     0
    ],
    "TURNO 1-1": [
-    397,
+    399,
     12
    ],
    "TURNO 1-2": [
-    354,
+    356,
     14
    ],
    "TURNO 1-3": [
-    418,
+    430,
     30
    ],
    "TURNO 1-4": [
@@ -223,7 +223,7 @@
     30
    ],
    "TURNO 2-2": [
-    321,
+    322,
     11
    ],
    "TURNO 2-3": [
@@ -235,7 +235,7 @@
     1
    ],
    "TURNO 2-5": [
-    305,
+    306,
     18
    ],
    "TURNO 3-1": [
@@ -255,18 +255,18 @@
     3
    ],
    "TURNO 3-6": [
-    460,
+    461,
     7
    ]
   },
-  "abertas": 123,
+  "abertas": 128,
   "vencidas": 41,
   "venc_esp": 4,
-  "sem_equipe": 51,
+  "sem_equipe": 77,
   "venc_sem_equipe": 1,
   "esp": [
-   89.99,
-   96.03
+   90.01,
+   96.05
   ],
   "erros": 34.3
  }
