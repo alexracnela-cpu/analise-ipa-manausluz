@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "28/10/2026 13h03",
+ "atualizado_em": "28/10/2026 14h03",
  "periodo": "01/10 a 28/10/2026",
  "mes": "10/2026",
- "os_fechadas": 5237,
- "no_prazo": 4987,
- "fora_do_prazo": 250,
- "ipa": 95.23,
+ "os_fechadas": 5242,
+ "no_prazo": 4990,
+ "fora_do_prazo": 252,
+ "ipa": 95.19,
  "nota": "1,0",
  "ipa_anterior": 95.14,
  "atualizado_anterior": "27/10/2026 23h02",
@@ -149,13 +149,13 @@
   },
   {
    "dia": "28",
-   "os": 116,
-   "atrasos": 1
+   "os": 121,
+   "atrasos": 3
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 1.8,
+  "ritmo": 2.0,
   "fila_demais": 6.7,
   "sem_exec": 18.8,
   "equipes": {
@@ -164,7 +164,7 @@
     0
    ],
    "BRUNO PIMENTEL DE LIMA": [
-    42,
+    43,
     1
    ],
    "Equipe Apoio 1": [
@@ -176,8 +176,8 @@
     0
    ],
    "Equipe apoio 5": [
-    170,
-    24
+    172,
+    26
    ],
    "JOÃO PEDRO": [
     34,
@@ -192,7 +192,7 @@
     0
    ],
    "OBRAS LEVES - 05 - MOT. EDUARDO": [
-    9,
+    11,
     0
    ],
    "OBRAS PESADAS  - 03 - MOT. TEÓFILO": [
@@ -264,14 +264,14 @@
     7
    ]
   },
-  "abertas": 177,
-  "vencidas": 39,
+  "abertas": 191,
+  "vencidas": 37,
   "venc_esp": 4,
-  "sem_equipe": 81,
+  "sem_equipe": 99,
   "venc_sem_equipe": 0,
   "esp": [
    90.88,
-   96.15
+   96.11
   ],
   "erros": 34.1
  }
