@@ -56,14 +56,18 @@ header .wrap{padding:0 16px;display:grid;grid-template-columns:230px minmax(0,1f
 header h1{margin:0 0 4px;font-size:clamp(20px,3.2vw,28px);font-weight:700;letter-spacing:-.01em;color:var(--titulo)}
 header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
 .marca{display:inline-flex;align-items:center;gap:14px;margin-bottom:6px;text-align:left}
-.farol{height:72px;width:auto;flex:none}
+.logo-box{display:flex;justify-content:center;align-items:center}
+.logo.farol{width:auto;height:126px;filter:none}
 .farol.escuro{display:none}
+:root[data-tema="escuro"] .logo.farol{filter:none}
 :root[data-tema="escuro"] .farol.claro{display:none}
 :root[data-tema="escuro"] .farol.escuro{display:block}
+.ml-mini{height:48px;width:auto;vertical-align:middle;margin-left:8px;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
+:root[data-tema="escuro"] .ml-mini{filter:brightness(0) invert(1)}
 .marca-txt{display:flex;flex-direction:column;min-width:0}
 header .marca h1{margin:0;font-size:clamp(26px,3.6vw,34px);font-weight:700;letter-spacing:-.01em;line-height:1.1}
-.marca-sub{color:var(--muted);font-size:13px;font-weight:600;letter-spacing:.02em}
-@media (max-width:720px){.farol{height:52px}}
+.marca-sub{color:var(--muted);font-size:13px;font-weight:600;letter-spacing:.02em;display:flex;align-items:center;flex-wrap:wrap}
+
 .layout{max-width:1320px;margin:-60px auto 0;padding:0 16px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:16px;align-items:start;position:relative}
 .versoes{position:sticky;top:16px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px 10px;
   box-shadow:0 6px 18px var(--sombra);max-height:calc(100vh - 32px);overflow-y:auto}
@@ -172,26 +176,28 @@ footer a,.card a{color:var(--accent)}
   header .wrap{grid-template-columns:auto minmax(0,1fr) auto;column-gap:20px}
   .titulos{text-align:left;padding:0}
   .logo{width:auto;height:96px}
+  .logo.farol{height:96px}
   .versoes{position:static;max-height:none}
   .versoes .abas{padding:0 12px 12px}
   .abas{gap:2px}
   .grupo .itens{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:6px}
   .aba{flex:none;border-color:var(--line);border-radius:999px;padding:7px 12px;background:var(--aba)}}
 @media (max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}.kpi .v{font-size:24px}.card{padding:16px}
-  header .wrap{display:flex;flex-direction:column;align-items:flex-start;gap:12px}.logo{height:64px}body{background-attachment:scroll}
+  header .wrap{display:flex;flex-direction:column;align-items:flex-start;gap:12px}.logo,.logo.farol{height:72px}.logo-box{justify-content:flex-start}body{background-attachment:scroll}
   .tema{position:absolute;top:20px;right:16px}}
 </style>
 </head>
 <body>
 <header><div class="wrap">
-  <img class="logo" src="img/logo-manaus-luz.png" alt="Manaus Luz">
+  <div class="logo-box">
+    <img class="logo farol claro" src="img/farol-ipa.png" alt="Farol IPA">
+    <img class="logo farol escuro" src="img/farol-ipa-escuro.png" alt="Farol IPA">
+  </div>
   <div class="titulos">
     <div class="marca">
-      <img class="farol claro" src="img/farol-ipa.png" alt="">
-      <img class="farol escuro" src="img/farol-ipa-escuro.png" alt="">
       <div class="marca-txt">
         <h1 id="titulo">Farol IPA</h1>
-        <span class="marca-sub">Indicador de Prazo de Atendimento · Manaus Luz</span>
+        <span class="marca-sub">Indicador de Prazo de Atendimento <img class="ml-mini" src="img/logo-manaus-luz.png" alt="Manaus Luz"></span>
       </div>
     </div>
     <p id="sub">Carregando…</p>
