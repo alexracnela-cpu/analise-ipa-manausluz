@@ -55,15 +55,14 @@ header .wrap{padding:0 16px;display:grid;grid-template-columns:230px minmax(0,1f
 .logo{width:100%;height:auto;display:block;flex:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
 header h1{margin:0 0 4px;font-size:clamp(20px,3.2vw,28px);font-weight:700;letter-spacing:-.01em;color:var(--titulo)}
 header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
-.marca{display:inline-flex;align-items:center;gap:18px;margin-bottom:8px;text-align:left}
-.marca-div{align-self:stretch;width:1px;background:var(--line);margin:4px 0}
+.marca{display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:8px;text-align:center}
 .logo-box{display:flex;justify-content:center;align-items:center}
 .logo.farol{width:auto;height:126px;filter:none}
 .farol.escuro{display:none}
 :root[data-tema="escuro"] .logo.farol{filter:none}
 :root[data-tema="escuro"] .farol.claro{display:none}
 :root[data-tema="escuro"] .farol.escuro{display:block}
-.ml-mini{height:54px;width:auto;flex:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
+.ml-mini{height:46px;width:auto;flex:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
 :root[data-tema="escuro"] .ml-mini{filter:brightness(0) invert(1)}
 .marca-txt{display:flex;flex-direction:column;min-width:0}
 header .marca h1{margin:0;font-size:clamp(26px,3.6vw,34px);font-weight:700;letter-spacing:-.01em;line-height:1.1}
@@ -176,6 +175,7 @@ footer a,.card a{color:var(--accent)}
 @media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}
   header .wrap{grid-template-columns:auto minmax(0,1fr) auto;column-gap:20px}
   .titulos{text-align:left;padding:0}
+  .marca{align-items:flex-start;text-align:left}
   .logo{width:auto;height:96px}
   .logo.farol{height:96px}
   .versoes{position:static;max-height:none}
@@ -184,7 +184,7 @@ footer a,.card a{color:var(--accent)}
   .grupo .itens{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:6px}
   .aba{flex:none;border-color:var(--line);border-radius:999px;padding:7px 12px;background:var(--aba)}}
 @media (max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}.kpi .v{font-size:24px}.card{padding:16px}
-  header .wrap{display:flex;flex-direction:column;align-items:flex-start;gap:12px}.logo,.logo.farol{height:72px}.ml-mini{height:42px}.marca{gap:12px}.logo-box{justify-content:flex-start}body{background-attachment:scroll}
+  header .wrap{display:flex;flex-direction:column;align-items:flex-start;gap:12px}.logo,.logo.farol{height:72px}.ml-mini{height:38px}.marca{gap:6px}.logo-box{justify-content:flex-start}body{background-attachment:scroll}
   .tema{position:absolute;top:20px;right:16px}}
 </style>
 </head>
@@ -196,12 +196,11 @@ footer a,.card a{color:var(--accent)}
   </div>
   <div class="titulos">
     <div class="marca">
+      <img class="ml-mini" src="img/logo-manaus-luz.png" alt="Manaus Luz">
       <div class="marca-txt">
         <h1 id="titulo">Farol IPA</h1>
         <span class="marca-sub">Indicador de Prazo de Atendimento</span>
       </div>
-      <span class="marca-div" aria-hidden="true"></span>
-      <img class="ml-mini" src="img/logo-manaus-luz.png" alt="Manaus Luz">
     </div>
     <p id="sub">Carregando…</p>
   </div>
