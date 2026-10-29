@@ -3,11 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Análise IPA – Manaus Luz</title>
+<title>Farol IPA – Manaus Luz</title>
 <meta name="robots" content="noindex">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="icon" href="img/logo-manaus-luz.png">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 <script>
 // aplica o tema antes de desenhar a página (evita piscar claro→escuro)
 (function(){var t=null;try{t=localStorage.getItem('tema')}catch(e){}
@@ -53,6 +55,15 @@ header .wrap{padding:0 16px;display:grid;grid-template-columns:230px minmax(0,1f
 .logo{width:100%;height:auto;display:block;flex:none;filter:drop-shadow(0 1px 0 rgba(255,255,255,.8))}
 header h1{margin:0 0 4px;font-size:clamp(20px,3.2vw,28px);font-weight:700;letter-spacing:-.01em;color:var(--titulo)}
 header p{margin:0;color:var(--muted);font-size:14px;font-weight:500}
+.marca{display:inline-flex;align-items:center;gap:14px;margin-bottom:6px;text-align:left}
+.farol{height:72px;width:auto;flex:none}
+.farol.escuro{display:none}
+:root[data-tema="escuro"] .farol.claro{display:none}
+:root[data-tema="escuro"] .farol.escuro{display:block}
+.marca-txt{display:flex;flex-direction:column;min-width:0}
+header .marca h1{margin:0;font-size:clamp(26px,3.6vw,34px);font-weight:700;letter-spacing:-.01em;line-height:1.1}
+.marca-sub{color:var(--muted);font-size:13px;font-weight:600;letter-spacing:.02em}
+@media (max-width:720px){.farol{height:52px}}
 .layout{max-width:1320px;margin:-60px auto 0;padding:0 16px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:16px;align-items:start;position:relative}
 .versoes{position:sticky;top:16px;background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:14px 10px;
   box-shadow:0 6px 18px var(--sombra);max-height:calc(100vh - 32px);overflow-y:auto}
@@ -175,7 +186,14 @@ footer a,.card a{color:var(--accent)}
 <header><div class="wrap">
   <img class="logo" src="img/logo-manaus-luz.png" alt="Manaus Luz">
   <div class="titulos">
-    <h1 id="titulo">Análise do Indicador de Prazo (Manaus Luz)</h1>
+    <div class="marca">
+      <img class="farol claro" src="img/farol-ipa.png" alt="">
+      <img class="farol escuro" src="img/farol-ipa-escuro.png" alt="">
+      <div class="marca-txt">
+        <h1 id="titulo">Farol IPA</h1>
+        <span class="marca-sub">Indicador de Prazo de Atendimento · Manaus Luz</span>
+      </div>
+    </div>
     <p id="sub">Carregando…</p>
   </div>
   <button class="tema" id="tema" type="button" aria-label="Alternar modo escuro"></button>
@@ -353,7 +371,6 @@ async function abrir(id){
     ]);
     document.querySelectorAll('.aba').forEach(b=>b.classList.toggle('ativa', b.dataset.id===id));
     const at=document.querySelector('.aba.ativa'); if(at){ const g=at.closest('details'); if(g) g.open=true; } if(at) at.scrollIntoView({block:'nearest',inline:'nearest'});
-    document.getElementById('titulo').textContent = d.titulo;
     document.getElementById('sub').textContent = `Fechamentos de ${d.periodo} · atualizado em ${d.atualizado_em}`;
     const ipa = 100*d.no_prazo/d.os_fechadas;
     const delta = d.ipa_anterior!=null ? ipa - d.ipa_anterior : null;
