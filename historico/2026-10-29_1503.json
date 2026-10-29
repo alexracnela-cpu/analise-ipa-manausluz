@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "29/10/2026 14h02",
+ "atualizado_em": "29/10/2026 15h03",
  "periodo": "01/10 a 29/10/2026",
  "mes": "10/2026",
- "os_fechadas": 5373,
- "no_prazo": 5117,
+ "os_fechadas": 5425,
+ "no_prazo": 5169,
  "fora_do_prazo": 256,
- "ipa": 95.24,
+ "ipa": 95.28,
  "nota": "1,0",
  "ipa_anterior": 95.25,
  "atualizado_anterior": "28/10/2026 23h03",
@@ -154,14 +154,14 @@
   },
   {
    "dia": "29",
-   "os": 41,
+   "os": 93,
    "atrasos": 3
   }
  ],
  "auto": true,
  "extra": {
   "ritmo": 2.4,
-  "fila_demais": 6.8,
+  "fila_demais": 7.1,
   "sem_exec": 18.7,
   "equipes": {
    "ADA AMORIM": [
@@ -169,11 +169,11 @@
     0
    ],
    "BRUNO PIMENTEL DE LIMA": [
-    43,
+    48,
     1
    ],
    "Equipe Apoio 1": [
-    20,
+    21,
     0
    ],
    "Equipe apoio 2 - OBRA": [
@@ -213,15 +213,15 @@
     0
    ],
    "TURNO 1-1": [
-    419,
+    429,
     12
    ],
    "TURNO 1-2": [
-    386,
+    406,
     14
    ],
    "TURNO 1-3": [
-    456,
+    468,
     30
    ],
    "TURNO 1-4": [
@@ -261,22 +261,22 @@
     9
    ],
    "TURNO 3-5": [
-    408,
+    410,
     3
    ],
    "TURNO 3-6": [
-    469,
+    471,
     7
    ]
   },
-  "abertas": 194,
-  "vencidas": 36,
+  "abertas": 155,
+  "vencidas": 37,
   "venc_esp": 4,
-  "sem_equipe": 66,
+  "sem_equipe": 31,
   "venc_sem_equipe": 0,
   "esp": [
-   91.12,
-   96.14
+   91.13,
+   96.18
   ],
   "erros": 33.9
  }
