@@ -1,0 +1,283 @@
+{
+ "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
+ "atualizado_em": "30/10/2026 00h02",
+ "periodo": "01/10 a 30/10/2026",
+ "mes": "10/2026",
+ "os_fechadas": 5550,
+ "no_prazo": 5294,
+ "fora_do_prazo": 256,
+ "ipa": 95.39,
+ "nota": "1,0",
+ "ipa_anterior": 95.39,
+ "atualizado_anterior": "29/10/2026 23h02",
+ "doc": "https://claude.ai/code/artifact/7456a4e2-628b-4eff-b59f-681bb4a9cf3d",
+ "dias": [
+  {
+   "dia": "01",
+   "os": 265,
+   "atrasos": 45
+  },
+  {
+   "dia": "02",
+   "os": 122,
+   "atrasos": 12
+  },
+  {
+   "dia": "03",
+   "os": 181,
+   "atrasos": 9
+  },
+  {
+   "dia": "04",
+   "os": 57,
+   "atrasos": 1
+  },
+  {
+   "dia": "05",
+   "os": 139,
+   "atrasos": 17
+  },
+  {
+   "dia": "06",
+   "os": 282,
+   "atrasos": 17
+  },
+  {
+   "dia": "07",
+   "os": 231,
+   "atrasos": 5
+  },
+  {
+   "dia": "08",
+   "os": 221,
+   "atrasos": 31
+  },
+  {
+   "dia": "09",
+   "os": 352,
+   "atrasos": 26
+  },
+  {
+   "dia": "10",
+   "os": 154,
+   "atrasos": 17
+  },
+  {
+   "dia": "11",
+   "os": 69,
+   "atrasos": 8
+  },
+  {
+   "dia": "12",
+   "os": 122,
+   "atrasos": 22
+  },
+  {
+   "dia": "13",
+   "os": 120,
+   "atrasos": 3
+  },
+  {
+   "dia": "14",
+   "os": 361,
+   "atrasos": 4
+  },
+  {
+   "dia": "15",
+   "os": 200,
+   "atrasos": 5
+  },
+  {
+   "dia": "16",
+   "os": 211,
+   "atrasos": 5
+  },
+  {
+   "dia": "17",
+   "os": 165,
+   "atrasos": 2
+  },
+  {
+   "dia": "18",
+   "os": 51,
+   "atrasos": 4
+  },
+  {
+   "dia": "19",
+   "os": 178,
+   "atrasos": 0
+  },
+  {
+   "dia": "20",
+   "os": 221,
+   "atrasos": 2
+  },
+  {
+   "dia": "21",
+   "os": 249,
+   "atrasos": 1
+  },
+  {
+   "dia": "22",
+   "os": 229,
+   "atrasos": 0
+  },
+  {
+   "dia": "23",
+   "os": 255,
+   "atrasos": 10
+  },
+  {
+   "dia": "24",
+   "os": 184,
+   "atrasos": 0
+  },
+  {
+   "dia": "25",
+   "os": 77,
+   "atrasos": 1
+  },
+  {
+   "dia": "26",
+   "os": 165,
+   "atrasos": 1
+  },
+  {
+   "dia": "27",
+   "os": 260,
+   "atrasos": 1
+  },
+  {
+   "dia": "28",
+   "os": 211,
+   "atrasos": 4
+  },
+  {
+   "dia": "29",
+   "os": 218,
+   "atrasos": 3
+  }
+ ],
+ "auto": true,
+ "extra": {
+  "ritmo": 2.3,
+  "fila_demais": 7.2,
+  "sem_exec": 18.6,
+  "equipes": {
+   "ADA AMORIM": [
+    10,
+    0
+   ],
+   "BRUNO PIMENTEL DE LIMA": [
+    52,
+    1
+   ],
+   "Equipe Apoio 1": [
+    21,
+    0
+   ],
+   "Equipe apoio 2 - OBRA": [
+    13,
+    0
+   ],
+   "Equipe apoio 5": [
+    180,
+    27
+   ],
+   "JOÃO PEDRO": [
+    35,
+    12
+   ],
+   "OBRAS LEVES - 01 - MOT. MATHEUS": [
+    7,
+    0
+   ],
+   "OBRAS LEVES - 03 - MOT. LEANDRO": [
+    109,
+    0
+   ],
+   "OBRAS LEVES - 05 - MOT. EDUARDO": [
+    22,
+    0
+   ],
+   "OBRAS PESADAS  - 03 - MOT. TEÓFILO": [
+    2,
+    0
+   ],
+   "OBRAS PESADAS - 01 - MOT. MARCELO": [
+    13,
+    0
+   ],
+   "OBRAS PESADAS - 04 - MOT. FABRICIO": [
+    1,
+    0
+   ],
+   "TURNO 1-1": [
+    434,
+    12
+   ],
+   "TURNO 1-2": [
+    408,
+    14
+   ],
+   "TURNO 1-3": [
+    472,
+    30
+   ],
+   "TURNO 1-4": [
+    40,
+    17
+   ],
+   "TURNO 2-1": [
+    295,
+    31
+   ],
+   "TURNO 2-2": [
+    347,
+    12
+   ],
+   "TURNO 2-3": [
+    325,
+    29
+   ],
+   "TURNO 2-4": [
+    452,
+    1
+   ],
+   "TURNO 2-5": [
+    348,
+    18
+   ],
+   "TURNO 3-1": [
+    571,
+    18
+   ],
+   "TURNO 3-2": [
+    422,
+    15
+   ],
+   "TURNO 3-4": [
+    71,
+    9
+   ],
+   "TURNO 3-5": [
+    422,
+    3
+   ],
+   "TURNO 3-6": [
+    478,
+    7
+   ]
+  },
+  "abertas": 151,
+  "vencidas": 39,
+  "venc_esp": 4,
+  "sem_equipe": 20,
+  "venc_sem_equipe": 1,
+  "esp": [
+   91.28,
+   96.28
+  ],
+  "erros": 34.1
+ }
+}
