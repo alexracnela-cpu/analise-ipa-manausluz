@@ -1,0 +1,51 @@
+{
+ "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
+ "atualizado_em": "01/11/2026 05h01",
+ "periodo": "01/11 a 01/11/2026",
+ "mes": "11/2026",
+ "os_fechadas": 49,
+ "no_prazo": 49,
+ "fora_do_prazo": 0,
+ "ipa": 100.0,
+ "nota": "1,0",
+ "ipa_anterior": null,
+ "atualizado_anterior": null,
+ "doc": "https://claude.ai/code/artifact/7456a4e2-628b-4eff-b59f-681bb4a9cf3d",
+ "dias": [
+  {
+   "dia": "01",
+   "os": 49,
+   "atrasos": 0
+  }
+ ],
+ "auto": true,
+ "extra": {
+  "ritmo": 0.0,
+  "fila_demais": 8.6,
+  "sem_exec": 34.7,
+  "equipes": {
+   "TURNO 3-1": [
+    15,
+    0
+   ],
+   "TURNO 3-2": [
+    17,
+    0
+   ],
+   "TURNO 3-5": [
+    17,
+    0
+   ]
+  },
+  "abertas": 110,
+  "vencidas": 42,
+  "venc_esp": 4,
+  "sem_equipe": 69,
+  "venc_sem_equipe": 1,
+  "esp": [
+   100.0,
+   100.0
+  ],
+  "erros": 4.9
+ }
+}
