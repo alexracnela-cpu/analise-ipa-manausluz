@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "02/11/2026 09h01",
+ "atualizado_em": "02/11/2026 10h01",
  "periodo": "01/11 a 02/11/2026",
  "mes": "11/2026",
- "os_fechadas": 111,
+ "os_fechadas": 113,
  "no_prazo": 93,
- "fora_do_prazo": 18,
- "ipa": 83.78,
+ "fora_do_prazo": 20,
+ "ipa": 82.3,
  "nota": "0,0",
  "ipa_anterior": 96.25,
  "atualizado_anterior": "01/11/2026 23h01",
@@ -19,15 +19,15 @@
   },
   {
    "dia": "02",
-   "os": 31,
-   "atrasos": 15
+   "os": 33,
+   "atrasos": 17
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 13.1,
+  "ritmo": 14.1,
   "fila_demais": 13.7,
-  "sem_exec": 36.0,
+  "sem_exec": 36.3,
   "equipes": {
    "Equipe apoio 5": [
     10,
@@ -50,8 +50,12 @@
     1
    ],
    "TURNO 2-1": [
-    2,
-    0
+    3,
+    1
+   ],
+   "TURNO 2-4": [
+    1,
+    1
    ],
    "TURNO 2-5": [
     16,
@@ -74,15 +78,15 @@
     1
    ]
   },
-  "abertas": 96,
-  "vencidas": 36,
-  "venc_esp": 5,
-  "sem_equipe": 52,
-  "venc_sem_equipe": 35,
+  "abertas": 97,
+  "vencidas": 34,
+  "venc_esp": 4,
+  "sem_equipe": 53,
+  "venc_sem_equipe": 33,
   "esp": [
-   92.31,
-   82.65
+   85.71,
+   81.82
   ],
-  "erros": 7.4
+  "erros": 8.0
  }
 }
