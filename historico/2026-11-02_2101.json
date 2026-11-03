@@ -1,13 +1,13 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "02/11/2026 20h01",
+ "atualizado_em": "02/11/2026 21h01",
  "periodo": "01/11 a 02/11/2026",
  "mes": "11/2026",
- "os_fechadas": 150,
- "no_prazo": 130,
- "fora_do_prazo": 20,
- "ipa": 86.67,
- "nota": "0,6",
+ "os_fechadas": 175,
+ "no_prazo": 145,
+ "fora_do_prazo": 30,
+ "ipa": 82.86,
+ "nota": "0,0",
  "ipa_anterior": 96.25,
  "atualizado_anterior": "01/11/2026 23h01",
  "doc": "https://claude.ai/code/artifact/7456a4e2-628b-4eff-b59f-681bb4a9cf3d",
@@ -19,15 +19,15 @@
   },
   {
    "dia": "02",
-   "os": 70,
-   "atrasos": 17
+   "os": 95,
+   "atrasos": 27
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 10.9,
-  "fila_demais": 19.2,
-  "sem_exec": 30.0,
+  "ritmo": 16.0,
+  "fila_demais": 15.1,
+  "sem_exec": 29.1,
   "equipes": {
    "Equipe apoio 5": [
     10,
@@ -53,13 +53,17 @@
     3,
     1
    ],
+   "TURNO 2-3": [
+    12,
+    5
+   ],
    "TURNO 2-4": [
     6,
     1
    ],
    "TURNO 2-5": [
-    16,
-    2
+    29,
+    7
    ],
    "TURNO 3-1": [
     15,
@@ -78,14 +82,14 @@
     1
    ]
   },
-  "abertas": 131,
-  "vencidas": 42,
-  "venc_esp": 6,
-  "sem_equipe": 67,
-  "venc_sem_equipe": 12,
+  "abertas": 118,
+  "vencidas": 34,
+  "venc_esp": 4,
+  "sem_equipe": 82,
+  "venc_sem_equipe": 17,
   "esp": [
-   88.89,
-   86.36
+   80.95,
+   83.12
   ],
   "erros": 15.6
  }
