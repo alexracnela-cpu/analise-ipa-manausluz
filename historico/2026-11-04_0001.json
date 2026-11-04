@@ -1,0 +1,105 @@
+{
+ "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
+ "atualizado_em": "04/11/2026 00h01",
+ "periodo": "01/11 a 04/11/2026",
+ "mes": "11/2026",
+ "os_fechadas": 288,
+ "no_prazo": 243,
+ "fora_do_prazo": 45,
+ "ipa": 84.38,
+ "nota": "0,0",
+ "ipa_anterior": 84.38,
+ "atualizado_anterior": "03/11/2026 23h01",
+ "doc": "https://claude.ai/code/artifact/7456a4e2-628b-4eff-b59f-681bb4a9cf3d",
+ "dias": [
+  {
+   "dia": "01",
+   "os": 80,
+   "atrasos": 3
+  },
+  {
+   "dia": "02",
+   "os": 121,
+   "atrasos": 30
+  },
+  {
+   "dia": "03",
+   "os": 87,
+   "atrasos": 12
+  }
+ ],
+ "auto": true,
+ "extra": {
+  "ritmo": 15.0,
+  "fila_demais": 10.1,
+  "sem_exec": 28.5,
+  "equipes": {
+   "Equipe apoio 5": [
+    11,
+    10
+   ],
+   "JOÃO PEDRO": [
+    2,
+    0
+   ],
+   "TURNO 1-1": [
+    16,
+    2
+   ],
+   "TURNO 1-2": [
+    19,
+    1
+   ],
+   "TURNO 1-3": [
+    32,
+    2
+   ],
+   "TURNO 2-1": [
+    5,
+    3
+   ],
+   "TURNO 2-2": [
+    14,
+    5
+   ],
+   "TURNO 2-3": [
+    19,
+    5
+   ],
+   "TURNO 2-4": [
+    35,
+    2
+   ],
+   "TURNO 2-5": [
+    29,
+    7
+   ],
+   "TURNO 3-1": [
+    35,
+    0
+   ],
+   "TURNO 3-2": [
+    17,
+    0
+   ],
+   "TURNO 3-5": [
+    42,
+    7
+   ],
+   "TURNO 3-6": [
+    12,
+    1
+   ]
+  },
+  "abertas": 145,
+  "vencidas": 24,
+  "venc_esp": 3,
+  "sem_equipe": 46,
+  "venc_sem_equipe": 10,
+  "esp": [
+   88.1,
+   83.74
+  ],
+  "erros": 20.7
+ }
+}
