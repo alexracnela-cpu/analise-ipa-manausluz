@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "05/11/2026 15h01",
+ "atualizado_em": "05/11/2026 16h01",
  "periodo": "01/11 a 05/11/2026",
  "mes": "11/2026",
- "os_fechadas": 593,
- "no_prazo": 531,
+ "os_fechadas": 597,
+ "no_prazo": 535,
  "fora_do_prazo": 62,
- "ipa": 89.54,
+ "ipa": 89.61,
  "nota": "0,6",
  "ipa_anterior": 86.88,
  "atualizado_anterior": "04/11/2026 23h01",
@@ -34,16 +34,20 @@
   },
   {
    "dia": "05",
-   "os": 144,
+   "os": 148,
    "atrasos": 4
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 13.4,
+  "ritmo": 13.3,
   "fila_demais": 10.4,
-  "sem_exec": 23.4,
+  "sem_exec": 24.0,
   "equipes": {
+   "BRUNO PIMENTEL DE LIMA": [
+    4,
+    0
+   ],
    "Equipe apoio 5": [
     36,
     13
@@ -124,12 +128,12 @@
   "abertas": 130,
   "vencidas": 17,
   "venc_esp": 3,
-  "sem_equipe": 116,
-  "venc_sem_equipe": 9,
+  "sem_equipe": 33,
+  "venc_sem_equipe": 5,
   "esp": [
    87.3,
-   89.81
+   89.89
   ],
-  "erros": 25.7
+  "erros": 25.6
  }
 }
