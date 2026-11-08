@@ -1,0 +1,161 @@
+{
+ "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
+ "atualizado_em": "08/11/2026 00h01",
+ "periodo": "01/11 a 08/11/2026",
+ "mes": "11/2026",
+ "os_fechadas": 966,
+ "no_prazo": 887,
+ "fora_do_prazo": 79,
+ "ipa": 91.82,
+ "nota": "0,8",
+ "ipa_anterior": 91.82,
+ "atualizado_anterior": "07/11/2026 23h01",
+ "doc": "https://claude.ai/code/artifact/7456a4e2-628b-4eff-b59f-681bb4a9cf3d",
+ "dias": [
+  {
+   "dia": "01",
+   "os": 80,
+   "atrasos": 3
+  },
+  {
+   "dia": "02",
+   "os": 121,
+   "atrasos": 30
+  },
+  {
+   "dia": "03",
+   "os": 89,
+   "atrasos": 12
+  },
+  {
+   "dia": "04",
+   "os": 159,
+   "atrasos": 13
+  },
+  {
+   "dia": "05",
+   "os": 207,
+   "atrasos": 5
+  },
+  {
+   "dia": "06",
+   "os": 181,
+   "atrasos": 6
+  },
+  {
+   "dia": "07",
+   "os": 129,
+   "atrasos": 10
+  }
+ ],
+ "auto": true,
+ "extra": {
+  "ritmo": 11.3,
+  "fila_demais": 9.7,
+  "sem_exec": 23.3,
+  "equipes": {
+   "ADA AMORIM": [
+    1,
+    0
+   ],
+   "BRUNO PIMENTEL DE LIMA": [
+    4,
+    0
+   ],
+   "Equipe apoio 5": [
+    49,
+    13
+   ],
+   "JOÃO PEDRO": [
+    4,
+    0
+   ],
+   "OBRAS LEVES - 02 - MOT. EMERSON": [
+    2,
+    0
+   ],
+   "OBRAS LEVES - 03 - MOT. LEANDRO": [
+    10,
+    0
+   ],
+   "OBRAS LEVES - 05 - MOT. EDUARDO": [
+    15,
+    0
+   ],
+   "OBRAS PESADAS  - 03 - MOT. TEÓFILO": [
+    2,
+    0
+   ],
+   "OBRAS PESADAS - 01 - MOT. MARCELO": [
+    2,
+    0
+   ],
+   "TURNO 1-1": [
+    19,
+    3
+   ],
+   "TURNO 1-2": [
+    81,
+    5
+   ],
+   "TURNO 1-3": [
+    106,
+    7
+   ],
+   "TURNO 1-4": [
+    15,
+    0
+   ],
+   "TURNO 2-1": [
+    27,
+    7
+   ],
+   "TURNO 2-2": [
+    72,
+    9
+   ],
+   "TURNO 2-3": [
+    60,
+    6
+   ],
+   "TURNO 2-4": [
+    103,
+    3
+   ],
+   "TURNO 2-5": [
+    29,
+    7
+   ],
+   "TURNO 3-1": [
+    102,
+    3
+   ],
+   "TURNO 3-2": [
+    87,
+    1
+   ],
+   "TURNO 3-4": [
+    31,
+    0
+   ],
+   "TURNO 3-5": [
+    62,
+    7
+   ],
+   "TURNO 3-6": [
+    83,
+    8
+   ]
+  },
+  "abertas": 108,
+  "vencidas": 11,
+  "venc_esp": 2,
+  "sem_equipe": 60,
+  "venc_sem_equipe": 10,
+  "esp": [
+   88.17,
+   92.21
+  ],
+  "erros": 23.5
+ }
+}
