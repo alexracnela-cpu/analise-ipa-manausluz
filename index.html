@@ -186,9 +186,132 @@ footer a,.card a{color:var(--accent)}
 @media (max-width:720px){.kpis{grid-template-columns:repeat(2,1fr)}.kpi .v{font-size:24px}.card{padding:16px}
   header .wrap{display:flex;flex-direction:column;align-items:flex-start;gap:12px}.logo,.logo.farol{height:72px}.ml-mini{height:38px}.marca{gap:6px}.logo-box{justify-content:flex-start}body{background-attachment:scroll}
   .tema{position:absolute;top:20px;right:16px}}
+
+/* ---------- acesso (login, senha provisória, usuários) ---------- */
+[hidden]{display:none!important}
+.topo-acoes{margin-left:auto;align-self:flex-start;flex:none;display:flex;flex-direction:column;align-items:stretch;gap:6px;position:relative}
+.topo-acoes .tema{position:static;margin:0;justify-content:center}
+@media (min-width:901px){.topo-acoes{position:absolute;top:0;right:16px}}
+@media (max-width:720px){.topo-acoes{position:absolute;top:20px;right:16px}}
+.conta{border:1px solid var(--line);background:var(--aba);color:var(--titulo);font:600 13px Inter,system-ui,sans-serif;padding:7px 14px;border-radius:999px;
+  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;max-width:170px}
+.conta:hover{border-color:var(--accent);background:var(--aba-hover)}
+.conta span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.conta svg{width:15px;height:15px;flex:none}
+.menu-conta{position:absolute;top:calc(100% + 6px);right:0;z-index:20;min-width:220px;background:var(--card);border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 12px 30px var(--sombra);padding:6px;display:flex;flex-direction:column}
+.menu-conta .quem{padding:8px 10px 10px;border-bottom:1px solid var(--line);margin-bottom:4px;font-size:12.5px;color:var(--muted);line-height:1.4}
+.menu-conta .quem b{display:block;color:var(--text);font-size:14px}
+.menu-conta button{border:0;background:transparent;color:var(--text);font:500 14px Inter,system-ui,sans-serif;text-align:left;padding:9px 10px;border-radius:8px;cursor:pointer}
+.menu-conta button:hover{background:var(--hover)}
+.menu-conta .sair{color:var(--bad)}
+
+.acesso{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+.acesso-cx{width:100%;max-width:400px;background:var(--card2);border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:16px;
+  box-shadow:0 18px 44px var(--sombra);padding:28px 28px 24px;display:flex;flex-direction:column;gap:14px}
+.acesso-marca{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:4px;text-align:center}
+.acesso-marca .logo.farol{height:104px}
+.acesso-marca .ml-mini{height:34px}
+.acesso-marca .marca-sub{margin:0}
+.acesso-tit{font-size:17px;font-weight:700;color:var(--titulo);text-align:center}
+.ajuda{font-size:12.5px;color:var(--muted)}
+.campo{display:flex;flex-direction:column;gap:5px}
+.campo label{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.campo input{font:15px Inter,system-ui,sans-serif;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%}
+.campo input:focus{outline:2px solid color-mix(in srgb,var(--accent) 40%,transparent);border-color:var(--accent)}
+.btn{font:600 14px Inter,system-ui,sans-serif;border:1px solid var(--line);background:var(--card);color:var(--titulo);border-radius:10px;padding:10px 16px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.pri{background:var(--navy);border-color:var(--navy);color:#fff}
+:root[data-tema="escuro"] .btn.pri{background:#1f6fd6;border-color:#1f6fd6}
+.btn.pri:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.5;cursor:not-allowed;filter:none}
+.btn.mini{padding:5px 10px;font-size:12.5px;border-radius:8px}
+.link{border:0;background:none;color:var(--accent);font:500 13.5px Inter,system-ui,sans-serif;cursor:pointer;align-self:center;padding:2px}
+.erro-msg{color:var(--bad);font-size:13.5px;font-weight:500}
+.regras{list-style:none;margin:-4px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:3px 10px;font-size:12.5px;color:var(--muted)}
+.regras li::before{content:'○ ';color:var(--muted)}
+.regras li.ok{color:var(--ok)}.regras li.ok::before{content:'✓ ';color:var(--ok)}
+
+.fundo{position:fixed;inset:0;z-index:50;background:rgba(8,15,30,.55);display:flex;align-items:flex-start;justify-content:center;padding:6vh 16px;overflow-y:auto}
+.modal{width:100%;max-width:820px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.modal.peq{max-width:480px}
+.modal-cab{display:flex;align-items:flex-start;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line)}
+.modal-cab h2{margin:0;font-size:18px;color:var(--titulo)}
+.modal-cab p{margin:4px 0 0}
+.modal-cab .fechar{margin-left:auto;border:0;background:transparent;color:var(--muted);font-size:22px;line-height:1;cursor:pointer;padding:2px 6px;border-radius:6px}
+.modal-cab .fechar:hover{background:var(--hover);color:var(--text)}
+.modal-corpo{padding:18px 22px 22px;display:flex;flex-direction:column;gap:14px}
+.modal-corpo textarea{width:100%;min-height:170px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;color:var(--text);background:var(--zebra);border:1px solid var(--line);border-radius:10px;padding:10px 12px;resize:vertical}
+.acoes{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.u-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--zebra)}
+.u-form .acoes,.u-form .erro-msg{grid-column:1/-1}
+@media (max-width:620px){.u-form{grid-template-columns:1fr}}
+.u-topo{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.u-topo .ajuda{margin-right:auto}
+.u-nome small{display:block;color:var(--muted);font-size:12px;font-weight:400}
+.u-acoes{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.selo-adm{display:inline-block;margin-left:6px;font-size:10px;font-weight:700;letter-spacing:.04em;background:var(--accent);color:#fff;border-radius:6px;padding:1px 6px;vertical-align:1px}
+.st{font-weight:600;font-size:12.5px}.st.ativo{color:var(--ok)}.st.pend{color:var(--warn)}.st.exp{color:var(--bad)}.st.off{color:var(--muted)}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:80;background:var(--navy);color:#fff;font-weight:600;font-size:14px;
+  padding:10px 18px;border-radius:999px;box-shadow:0 10px 26px rgba(0,0,0,.25);max-width:calc(100% - 32px)}
+:root[data-tema="escuro"] #toast{background:#1f6fd6}
+#toast.erro{background:var(--bad)}
+#carregando{position:fixed;inset:0;z-index:90;background:rgba(8,15,30,.18);cursor:progress}
+#carregando::after{content:'';position:absolute;top:50%;left:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border:3px solid rgba(255,255,255,.6);border-top-color:var(--accent);border-radius:50%;animation:gira .8s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
+<!-- ============ ENTRAR ============ -->
+<section id="tela-login" class="acesso" hidden>
+  <form class="acesso-cx" id="f-login" novalidate>
+    <div class="acesso-marca">
+      <img class="logo farol claro" src="img/farol-ipa.png" alt="Farol IPA">
+      <img class="logo farol escuro" src="img/farol-ipa-escuro.png" alt="Farol IPA">
+      <img class="ml-mini" src="img/logo-manaus-luz.png" alt="Manaus Luz">
+      <span class="marca-sub">Indicador de Prazo de Atendimento</span>
+    </div>
+    <div class="campo"><label for="l-email">Email</label><input type="email" id="l-email" inputmode="email" autocomplete="username"></div>
+    <div class="campo"><label for="l-senha">Senha</label><input type="password" id="l-senha" autocomplete="current-password"></div>
+    <span class="erro-msg" id="l-erro" hidden></span>
+    <button type="submit" class="btn pri">Entrar</button>
+    <button type="button" class="link" id="l-esqueci">Esqueci a senha</button>
+    <span class="ajuda" id="l-dica" hidden style="text-align:center">Peça ao administrador do Farol uma nova senha provisória.</span>
+  </form>
+</section>
+
+<!-- ============ CRIAR / TROCAR SENHA ============ -->
+<section id="tela-senha" class="acesso" hidden>
+  <form class="acesso-cx" id="f-senha" novalidate>
+    <div class="acesso-marca">
+      <img class="logo farol claro" src="img/farol-ipa.png" alt="Farol IPA">
+      <img class="logo farol escuro" src="img/farol-ipa-escuro.png" alt="Farol IPA">
+    </div>
+    <div class="acesso-tit" id="s-tit">Bem-vindo(a) ao Farol! Crie sua senha</div>
+    <span class="ajuda" id="s-quem" style="text-align:center"></span>
+    <div class="campo"><label for="s1">Nova senha</label><input type="password" id="s1" autocomplete="new-password"></div>
+    <ul class="regras" id="s-regras"><li data-r="len">Pelo menos 8 caracteres</li><li data-r="let">Uma letra</li><li data-r="num">Um número</li><li data-r="eq">As duas senhas iguais</li></ul>
+    <div class="campo"><label for="s2">Repita a senha</label><input type="password" id="s2" autocomplete="new-password"></div>
+    <span class="erro-msg" id="s-erro" hidden></span>
+    <button type="submit" class="btn pri" id="s-ok" disabled>Criar senha e entrar</button>
+    <button type="button" class="link" id="s-voltar" hidden>Voltar</button>
+  </form>
+</section>
+
+<!-- ============ AVISO ============ -->
+<section id="tela-aviso" class="acesso" hidden>
+  <div class="acesso-cx">
+    <div class="acesso-marca">
+      <img class="logo farol claro" src="img/farol-ipa.png" alt="Farol IPA">
+      <img class="logo farol escuro" src="img/farol-ipa-escuro.png" alt="Farol IPA">
+    </div>
+    <p id="aviso-txt" style="margin:0;text-align:center"></p>
+    <button type="button" class="btn" id="aviso-sair" hidden>Voltar para a entrada</button>
+  </div>
+</section>
+
+<!-- ============ SITE ============ -->
+<div id="app" hidden>
 <header><div class="wrap">
   <div class="logo-box">
     <img class="logo farol claro" src="img/farol-ipa.png" alt="Farol IPA">
@@ -204,7 +327,18 @@ footer a,.card a{color:var(--accent)}
     </div>
     <p id="sub">Carregando…</p>
   </div>
-  <button class="tema" id="tema" type="button" aria-label="Alternar modo escuro"></button>
+  <div class="topo-acoes">
+    <button class="tema" id="tema" type="button" aria-label="Alternar modo escuro"></button>
+    <button class="conta" id="conta" type="button" aria-haspopup="true" aria-expanded="false" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span id="conta-nome"></span>
+    </button>
+    <div class="menu-conta" id="menu-conta" hidden>
+      <div class="quem"><b id="mc-nome"></b><span id="mc-email"></span></div>
+      <button type="button" id="mc-usuarios" hidden>Usuários e acessos</button>
+      <button type="button" id="mc-senha">Trocar minha senha</button>
+      <button type="button" id="mc-sair" class="sair">Sair</button>
+    </div>
+  </div>
 </div>
 </header>
 
@@ -220,7 +354,40 @@ footer a,.card a{color:var(--accent)}
   </main>
 </div>
 <footer id="rodape"></footer>
+</div>
 
+<!-- ============ USUÁRIOS (só administrador) ============ -->
+<div class="fundo" id="modal-usuarios" hidden><div class="modal" role="dialog" aria-modal="true" aria-labelledby="mu-tit">
+  <div class="modal-cab"><div><h2 id="mu-tit">Usuários e acessos</h2>
+    <p class="ajuda">Você cria o acesso com uma senha provisória (vale 24 horas) e repassa para a pessoa. No primeiro acesso ela cria a própria senha.</p></div>
+    <button type="button" class="fechar" data-fecha aria-label="Fechar">×</button></div>
+  <div class="modal-corpo">
+    <div class="u-topo"><span class="ajuda" id="u-cont"></span><button type="button" class="btn pri" id="u-novo">+ Novo usuário</button></div>
+    <form class="u-form" id="u-form" novalidate hidden>
+      <div class="campo"><label for="u-nome">Nome</label><input type="text" id="u-nome" autocomplete="off"></div>
+      <div class="campo"><label for="u-email">Email</label><input type="email" id="u-email" inputmode="email" autocomplete="off"></div>
+      <span class="erro-msg" id="u-erro" hidden></span>
+      <div class="acoes"><button type="button" class="btn" id="u-cancelar">Cancelar</button><button type="submit" class="btn pri">Criar acesso</button></div>
+    </form>
+    <div class="tbl"><table><thead><tr><th>Pessoa</th><th>Situação</th><th>Último acesso</th><th></th></tr></thead><tbody id="u-lista"></tbody></table></div>
+  </div>
+</div></div>
+
+<!-- ============ SENHA PROVISÓRIA GERADA ============ -->
+<div class="fundo" id="modal-senha" hidden><div class="modal peq" role="dialog" aria-modal="true" aria-labelledby="ms-tit">
+  <div class="modal-cab"><h2 id="ms-tit">Acesso criado</h2><button type="button" class="fechar" data-fecha aria-label="Fechar">×</button></div>
+  <div class="modal-corpo">
+    <p style="margin:0">Repasse estes dados para <b id="ms-nome"></b> (WhatsApp, por exemplo). A senha provisória vale até <b id="ms-exp"></b>; no primeiro acesso a pessoa cria a própria senha.</p>
+    <textarea id="ms-txt" readonly></textarea>
+    <div class="acoes"><button type="button" class="btn" data-fecha>Fechar</button><button type="button" class="btn pri" id="ms-copiar">Copiar mensagem</button></div>
+  </div>
+</div></div>
+
+<div id="toast" role="status" hidden></div>
+<div id="carregando" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js?v=1"></script>
 <script>
 // conversor simples de markdown (títulos, negrito, itálico, listas, tabelas, parágrafos)
 function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
@@ -347,9 +514,13 @@ document.getElementById('tema').addEventListener('click', ()=>{
   if(ULTIMO){ document.getElementById('grafico').innerHTML = grafico(ULTIMO); ligarDica(ULTIMO); }
 });
 rotuloTema();
+// ---------- de onde vêm os dados ----------
+// Com o Supabase ligado (config.js preenchido): só depois do login, direto do banco.
+// Sem o Supabase (modo antigo): arquivos da pasta historico/ no GitHub.
+const CFG = window.FAROL_CONFIG || {};
+const LOGIN = !!(CFG.SUPABASE_URL && !/^COLE/.test(CFG.SUPABASE_URL) && CFG.SUPABASE_CHAVE && !/^COLE/.test(CFG.SUPABASE_CHAVE));
+const sb = LOGIN && window.supabase ? supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_CHAVE) : null;
 const sem = () => '?v=' + Date.now();
-// Os dados vêm direto do GitHub (o robô grava lá 4x ao dia), sem republicar o site na Netlify.
-// Se o GitHub falhar, usa a cópia publicada junto com o site.
 const GH = 'https://raw.githubusercontent.com/alexracnela-cpu/analise-ipa-manausluz/main/';
 async function dado(arq, tipo){
   for (const base of [GH, '']) {
@@ -359,6 +530,18 @@ async function dado(arq, tipo){
     } catch(e) {}
   }
   throw new Error('não carregou ' + arq);
+}
+async function listaAbas(){
+  if (!LOGIN) return dado('historico/indice.json', 'json');
+  const { data, error } = await sb.from('abas').select('id,rotulo').order('id', {ascending:false});
+  if (error) throw error;
+  return data || [];
+}
+async function abaDados(id){
+  if (!LOGIN) return Promise.all([dado(`historico/${id}.json`, 'json'), dado(`historico/${id}.md`, 'text')]);
+  const { data, error } = await sb.from('abas').select('dados,md').eq('id', id).single();
+  if (error) throw error;
+  return [data.dados, data.md || ''];
 }
 function cardsAbertas(x){
   const tem = x.abertas!=null;
@@ -373,10 +556,7 @@ function cardsAbertas(x){
 }
 async function abrir(id){
   try{
-    const [d, md] = await Promise.all([
-      dado(`historico/${id}.json`, 'json'),
-      dado(`historico/${id}.md`, 'text')
-    ]);
+    const [d, md] = await abaDados(id);
     document.querySelectorAll('.aba').forEach(b=>b.classList.toggle('ativa', b.dataset.id===id));
     const at=document.querySelector('.aba.ativa'); if(at){ const g=at.closest('details'); if(g) g.open=true; } if(at) at.scrollIntoView({block:'nearest',inline:'nearest'});
     document.getElementById('sub').textContent = `Fechamentos de ${d.periodo} · atualizado em ${d.atualizado_em}`;
@@ -435,8 +615,9 @@ async function abrir(id){
 }
 async function carregar(){
   try{
-    INDICE = await dado('historico/indice.json', 'json');
+    INDICE = await listaAbas();
     document.getElementById('cont').textContent = INDICE.length;
+    if (!INDICE.length) { document.getElementById('sub').textContent = 'Ainda não há análises publicadas. O robô cria a primeira na próxima execução.'; return; }
     const MESES=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
     const grupos=[];
     INDICE.forEach((it,i)=>{ const k=it.id.slice(0,7); let g=grupos[grupos.length-1];
@@ -454,7 +635,171 @@ async function carregar(){
     console.error(e);
   }
 }
-carregar();
+
+// =====================================================================
+// ACESSO · mesmo sistema de senhas do Provius
+// (administrador cria o acesso com senha provisória de 24 h; no primeiro
+//  acesso a pessoa cria a própria senha; tela de Usuários para o admin)
+// =====================================================================
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const escH = s => esc(String(s ?? '')).replace(/"/g, '&quot;');
+const dataHora = t => t ? new Date(t).toLocaleDateString('pt-BR') + ' às ' + new Date(t).toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'}) : '';
+let EU = null, CARREGADO = false;
+
+function msgErro(e){
+  if (!e) return 'Algo deu errado. Tente de novo.';
+  const m = e.message || String(e);
+  if (/Failed to fetch|NetworkError|network/i.test(m)) return 'Sem internet no momento. Confira a conexão e tente de novo.';
+  if (/JWT|session|not authenticated/i.test(m)) return 'Sua sessão expirou. Entre de novo.';
+  if (/Could not find the function|schema cache|relation .* does not exist/i.test(m)) return 'O banco do Farol ainda não foi preparado. Rode o arquivo .sql no Supabase.';
+  if (/row-level security|violates/i.test(m)) return 'Você não tem permissão para isso.';
+  return m;
+}
+async function rpc(nome, args){ const { data, error } = await sb.rpc(nome, args || {}); if (error) throw new Error(msgErro(error)); return data; }
+let toastT;
+function toast(t, erro){ const e = $('#toast'); e.textContent = t; e.classList.toggle('erro', !!erro); e.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => e.hidden = true, erro ? 6000 : 3800); }
+function ocupado(v){ $('#carregando').hidden = !v; }
+async function tarefa(fn, ok){
+  ocupado(true);
+  try { const r = await fn(); if (ok) toast(ok); return r; }
+  catch(e){ console.error(e); toast(msgErro(e), true); return undefined; }
+  finally { ocupado(false); }
+}
+document.addEventListener('click', e => {
+  const f = e.target.closest('[data-fecha]'); if (f) { f.closest('.fundo').hidden = true; return; }
+  if (e.target.classList && e.target.classList.contains('fundo')) e.target.hidden = true;
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { $$('.fundo').forEach(f => f.hidden = true); $('#menu-conta').hidden = true; } });
+
+function mostra(id){ ['#tela-login', '#tela-senha', '#tela-aviso', '#app'].forEach(s => $(s).hidden = s !== id); }
+function aviso(t, sair){ $('#aviso-txt').textContent = t; $('#aviso-sair').hidden = !sair; mostra('#tela-aviso'); }
+$('#aviso-sair').onclick = async () => { if (sb) await sb.auth.signOut(); mostra('#tela-login'); };
+
+// entrar
+$('#f-login').onsubmit = async e => {
+  e.preventDefault(); const er = $('#l-erro'); er.hidden = true;
+  const email = $('#l-email').value.trim().toLowerCase(), senha = $('#l-senha').value;
+  if (!email || !senha) { er.textContent = 'Informe o email e a senha.'; er.hidden = false; return; }
+  ocupado(true); const { error } = await sb.auth.signInWithPassword({ email, password: senha }); ocupado(false);
+  if (error) { er.textContent = /Invalid login/i.test(error.message) ? 'Email ou senha incorretos.' : msgErro(error); er.hidden = false; return; }
+  $('#l-senha').value = ''; entrar();
+};
+$('#l-esqueci').onclick = () => { $('#l-dica').hidden = false; };
+
+// criar / trocar senha
+function telaSenha(tipo, email){
+  $('#s-tit').textContent = tipo === 'trocar' ? 'Trocar minha senha' : 'Bem-vindo(a) ao Farol! Crie sua senha';
+  $('#s-ok').textContent = tipo === 'trocar' ? 'Trocar senha' : 'Criar senha e entrar';
+  $('#s-voltar').hidden = tipo !== 'trocar'; $('#s-erro').hidden = true;
+  $('#s-quem').textContent = (email || '') + (tipo === 'primeiro' ? ' · você entrou com uma senha provisória' : '');
+  $('#s1').value = ''; $('#s2').value = ''; senhaRegras(); mostra('#tela-senha'); $('#s1').focus();
+}
+function senhaRegras(){
+  const a = $('#s1').value, b = $('#s2').value;
+  const r = { len: a.length >= 8, let: /[a-zA-ZÀ-ú]/.test(a), num: /\d/.test(a), eq: !!a && a === b };
+  $$('#s-regras li').forEach(li => li.classList.toggle('ok', r[li.dataset.r]));
+  $('#s-ok').disabled = !Object.values(r).every(Boolean);
+}
+['#s1', '#s2'].forEach(s => $(s).addEventListener('input', senhaRegras));
+$('#s-voltar').onclick = () => mostra('#app');
+$('#f-senha').onsubmit = async e => {
+  e.preventDefault(); if ($('#s-ok').disabled) return;
+  ocupado(true); const { error } = await sb.auth.updateUser({ password: $('#s1').value }); ocupado(false);
+  if (error) { $('#s-erro').textContent = /different from the old/i.test(error.message) ? 'A nova senha precisa ser diferente da atual.' : msgErro(error); $('#s-erro').hidden = false; return; }
+  if (!$('#s-voltar').hidden) { mostra('#app'); toast('Senha trocada'); return; }
+  toast('Senha criada'); entrar(true);
+};
+
+// menu da conta
+$('#conta').onclick = e => { e.stopPropagation(); const m = $('#menu-conta'); m.hidden = !m.hidden; $('#conta').setAttribute('aria-expanded', !m.hidden); };
+document.addEventListener('click', e => { if (!e.target.closest('#menu-conta')) $('#menu-conta').hidden = true; });
+$('#mc-sair').onclick = async () => { await sb.auth.signOut(); history.replaceState(null, '', location.pathname); location.reload(); };
+$('#mc-senha').onclick = () => { $('#menu-conta').hidden = true; telaSenha('trocar', EU && EU.email); };
+$('#mc-usuarios').onclick = () => { $('#menu-conta').hidden = true; $('#modal-usuarios').hidden = false; usuariosAbrir(); };
+
+async function entrar(senhaOk){
+  ocupado(true);
+  try { EU = await rpc('registrar_acesso', { p_senha_ok: !!senhaOk }); }
+  catch(e){ ocupado(false); aviso(e.message, true); return; }
+  ocupado(false);
+  if (!EU.senha_ok) { telaSenha('primeiro', EU.email); return; }
+  $('#conta-nome').textContent = EU.nome.split(' ')[0];
+  $('#mc-nome').textContent = EU.nome; $('#mc-email').textContent = EU.email;
+  $('#mc-usuarios').hidden = !EU.admin; $('#conta').hidden = false;
+  mostra('#app');
+  if (!CARREGADO) { CARREGADO = true; carregar(); }
+}
+
+// ---------- usuários (administrador) ----------
+let USU = [];
+const situacao = u => !u.ativo ? 'off' : u.senha_ok ? 'ativo' : (u.convite_expira && new Date(u.convite_expira) < new Date() ? 'exp' : 'pend');
+async function usuariosAbrir(){
+  const { data, error } = await sb.from('perfis').select('*').order('nome');
+  if (error) { toast(msgErro(error), true); return; }
+  USU = data || [];
+  $('#u-lista').innerHTML = USU.map(u => {
+    const s = situacao(u);
+    const sit = s === 'ativo' ? '<span class="st ativo">Ativo</span>'
+      : s === 'pend' ? `<span class="st pend">Aguardando primeiro acesso</span><br><small class="ajuda">senha provisória vale até ${dataHora(u.convite_expira)}</small>`
+      : s === 'exp' ? `<span class="st exp">Senha provisória vencida</span><br><small class="ajuda">venceu ${dataHora(u.convite_expira)}</small>`
+      : '<span class="st off">Desativado</span>';
+    const ac = u.id === EU.id ? '<span class="ajuda">você</span>'
+      : s === 'off' ? `<button class="btn mini" data-a="on" data-id="${u.id}">Reativar</button>`
+      : `<button class="btn mini${s === 'exp' ? ' pri' : ''}" data-a="senha" data-id="${u.id}">Nova senha provisória</button><button class="btn mini" data-a="off" data-id="${u.id}">Desativar</button>`;
+    return `<tr><td class="u-nome"><b>${escH(u.nome)}${u.admin ? '<span class="selo-adm">ADMIN</span>' : ''}</b><small>${escH(u.email)}</small></td><td>${sit}</td><td>${u.ultimo_acesso ? dataHora(u.ultimo_acesso) : '—'}</td><td><div class="u-acoes">${ac}</div></td></tr>`;
+  }).join('');
+  const at = USU.filter(u => situacao(u) === 'ativo').length, pe = USU.filter(u => ['pend', 'exp'].includes(situacao(u))).length;
+  $('#u-cont').textContent = `${at} ativo${at === 1 ? '' : 's'} · ${pe} aguardando primeiro acesso`;
+  $$('#u-lista button[data-a]').forEach(b => b.onclick = async () => {
+    const u = USU.find(x => x.id === b.dataset.id);
+    if (b.dataset.a === 'senha') { const r = await tarefa(() => acesso({ acao: 'nova_senha', email: u.email })); if (r) mostraSenha(u.nome, r, true); }
+    else await tarefa(() => rpc('admin_alterar_perfil', { p_id: u.id, p_ativo: b.dataset.a === 'on', p_admin: null }), b.dataset.a === 'on' ? u.nome + ' reativado' : u.nome + ' não consegue mais entrar');
+    usuariosAbrir();
+  });
+}
+async function acesso(corpo){
+  const { data, error } = await sb.functions.invoke('convidar', { body: corpo });
+  if (error) {
+    let m = error.message; try { const j = await error.context.json(); m = j.erro || m; } catch(e) {}
+    throw new Error(/Failed to send|not found|404/i.test(m) ? 'A função "convidar" ainda não foi publicada no Supabase.' : m);
+  }
+  if (data && data.erro) throw new Error(data.erro);
+  return data;
+}
+function mostraSenha(nome, r, nova){
+  const site = location.origin + location.pathname, primeiro = nome.split(' ')[0];
+  $('#ms-tit').textContent = nova ? 'Nova senha provisória' : 'Acesso criado';
+  $('#ms-nome').textContent = nome; $('#ms-exp').textContent = dataHora(r.expira);
+  $('#ms-txt').value = (nova
+      ? `Olá, ${primeiro}! Gerei uma nova senha provisória para o Farol IPA (Manaus Luz).`
+      : `Olá, ${primeiro}! Seu acesso ao Farol IPA (Manaus Luz) foi criado.`)
+    + `\n\nSite: ${site}\nEmail: ${r.email}\nSenha provisória: ${r.senha}\n\nA senha provisória vale até ${dataHora(r.expira)}. No primeiro acesso você vai criar a sua própria senha.`;
+  $('#modal-senha').hidden = false;
+}
+$('#ms-copiar').onclick = () => {
+  const t = $('#ms-txt');
+  (navigator.clipboard ? navigator.clipboard.writeText(t.value) : Promise.reject()).then(() => toast('Mensagem copiada'), () => { t.select(); toast('Selecionado: use Ctrl+C'); });
+};
+(function usuariosIniciar(){
+  const abre = v => { $('#u-form').hidden = !v; $('#u-novo').hidden = v; $('#u-erro').hidden = true; if (v) $('#u-nome').focus(); else $('#u-form').reset(); };
+  $('#u-novo').onclick = () => abre(true); $('#u-cancelar').onclick = () => abre(false);
+  $('#u-form').onsubmit = async e => {
+    e.preventDefault();
+    const nome = $('#u-nome').value.trim(), email = $('#u-email').value.trim().toLowerCase(), er = $('#u-erro');
+    let msg = ''; if (!nome) msg = 'Informe o nome.'; else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) msg = 'Esse email não parece válido.';
+    er.hidden = !msg; er.textContent = msg; if (msg) return;
+    const r = await tarefa(() => acesso({ acao: 'criar', nome, email }));
+    if (r) { abre(false); usuariosAbrir(); mostraSenha(nome, r, false); }
+  };
+})();
+
+// ---------- início ----------
+(async function iniciar(){
+  if (!LOGIN) { mostra('#app'); CARREGADO = true; carregar(); return; }   // modo antigo, sem login
+  if (!sb) { aviso('Não foi possível carregar o sistema de login. Confira a internet e recarregue a página.'); return; }
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) entrar(); else mostra('#tela-login');
+})();
 </script>
 </body>
 </html>

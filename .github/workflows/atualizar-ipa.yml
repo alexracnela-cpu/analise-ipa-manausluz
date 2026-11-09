@@ -16,6 +16,9 @@ jobs:
   atualizar:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      # "true" quando o Supabase está ligado: aí nada da análise fica público (repo, logs, anexos)
+      PROTEGIDO: ${{ secrets.SUPABASE_URL != '' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,12 +43,26 @@ jobs:
         run: python robo/baixar_relatorio.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx"
 
       - name: Calcular IPA e gerar a análise
+        env:
+          # Com estes dois secrets, a análise vai para o Supabase (só quem tem login vê)
+          # e deixa de ser gravada no repositório público.
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET: ${{ secrets.SUPABASE_SECRET }}
         run: |
-          python robo/atualizar_site.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx" | tee "$RUNNER_TEMP/resumo.txt"
-          echo "### $(cat "$RUNNER_TEMP/resumo.txt")" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$PROTEGIDO" = "true" ]; then
+            # repositório público: os logs ficam visíveis, então não imprime os números
+            python robo/atualizar_site.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx" > "$RUNNER_TEMP/resumo.txt"
+            echo "### Análise atualizada e gravada no Supabase" >> "$GITHUB_STEP_SUMMARY"
+          else
+            python robo/atualizar_site.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx" | tee "$RUNNER_TEMP/resumo.txt"
+            echo "### $(cat "$RUNNER_TEMP/resumo.txt")" >> "$GITHUB_STEP_SUMMARY"
+          fi
 
       - name: Publicar (commit na main; o site lê do GitHub, a Netlify não republica)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         run: |
+          if [ -n "$SUPABASE_URL" ]; then echo "Análise gravada no Supabase; nada vai para o repositório público."; exit 0; fi
           git config user.name "robo-ipa"
           git config user.email "robo-ipa@users.noreply.github.com"
           git add historico/ robo/diagnostico.txt 2>/dev/null || git add historico/
@@ -59,8 +76,8 @@ jobs:
           echo "::error::Não consegui enviar para a main. Confira em Settings > Actions > General > Workflow permissions se está marcado 'Read and write permissions'."
           exit 1
 
-      - name: Guardar os relatórios baixados (3 dias, só no GitHub)
-        if: always()
+      - name: Guardar os relatórios baixados (3 dias, só no GitHub; desligado no modo protegido)
+        if: always() && env.PROTEGIDO != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: relatorios-gisworks

@@ -23,6 +23,9 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import supabase_ipa  # noqa: E402
+
 RAIZ = Path(__file__).resolve().parent.parent
 HIST = RAIZ / "historico"
 TZ = ZoneInfo("America/Manaus")
@@ -876,6 +879,8 @@ def main(arquivo, arquivo_abertas=None):
     df, mat = ler_relatorio(arquivo)
     abertas = ler_abertas(arquivo_abertas)
 
+    if supabase_ipa.configurado():  # dados protegidos: o histórico vem do banco, não do repositório
+        supabase_ipa.baixar(HIST)
     indice = json.loads((HIST / "indice.json").read_text(encoding="utf-8"))
     hoje = agora.strftime("%Y-%m-%d")
     autos_hoje = []
@@ -920,6 +925,9 @@ def main(arquivo, arquivo_abertas=None):
     (HIST / f"{novo_id}.md").write_text(md, encoding="utf-8")
     restantes.insert(0, {"id": novo_id, "rotulo": f"Até {agora:%d/%m %H:%M}"})
     (HIST / "indice.json").write_text(json.dumps(restantes, ensure_ascii=False, indent=1), encoding="utf-8")
+    if supabase_ipa.configurado():
+        supabase_ipa.gravar(novo_id, restantes[0]["rotulo"], dados, md, apagar=autos_hoje)
+        print("Gravado no Supabase.")
     print(f"IPA {br(d['ipa'], 2)}% ({d['no_prazo']}/{d['os_fechadas']}), aba {novo_id}"
           + (f", substituiu {', '.join(autos_hoje)}" if autos_hoje else "")
           + ("" if abertas is not None else " (sem backlog)"))

@@ -14,6 +14,18 @@ Site: https://alexracnela-cpu.github.io/analise-ipa-manausluz/ (GitHub Pages, pu
 - `historico/indice.json` – lista das abas, **mais recente primeiro**: `[{"id": "<id>", "rotulo": "Até dd/mm HH:MM"}, ...]`. A primeira é a aberta por padrão (marcada como ATUAL).
 - O IPA é sempre exibido com 2 casas decimais.
 
+## Login e dados protegidos (Supabase)
+
+Mesmo sistema de senhas do Provius, com um projeto **próprio** do Farol no Supabase:
+
+- O administrador cria o acesso no menu da conta → **Usuários e acessos** → *+ Novo usuário*. O site gera uma **senha provisória (vale 24 h)** e a mensagem pronta para mandar no WhatsApp. No primeiro acesso a pessoa é obrigada a criar a própria senha (8+ caracteres, letra e número).
+- Esqueceu a senha: o administrador clica em *Nova senha provisória*. *Desativar* corta o acesso na hora.
+- `config.js`: Project URL e chave **publishable** do Supabase. Enquanto estiver com `COLE_AQUI...`, o site funciona no **modo antigo** (sem login, lendo `historico/`).
+- `supabase/functions/convidar`: Edge Function que cria os acessos e as senhas provisórias (colar no editor do Supabase com o nome `convidar`).
+- O SQL do banco (tabelas `perfis` e `abas`, regras de leitura) não fica neste repositório.
+- Secrets do GitHub `SUPABASE_URL` e `SUPABASE_SECRET` (chave **secret**): com eles o robô grava cada aba na tabela `abas` do Supabase e **não** grava mais nada em `historico/`, nos logs ou nos anexos das execuções. Na primeira execução, se o banco estiver vazio, ele sobe sozinho todo o histórico que está em `historico/`.
+- Depois de conferir que o site com login está mostrando tudo, a pasta `historico/` pode ser apagada do repositório.
+
 ## Atualização diária (feita pela tarefa agendada)
 
 1. Criar `historico/<id>.md` e `historico/<id>.json` da aba nova (copiar `titulo` e `doc` do json da aba anterior; `ipa_anterior` = `ipa` dela).
