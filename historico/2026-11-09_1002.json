@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "09/11/2026 09h01",
+ "atualizado_em": "09/11/2026 10h02",
  "periodo": "01/11 a 09/11/2026",
  "mes": "11/2026",
- "os_fechadas": 1099,
- "no_prazo": 1013,
- "fora_do_prazo": 86,
- "ipa": 92.17,
+ "os_fechadas": 1148,
+ "no_prazo": 1061,
+ "fora_do_prazo": 87,
+ "ipa": 92.42,
  "nota": "0,8",
  "ipa_anterior": 91.9,
  "atualizado_anterior": "08/11/2026 23h01",
@@ -54,15 +54,15 @@
   },
   {
    "dia": "09",
-   "os": 67,
-   "atrasos": 3
+   "os": 116,
+   "atrasos": 4
   }
  ],
  "auto": true,
  "extra": {
   "ritmo": 10.3,
-  "fila_demais": 10.0,
-  "sem_exec": 24.0,
+  "fila_demais": 9.1,
+  "sem_exec": 23.0,
   "equipes": {
    "ADA AMORIM": [
     1,
@@ -85,11 +85,11 @@
     0
    ],
    "OBRAS LEVES - 03 - MOT. LEANDRO": [
-    10,
+    11,
     0
    ],
    "OBRAS LEVES - 05 - MOT. EDUARDO": [
-    15,
+    16,
     0
    ],
    "OBRAS PESADAS  - 03 - MOT. TEÓFILO": [
@@ -101,15 +101,15 @@
     0
    ],
    "TURNO 1-1": [
-    21,
-    3
+    22,
+    4
    ],
    "TURNO 1-2": [
     81,
     5
    ],
    "TURNO 1-3": [
-    108,
+    110,
     8
    ],
    "TURNO 1-4": [
@@ -117,7 +117,7 @@
     2
    ],
    "TURNO 2-1": [
-    38,
+    67,
     8
    ],
    "TURNO 2-2": [
@@ -125,7 +125,7 @@
     9
    ],
    "TURNO 2-3": [
-    77,
+    92,
     6
    ],
    "TURNO 2-4": [
@@ -157,15 +157,15 @@
     8
    ]
   },
-  "abertas": 121,
+  "abertas": 88,
   "vencidas": 22,
   "venc_esp": 4,
-  "sem_equipe": 21,
+  "sem_equipe": 35,
   "venc_sem_equipe": 9,
   "esp": [
-   90.51,
-   92.41
+   90.71,
+   92.66
   ],
-  "erros": 24.1
+  "erros": 25.9
  }
 }
