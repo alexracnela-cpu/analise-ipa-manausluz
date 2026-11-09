@@ -1,0 +1,166 @@
+{
+ "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
+ "atualizado_em": "09/11/2026 00h01",
+ "periodo": "01/11 a 09/11/2026",
+ "mes": "11/2026",
+ "os_fechadas": 1025,
+ "no_prazo": 942,
+ "fora_do_prazo": 83,
+ "ipa": 91.9,
+ "nota": "0,8",
+ "ipa_anterior": 91.9,
+ "atualizado_anterior": "08/11/2026 23h01",
+ "doc": "https://claude.ai/code/artifact/7456a4e2-628b-4eff-b59f-681bb4a9cf3d",
+ "dias": [
+  {
+   "dia": "01",
+   "os": 80,
+   "atrasos": 3
+  },
+  {
+   "dia": "02",
+   "os": 121,
+   "atrasos": 30
+  },
+  {
+   "dia": "03",
+   "os": 89,
+   "atrasos": 12
+  },
+  {
+   "dia": "04",
+   "os": 159,
+   "atrasos": 13
+  },
+  {
+   "dia": "05",
+   "os": 207,
+   "atrasos": 5
+  },
+  {
+   "dia": "06",
+   "os": 181,
+   "atrasos": 6
+  },
+  {
+   "dia": "07",
+   "os": 130,
+   "atrasos": 10
+  },
+  {
+   "dia": "08",
+   "os": 58,
+   "atrasos": 4
+  }
+ ],
+ "auto": true,
+ "extra": {
+  "ritmo": 10.4,
+  "fila_demais": 10.1,
+  "sem_exec": 24.5,
+  "equipes": {
+   "ADA AMORIM": [
+    1,
+    0
+   ],
+   "BRUNO PIMENTEL DE LIMA": [
+    4,
+    0
+   ],
+   "Equipe apoio 5": [
+    49,
+    13
+   ],
+   "JOÃO PEDRO": [
+    4,
+    0
+   ],
+   "OBRAS LEVES - 02 - MOT. EMERSON": [
+    2,
+    0
+   ],
+   "OBRAS LEVES - 03 - MOT. LEANDRO": [
+    10,
+    0
+   ],
+   "OBRAS LEVES - 05 - MOT. EDUARDO": [
+    15,
+    0
+   ],
+   "OBRAS PESADAS  - 03 - MOT. TEÓFILO": [
+    2,
+    0
+   ],
+   "OBRAS PESADAS - 01 - MOT. MARCELO": [
+    2,
+    0
+   ],
+   "TURNO 1-1": [
+    19,
+    3
+   ],
+   "TURNO 1-2": [
+    81,
+    5
+   ],
+   "TURNO 1-3": [
+    106,
+    7
+   ],
+   "TURNO 1-4": [
+    27,
+    2
+   ],
+   "TURNO 2-1": [
+    38,
+    8
+   ],
+   "TURNO 2-2": [
+    72,
+    9
+   ],
+   "TURNO 2-3": [
+    60,
+    6
+   ],
+   "TURNO 2-4": [
+    103,
+    3
+   ],
+   "TURNO 2-5": [
+    29,
+    7
+   ],
+   "TURNO 3-1": [
+    102,
+    3
+   ],
+   "TURNO 3-2": [
+    87,
+    1
+   ],
+   "TURNO 3-4": [
+    31,
+    0
+   ],
+   "TURNO 3-5": [
+    81,
+    8
+   ],
+   "TURNO 3-6": [
+    100,
+    8
+   ]
+  },
+  "abertas": 107,
+  "vencidas": 20,
+  "venc_esp": 4,
+  "sem_equipe": 36,
+  "venc_sem_equipe": 8,
+  "esp": [
+   88.79,
+   92.3
+  ],
+  "erros": 23.2
+ }
+}
