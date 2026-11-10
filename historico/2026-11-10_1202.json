@@ -1,6 +1,6 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "10/11/2026 11h02",
+ "atualizado_em": "10/11/2026 12h02",
  "periodo": "01/11 a 10/11/2026",
  "mes": "11/2026",
  "os_fechadas": 1396,
@@ -162,10 +162,10 @@
     8
    ]
   },
-  "abertas": 167,
+  "abertas": 175,
   "vencidas": 14,
   "venc_esp": 1,
-  "sem_equipe": 93,
+  "sem_equipe": 101,
   "venc_sem_equipe": 4,
   "esp": [
    91.24,
