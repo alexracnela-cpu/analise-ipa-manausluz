@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "11/11/2026 09h02",
+ "atualizado_em": "11/11/2026 13h02",
  "periodo": "01/11 a 11/11/2026",
  "mes": "11/2026",
- "os_fechadas": 1595,
- "no_prazo": 1497,
+ "os_fechadas": 1632,
+ "no_prazo": 1534,
  "fora_do_prazo": 98,
- "ipa": 93.86,
+ "ipa": 94.0,
  "nota": "0,8",
  "ipa_anterior": 93.61,
  "atualizado_anterior": "10/11/2026 23h02",
@@ -64,14 +64,14 @@
   },
   {
    "dia": "11",
-   "os": 61,
+   "os": 98,
    "atrasos": 0
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 10.1,
-  "fila_demais": 7.9,
+  "ritmo": 10.0,
+  "fila_demais": 7.5,
   "sem_exec": 20.8,
   "equipes": {
    "ADA AMORIM": [
@@ -79,7 +79,7 @@
     0
    ],
    "BRUNO PIMENTEL DE LIMA": [
-    7,
+    14,
     0
    ],
    "Equipe apoio 2 - OBRA": [
@@ -151,11 +151,11 @@
     7
    ],
    "TURNO 3-1": [
-    164,
+    179,
     6
    ],
    "TURNO 3-2": [
-    129,
+    144,
     1
    ],
    "TURNO 3-4": [
@@ -171,15 +171,15 @@
     8
    ]
   },
-  "abertas": 119,
-  "vencidas": 13,
+  "abertas": 183,
+  "vencidas": 14,
   "venc_esp": 2,
-  "sem_equipe": 37,
+  "sem_equipe": 78,
   "venc_sem_equipe": 6,
   "esp": [
-   91.89,
-   94.17
+   92.41,
+   94.27
   ],
-  "erros": 30.5
+  "erros": 31.2
  }
 }
