@@ -16,6 +16,13 @@
 if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'escuro':'claro';
 document.documentElement.dataset.tema=t;})();
 </script>
+<script>
+// ===== TEMA DE NATAL – liga sozinho até 25/12/2026 (fim do dia, horário de Manaus) e some no dia 26 =====
+// Para testar: ?natal=1 força ligado · ?natal=0 força desligado
+(function(){var q=(location.search.match(/[?&]natal=([01])/)||[])[1];
+var ativo=q?q==='1':Date.now()<Date.parse('2026-12-26T00:00:00-04:00');
+if(ativo)document.documentElement.classList.add('natal');})();
+</script>
 <style>
 :root{
   --bg:#eef2f7; --card:#ffffff; --text:#14213d; --muted:#5b6780; --line:#dfe5ee;
@@ -259,6 +266,43 @@ footer a,.card a{color:var(--accent)}
 #carregando{position:fixed;inset:0;z-index:90;background:rgba(8,15,30,.18);cursor:progress}
 #carregando::after{content:'';position:absolute;top:50%;left:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border:3px solid rgba(255,255,255,.6);border-top-color:var(--accent);border-radius:50%;animation:gira .8s linear infinite}
 @keyframes gira{to{transform:rotate(360deg)}}
+
+/* ================= TEMA DE NATAL (só com html.natal) ================= */
+html.natal{--n-verm:#d63131;--n-verde:#1c8c4e;--n-ouro:#f2b705;--n-azul:#2f7de1}
+html.natal header{z-index:1}
+html.natal .layout,html.natal footer{position:relative;z-index:1}
+#natal-neve{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+/* varal de luzes no topo */
+.natal-varal{position:absolute;left:0;right:0;top:0;height:46px;pointer-events:none;z-index:2;overflow:visible}
+.natal-varal svg{position:absolute;inset:0;width:100%;height:46px;overflow:visible}
+.natal-varal .fio{fill:none;stroke:#2c3b2f;stroke-width:2;opacity:.75}
+:root[data-tema="escuro"] .natal-varal .fio{stroke:#7d8aa3;opacity:.6}
+.natal-lamp{position:absolute;width:11px;height:17px;margin-left:-5.5px;border-radius:50% 50% 50% 50%/40% 40% 60% 60%;
+  background:var(--c);box-shadow:0 0 8px 2px var(--c),0 0 18px 4px color-mix(in srgb,var(--c) 45%,transparent);
+  animation:natal-pisca 2.4s ease-in-out infinite;animation-delay:var(--d)}
+.natal-lamp::before{content:'';position:absolute;left:2.5px;top:-5px;width:6px;height:6px;border-radius:1.5px;background:#4a5568}
+@keyframes natal-pisca{0%,100%{opacity:1;filter:brightness(1.15)}50%{opacity:.45;filter:brightness(.8);box-shadow:0 0 3px 0 var(--c)}}
+html.natal header{padding-top:52px}
+/* gorro de Papai Noel no farol */
+.natal-ancora{position:relative;display:inline-block;line-height:0}
+.natal-gorro{position:absolute;left:18%;top:-7%;width:36%;height:auto;pointer-events:none;transform:rotate(-12deg);filter:drop-shadow(0 2px 2px rgba(0,0,0,.25))}
+/* faixa de boas festas */
+.natal-faixa{display:inline-flex;align-items:center;gap:8px;margin-top:10px;padding:6px 14px 6px 10px;border-radius:999px;
+  font:600 13px Inter,system-ui,sans-serif;color:#7a1414;background:linear-gradient(90deg,#fff3f0,#fffaf0 55%,#effaf3);
+  border:1px solid #f0c9a6;box-shadow:0 2px 8px rgba(160,40,30,.12)}
+.natal-faixa b{color:var(--n-verde)}
+.natal-faixa svg{width:20px;height:20px;flex:none}
+:root[data-tema="escuro"] .natal-faixa{color:#ffc9c2;background:linear-gradient(90deg,#3a1618,#2c2410 55%,#12301f);border-color:#6b4a1a}
+:root[data-tema="escuro"] .natal-faixa b{color:#7fdca5}
+/* faixa listrada vermelho/verde/dourado */
+html.natal .versoes h2{border-bottom:4px solid transparent;border-image:repeating-linear-gradient(90deg,var(--n-verm) 0 14px,#fff 14px 20px,var(--n-verde) 20px 34px,#fff 34px 40px,var(--n-ouro) 40px 54px,#fff 54px 60px) 4}
+html.natal .card{position:relative}
+html.natal .card::before{content:'';position:absolute;left:0;right:0;top:0;height:4px;border-radius:11px 11px 0 0;
+  background:repeating-linear-gradient(90deg,var(--n-verm) 0 22px,var(--n-verde) 22px 44px,var(--n-ouro) 44px 66px)}
+html.natal footer::after{content:"🎄 Boas Festas! — Equipe Manaus Luz";display:block;margin-top:8px;font-weight:600;color:var(--n-verm)}
+:root[data-tema="escuro"].natal footer::after{color:#ff9d93}
+@media (max-width:720px){html.natal header{padding-top:46px}.natal-faixa{font-size:12px}}
+@media (prefers-reduced-motion:reduce){.natal-lamp{animation:none}#natal-neve{display:none}}
 </style>
 </head>
 <body>
@@ -799,6 +843,62 @@ $('#ms-copiar').onclick = () => {
   if (!sb) { aviso('Não foi possível carregar o sistema de login. Confira a internet e recarregue a página.'); return; }
   const { data: { session } } = await sb.auth.getSession();
   if (session) entrar(); else mostra('#tela-login');
+})();
+</script>
+<script>
+// ===== TEMA DE NATAL – enfeites (só roda com html.natal) =====
+(function(){
+if(!document.documentElement.classList.contains('natal'))return;
+const CORES=['var(--n-verm)','var(--n-ouro)','var(--n-verde)','var(--n-azul)'];
+// varal de luzes
+function varal(alvo){
+  const v=document.createElement('div'); v.className='natal-varal'; v.setAttribute('aria-hidden','true');
+  alvo.prepend(v);
+  const desenha=()=>{
+    const W=v.clientWidth||innerWidth, passo=W<720?44:56, n=Math.max(6,Math.round(W/passo)), vao=W/n;
+    let d='M0 6', html='';
+    for(let k=0;k<n;k++){ const x0=k*vao,x1=x0+vao; d+=` Q${x0+vao/2} 30 ${x1} 6`; }
+    for(let k=0;k<n;k++){ const x=k*vao+vao/2, y=18; // ponto mais baixo de cada curva
+      html+=`<span class="natal-lamp" style="left:${x}px;top:${y}px;--c:${CORES[k%4]};--d:${(k%5)*-.45}s"></span>`; }
+    v.innerHTML=`<svg viewBox="0 0 ${W} 46" preserveAspectRatio="none"><path class="fio" d="${d}"/></svg>`+html;
+  };
+  desenha(); let t; addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(desenha,150);});
+}
+const hdr=document.querySelector('#app header'); if(hdr) varal(hdr);
+// gorro no farol (todas as logos do Farol: topo e telas de acesso)
+const GORRO='<svg class="natal-gorro" viewBox="0 0 100 80" aria-hidden="true"><path d="M12 62 C20 30 42 8 70 10 C84 11 92 22 90 38 C80 26 66 24 60 30 C70 40 78 52 86 62 Z" fill="#d63131"/><path d="M60 30 C66 24 80 26 90 38" fill="none" stroke="#a51f1f" stroke-width="3"/><rect x="6" y="58" width="84" height="16" rx="8" fill="#fff"/><circle cx="90" cy="40" r="9" fill="#fff"/></svg>';
+document.querySelectorAll('.logo.farol.claro').forEach(img=>{
+  const pai=img.parentNode, esc=img.nextElementSibling&&img.nextElementSibling.classList.contains('escuro')?img.nextElementSibling:null;
+  const a=document.createElement('span'); a.className='natal-ancora'; pai.insertBefore(a,img); a.appendChild(img); if(esc)a.appendChild(esc);
+  a.insertAdjacentHTML('beforeend',GORRO);
+});
+// faixa "Boas Festas" com contagem regressiva (horário de Manaus)
+const sub=document.getElementById('sub');
+if(sub){
+  const hoje=new Date(Date.now()-4*3600e3), dHoje=Date.UTC(hoje.getUTCFullYear(),hoje.getUTCMonth(),hoje.getUTCDate());
+  const falta=Math.round((Date.UTC(2026,11,25)-dHoje)/864e5);
+  const txt=falta>1?`Boas Festas! Faltam <b>${falta} dias</b> para o Natal`:falta===1?`Boas Festas! <b>Amanhã</b> é Natal`:`<b>Feliz Natal!</b>`;
+  const arv='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l1.2 2.4 2.6.4-1.9 1.8.5 2.6L12 8l-2.4 1.2.5-2.6-1.9-1.8 2.6-.4z" fill="#f2b705"/><path d="M12 8l5 6h-2.5l4 5H5.5l4-5H7z" fill="#1c8c4e"/><rect x="10.5" y="19" width="3" height="3" fill="#8a5a2b"/><circle cx="10" cy="14" r="1" fill="#d63131"/><circle cx="14" cy="17" r="1" fill="#f2b705"/><circle cx="13" cy="12" r="1" fill="#2f7de1"/></svg>';
+  sub.insertAdjacentHTML('afterend',`<div class="natal-faixa">${arv}<span>${txt}</span></div>`);
+}
+// neve suave (fica atrás dos cartões; desliga com "reduzir movimento")
+if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+const cv=document.createElement('canvas'); cv.id='natal-neve'; cv.setAttribute('aria-hidden','true'); document.body.prepend(cv);
+const cx=cv.getContext('2d'); let W,H,flocos=[];
+const tam=()=>{W=cv.width=innerWidth;H=cv.height=innerHeight;const n=Math.min(90,Math.round(W*H/22000));
+  while(flocos.length<n)flocos.push({x:Math.random()*W,y:Math.random()*H,r:1+Math.random()*2.6,v:.3+Math.random()*.8,o:Math.random()*6.28});
+  flocos.length=n;};
+tam(); addEventListener('resize',tam);
+(function cai(){
+  cx.clearRect(0,0,W,H);
+  const escuro=document.documentElement.dataset.tema==='escuro';
+  cx.fillStyle=escuro?'rgba(255,255,255,.75)':'rgba(255,255,255,.95)';
+  cx.shadowColor=escuro?'transparent':'rgba(60,90,140,.35)'; cx.shadowBlur=escuro?0:3;
+  for(const f of flocos){ f.y+=f.v; f.o+=.01; f.x+=Math.sin(f.o)*.4;
+    if(f.y>H+5){f.y=-5;f.x=Math.random()*W;}
+    cx.beginPath(); cx.arc(f.x,f.y,f.r,0,6.283); cx.fill(); }
+  requestAnimationFrame(cai);
+})();
 })();
 </script>
 </body>
