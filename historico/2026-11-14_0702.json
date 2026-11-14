@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "14/11/2026 06h02",
+ "atualizado_em": "14/11/2026 07h02",
  "periodo": "01/11 a 14/11/2026",
  "mes": "11/2026",
- "os_fechadas": 2206,
- "no_prazo": 2100,
+ "os_fechadas": 2215,
+ "no_prazo": 2109,
  "fora_do_prazo": 106,
- "ipa": 95.19,
+ "ipa": 95.21,
  "nota": "1,0",
  "ipa_anterior": 95.1,
  "atualizado_anterior": "13/11/2026 23h02",
@@ -79,7 +79,7 @@
   },
   {
    "dia": "14",
-   "os": 39,
+   "os": 48,
    "atrasos": 0
   }
  ],
@@ -106,7 +106,7 @@
     15
    ],
    "JOÃO PEDRO": [
-    5,
+    6,
     0
    ],
    "OBRAS LEVES - 02 - MOT. EMERSON": [
@@ -178,7 +178,7 @@
     0
    ],
    "TURNO 3-5": [
-    196,
+    204,
     10
    ],
    "TURNO 3-6": [
@@ -186,15 +186,15 @@
     8
    ]
   },
-  "abertas": 148,
+  "abertas": 139,
   "vencidas": 26,
   "venc_esp": 7,
-  "sem_equipe": 115,
+  "sem_equipe": 79,
   "venc_sem_equipe": 19,
   "esp": [
-   94.1,
-   95.38
+   94.15,
+   95.4
   ],
-  "erros": 31.5
+  "erros": 31.2
  }
 }
