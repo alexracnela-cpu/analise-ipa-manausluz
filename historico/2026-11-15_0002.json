@@ -1,0 +1,208 @@
+{
+ "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
+ "atualizado_em": "15/11/2026 00h02",
+ "periodo": "01/11 a 15/11/2026",
+ "mes": "11/2026",
+ "os_fechadas": 2300,
+ "no_prazo": 2193,
+ "fora_do_prazo": 107,
+ "ipa": 95.35,
+ "nota": "1,0",
+ "ipa_anterior": 95.35,
+ "atualizado_anterior": "14/11/2026 23h02",
+ "doc": "https://claude.ai/code/artifact/7456a4e2-628b-4eff-b59f-681bb4a9cf3d",
+ "dias": [
+  {
+   "dia": "01",
+   "os": 80,
+   "atrasos": 3
+  },
+  {
+   "dia": "02",
+   "os": 121,
+   "atrasos": 30
+  },
+  {
+   "dia": "03",
+   "os": 89,
+   "atrasos": 12
+  },
+  {
+   "dia": "04",
+   "os": 159,
+   "atrasos": 13
+  },
+  {
+   "dia": "05",
+   "os": 207,
+   "atrasos": 5
+  },
+  {
+   "dia": "06",
+   "os": 181,
+   "atrasos": 6
+  },
+  {
+   "dia": "07",
+   "os": 130,
+   "atrasos": 10
+  },
+  {
+   "dia": "08",
+   "os": 65,
+   "atrasos": 4
+  },
+  {
+   "dia": "09",
+   "os": 293,
+   "atrasos": 10
+  },
+  {
+   "dia": "10",
+   "os": 209,
+   "atrasos": 5
+  },
+  {
+   "dia": "11",
+   "os": 231,
+   "atrasos": 4
+  },
+  {
+   "dia": "12",
+   "os": 208,
+   "atrasos": 1
+  },
+  {
+   "dia": "13",
+   "os": 194,
+   "atrasos": 3
+  },
+  {
+   "dia": "14",
+   "os": 133,
+   "atrasos": 1
+  }
+ ],
+ "auto": true,
+ "extra": {
+  "ritmo": 4.9,
+  "fila_demais": 8.3,
+  "sem_exec": 21.1,
+  "equipes": {
+   "ADA AMORIM": [
+    1,
+    0
+   ],
+   "BRUNO PIMENTEL DE LIMA": [
+    23,
+    0
+   ],
+   "DANIEL MARCIEL": [
+    1,
+    0
+   ],
+   "Equipe apoio 2 - OBRA": [
+    11,
+    1
+   ],
+   "Equipe apoio 5": [
+    90,
+    15
+   ],
+   "JANDERSON OLIVEIRA": [
+    3,
+    1
+   ],
+   "JOÃO PEDRO": [
+    12,
+    0
+   ],
+   "OBRAS LEVES - 02 - MOT. EMERSON": [
+    4,
+    0
+   ],
+   "OBRAS LEVES - 03 - MOT. LEANDRO": [
+    33,
+    0
+   ],
+   "OBRAS LEVES - 05 - MOT. EDUARDO": [
+    47,
+    0
+   ],
+   "OBRAS PESADAS  - 03 - MOT. TEÓFILO": [
+    2,
+    0
+   ],
+   "OBRAS PESADAS - 01 - MOT. MARCELO": [
+    2,
+    0
+   ],
+   "TURNO 1-1": [
+    48,
+    4
+   ],
+   "TURNO 1-2": [
+    137,
+    5
+   ],
+   "TURNO 1-3": [
+    228,
+    11
+   ],
+   "TURNO 1-4": [
+    88,
+    4
+   ],
+   "TURNO 2-1": [
+    140,
+    13
+   ],
+   "TURNO 2-2": [
+    149,
+    11
+   ],
+   "TURNO 2-3": [
+    151,
+    7
+   ],
+   "TURNO 2-4": [
+    235,
+    3
+   ],
+   "TURNO 2-5": [
+    32,
+    7
+   ],
+   "TURNO 3-1": [
+    197,
+    6
+   ],
+   "TURNO 3-2": [
+    157,
+    1
+   ],
+   "TURNO 3-4": [
+    80,
+    0
+   ],
+   "TURNO 3-5": [
+    204,
+    10
+   ],
+   "TURNO 3-6": [
+    225,
+    8
+   ]
+  },
+  "abertas": 139,
+  "vencidas": 28,
+  "venc_esp": 9,
+  "sem_equipe": 115,
+  "venc_sem_equipe": 21,
+  "esp": [
+   94.31,
+   95.52
+  ],
+  "erros": 31.0
+ }
+}
