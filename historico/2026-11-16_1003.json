@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "16/11/2026 09h04",
+ "atualizado_em": "16/11/2026 10h03",
  "periodo": "01/11 a 16/11/2026",
  "mes": "11/2026",
- "os_fechadas": 2423,
- "no_prazo": 2312,
- "fora_do_prazo": 111,
- "ipa": 95.42,
+ "os_fechadas": 2445,
+ "no_prazo": 2330,
+ "fora_do_prazo": 115,
+ "ipa": 95.3,
  "nota": "1,0",
  "ipa_anterior": 95.3,
  "atualizado_anterior": "15/11/2026 23h02",
@@ -89,15 +89,15 @@
   },
   {
    "dia": "16",
-   "os": 76,
-   "atrasos": 1
+   "os": 98,
+   "atrasos": 5
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 4.5,
+  "ritmo": 4.9,
   "fila_demais": 9.1,
-  "sem_exec": 21.4,
+  "sem_exec": 21.2,
   "equipes": {
    "ADA AMORIM": [
     1,
@@ -136,7 +136,7 @@
     0
    ],
    "OBRAS LEVES - 05 - MOT. EDUARDO": [
-    53,
+    61,
     0
    ],
    "OBRAS PESADAS  - 03 - MOT. TEÓFILO": [
@@ -156,11 +156,11 @@
     5
    ],
    "TURNO 1-3": [
-    228,
-    11
+    233,
+    15
    ],
    "TURNO 1-4": [
-    88,
+    97,
     4
    ],
    "TURNO 2-1": [
@@ -204,15 +204,15 @@
     8
    ]
   },
-  "abertas": 100,
-  "vencidas": 42,
+  "abertas": 126,
+  "vencidas": 39,
   "venc_esp": 10,
-  "sem_equipe": 16,
-  "venc_sem_equipe": 8,
+  "sem_equipe": 47,
+  "venc_sem_equipe": 9,
   "esp": [
-   94.57,
-   95.56
+   94.3,
+   95.46
   ],
-  "erros": 30.6
+  "erros": 30.9
  }
 }
