@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "16/11/2026 07h05",
+ "atualizado_em": "16/11/2026 08h03",
  "periodo": "01/11 a 16/11/2026",
  "mes": "11/2026",
- "os_fechadas": 4498,
- "no_prazo": 4278,
- "fora_do_prazo": 220,
- "ipa": 95.11,
+ "os_fechadas": 2412,
+ "no_prazo": 2301,
+ "fora_do_prazo": 111,
+ "ipa": 95.4,
  "nota": "1,0",
  "ipa_anterior": 95.3,
  "atualizado_anterior": "15/11/2026 23h02",
@@ -14,90 +14,90 @@
  "dias": [
   {
    "dia": "01",
-   "os": 138,
-   "atrasos": 4
+   "os": 80,
+   "atrasos": 3
   },
   {
    "dia": "02",
-   "os": 250,
-   "atrasos": 60
+   "os": 121,
+   "atrasos": 30
   },
   {
    "dia": "03",
-   "os": 201,
-   "atrasos": 22
+   "os": 89,
+   "atrasos": 12
   },
   {
    "dia": "04",
-   "os": 344,
-   "atrasos": 31
+   "os": 159,
+   "atrasos": 13
   },
   {
    "dia": "05",
-   "os": 376,
-   "atrasos": 9
+   "os": 207,
+   "atrasos": 5
   },
   {
    "dia": "06",
-   "os": 377,
-   "atrasos": 18
+   "os": 181,
+   "atrasos": 6
   },
   {
    "dia": "07",
-   "os": 239,
-   "atrasos": 16
+   "os": 130,
+   "atrasos": 10
   },
   {
    "dia": "08",
-   "os": 123,
+   "os": 65,
    "atrasos": 4
   },
   {
    "dia": "09",
-   "os": 418,
-   "atrasos": 19
-  },
-  {
-   "dia": "10",
-   "os": 405,
+   "os": 293,
    "atrasos": 10
   },
   {
+   "dia": "10",
+   "os": 209,
+   "atrasos": 5
+  },
+  {
    "dia": "11",
-   "os": 394,
-   "atrasos": 7
+   "os": 231,
+   "atrasos": 4
   },
   {
    "dia": "12",
-   "os": 343,
+   "os": 208,
    "atrasos": 1
   },
   {
    "dia": "13",
-   "os": 402,
-   "atrasos": 10
+   "os": 194,
+   "atrasos": 3
   },
   {
    "dia": "14",
-   "os": 288,
+   "os": 136,
    "atrasos": 1
   },
   {
    "dia": "15",
-   "os": 76,
-   "atrasos": 4
+   "os": 44,
+   "atrasos": 3
   },
   {
    "dia": "16",
-   "os": 124,
-   "atrasos": 4
+   "os": 65,
+   "atrasos": 1
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 8.2,
-  "fila_demais": 8.5,
-  "sem_exec": 11.4,
+  "ritmo": 4.5,
+  "fila_demais": 9.1,
+  "sem_exec": 21.5,
   "equipes": {
    "ADA AMORIM": [
     1,
@@ -112,12 +112,12 @@
     0
    ],
    "Equipe apoio 2 - OBRA": [
-    19,
+    11,
     1
    ],
    "Equipe apoio 5": [
-    188,
-    35
+    90,
+    15
    ],
    "JANDERSON OLIVEIRA": [
     3,
@@ -140,78 +140,79 @@
     0
    ],
    "OBRAS PESADAS  - 03 - MOT. TEÓFILO": [
-    6,
+    2,
     0
    ],
    "OBRAS PESADAS - 01 - MOT. MARCELO": [
-    10,
+    2,
     0
    ],
    "TURNO 1-1": [
-    54,
+    48,
     4
    ],
    "TURNO 1-2": [
-    217,
-    8
+    153,
+    5
    ],
    "TURNO 1-3": [
-    387,
-    18
-   ],
-   "TURNO 1-4": [
-    155,
+    228,
     11
    ],
+   "TURNO 1-4": [
+    88,
+    4
+   ],
    "TURNO 2-1": [
-    251,
-    34
+    144,
+    13
    ],
    "TURNO 2-2": [
-    306,
-    29
-   ],
-   "TURNO 2-3": [
-    285,
+    158,
     14
    ],
+   "TURNO 2-3": [
+    151,
+    7
+   ],
    "TURNO 2-4": [
-    688,
-    9
+    235,
+    3
    ],
    "TURNO 2-5": [
-    53,
-    10
+    32,
+    7
    ],
    "TURNO 3-1": [
-    303,
-    10
+    197,
+    6
    ],
    "TURNO 3-2": [
-    333,
+    175,
     1
    ],
    "TURNO 3-4": [
-    251,
-    4
+    98,
+    1
    ],
    "TURNO 3-5": [
-    438,
-    16
+    232,
+    10
    ],
    "TURNO 3-6": [
-    430,
-    15
+    244,
+    8
    ]
   },
-  "abertas": 94,
-  "vencidas": 41,
+  "abertas": 93,
+  "vencidas": 42,
   "venc_esp": 10,
-  "sem_equipe": 87,
-  "venc_sem_equipe": 34,
+  "sem_equipe": 9,
+  "venc_sem_equipe": 8,
   "esp": [
-   93.71,
-   95.31
-  ]
+   94.56,
+   95.54
+  ],
+  "erros": 30.3
  }
 }
