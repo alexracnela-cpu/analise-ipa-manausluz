@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "17/11/2026 10h02",
+ "atualizado_em": "17/11/2026 11h02",
  "periodo": "01/11 a 17/11/2026",
  "mes": "11/2026",
- "os_fechadas": 2714,
- "no_prazo": 2570,
- "fora_do_prazo": 144,
- "ipa": 94.69,
+ "os_fechadas": 2765,
+ "no_prazo": 2620,
+ "fora_do_prazo": 145,
+ "ipa": 94.76,
  "nota": "0,8",
  "ipa_anterior": 94.81,
  "atualizado_anterior": "16/11/2026 23h02",
@@ -94,15 +94,15 @@
   },
   {
    "dia": "17",
-   "os": 89,
-   "atrasos": 7
+   "os": 140,
+   "atrasos": 8
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 6.9,
-  "fila_demais": 8.8,
-  "sem_exec": 21.4,
+  "ritmo": 7.0,
+  "fila_demais": 8.4,
+  "sem_exec": 21.0,
   "equipes": {
    "ADA AMORIM": [
     1,
@@ -117,11 +117,11 @@
     0
    ],
    "Equipe apoio 2 - OBRA": [
-    11,
+    17,
     1
    ],
    "Equipe apoio 5": [
-    90,
+    91,
     15
    ],
    "JANDERSON OLIVEIRA": [
@@ -137,11 +137,11 @@
     0
    ],
    "OBRAS LEVES - 03 - MOT. LEANDRO": [
-    37,
+    40,
     0
    ],
    "OBRAS LEVES - 05 - MOT. EDUARDO": [
-    63,
+    65,
     0
    ],
    "OBRAS PESADAS  - 03 - MOT. TEÓFILO": [
@@ -153,8 +153,8 @@
     0
    ],
    "TURNO 1-1": [
-    153,
-    4
+    155,
+    5
    ],
    "TURNO 1-2": [
     171,
@@ -173,7 +173,7 @@
     15
    ],
    "TURNO 2-2": [
-    185,
+    199,
     17
    ],
    "TURNO 2-3": [
@@ -181,7 +181,7 @@
     7
    ],
    "TURNO 2-4": [
-    250,
+    257,
     4
    ],
    "TURNO 2-5": [
@@ -189,7 +189,7 @@
     7
    ],
    "TURNO 3-1": [
-    197,
+    213,
     6
    ],
    "TURNO 3-2": [
@@ -209,15 +209,15 @@
     10
    ]
   },
-  "abertas": 241,
-  "vencidas": 20,
-  "venc_esp": 5,
-  "sem_equipe": 100,
+  "abertas": 207,
+  "vencidas": 19,
+  "venc_esp": 4,
+  "sem_equipe": 112,
   "venc_sem_equipe": 13,
   "esp": [
-   92.57,
-   95.04
+   92.64,
+   95.11
   ],
-  "erros": 32.3
+  "erros": 33.0
  }
 }
