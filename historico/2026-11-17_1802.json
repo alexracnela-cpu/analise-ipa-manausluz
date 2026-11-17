@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "17/11/2026 17h03",
+ "atualizado_em": "17/11/2026 18h02",
  "periodo": "01/11 a 17/11/2026",
  "mes": "11/2026",
- "os_fechadas": 2851,
- "no_prazo": 2704,
+ "os_fechadas": 2858,
+ "no_prazo": 2711,
  "fora_do_prazo": 147,
- "ipa": 94.84,
+ "ipa": 94.86,
  "nota": "0,8",
  "ipa_anterior": 94.81,
  "atualizado_anterior": "16/11/2026 23h02",
@@ -94,14 +94,14 @@
   },
   {
    "dia": "17",
-   "os": 226,
+   "os": 233,
    "atrasos": 10
   }
  ],
  "auto": true,
  "extra": {
   "ritmo": 7.0,
-  "fila_demais": 8.3,
+  "fila_demais": 8.2,
   "sem_exec": 21.3,
   "equipes": {
    "ADA AMORIM": [
@@ -181,7 +181,7 @@
     7
    ],
    "TURNO 2-4": [
-    257,
+    264,
     4
    ],
    "TURNO 2-5": [
@@ -212,11 +212,11 @@
   "abertas": 195,
   "vencidas": 19,
   "venc_esp": 4,
-  "sem_equipe": 71,
+  "sem_equipe": 78,
   "venc_sem_equipe": 6,
   "esp": [
    92.92,
-   95.18
+   95.19
   ],
   "erros": 33.3
  }
