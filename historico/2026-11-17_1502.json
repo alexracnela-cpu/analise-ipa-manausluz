@@ -1,11 +1,11 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "17/11/2026 14h02",
+ "atualizado_em": "17/11/2026 15h02",
  "periodo": "01/11 a 17/11/2026",
  "mes": "11/2026",
- "os_fechadas": 2808,
- "no_prazo": 2663,
- "fora_do_prazo": 145,
+ "os_fechadas": 2850,
+ "no_prazo": 2703,
+ "fora_do_prazo": 147,
  "ipa": 94.84,
  "nota": "0,8",
  "ipa_anterior": 94.81,
@@ -94,22 +94,22 @@
   },
   {
    "dia": "17",
-   "os": 183,
-   "atrasos": 8
+   "os": 225,
+   "atrasos": 10
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 6.9,
-  "fila_demais": 8.1,
-  "sem_exec": 21.1,
+  "ritmo": 7.1,
+  "fila_demais": 8.3,
+  "sem_exec": 21.3,
   "equipes": {
    "ADA AMORIM": [
     1,
     0
    ],
    "BRUNO PIMENTEL DE LIMA": [
-    24,
+    38,
     0
    ],
    "DANIEL MARCIEL": [
@@ -153,19 +153,19 @@
     0
    ],
    "TURNO 1-1": [
-    156,
-    5
+    158,
+    7
    ],
    "TURNO 1-2": [
     191,
     9
    ],
    "TURNO 1-3": [
-    247,
+    269,
     26
    ],
    "TURNO 1-4": [
-    112,
+    116,
     4
    ],
    "TURNO 2-1": [
@@ -209,13 +209,13 @@
     10
    ]
   },
-  "abertas": 221,
-  "vencidas": 21,
-  "venc_esp": 4,
-  "sem_equipe": 157,
-  "venc_sem_equipe": 14,
+  "abertas": 184,
+  "vencidas": 18,
+  "venc_esp": 3,
+  "sem_equipe": 87,
+  "venc_sem_equipe": 7,
   "esp": [
-   92.75,
+   92.92,
    95.18
   ],
   "erros": 33.3
