@@ -1,10 +1,10 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "18/11/2026 09h04",
+ "atualizado_em": "18/11/2026 10h03",
  "periodo": "01/11 a 18/11/2026",
  "mes": "11/2026",
- "os_fechadas": 3003,
- "no_prazo": 2852,
+ "os_fechadas": 3004,
+ "no_prazo": 2853,
  "fora_do_prazo": 151,
  "ipa": 94.97,
  "nota": "0,8",
@@ -99,13 +99,13 @@
   },
   {
    "dia": "18",
-   "os": 84,
+   "os": 85,
    "atrasos": 3
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 7.3,
+  "ritmo": 7.2,
   "fila_demais": 8.9,
   "sem_exec": 21.3,
   "equipes": {
@@ -118,7 +118,7 @@
     0
    ],
    "DANIEL MARCIEL": [
-    1,
+    2,
     0
    ],
    "Equipe apoio 2 - OBRA": [
@@ -214,10 +214,10 @@
     11
    ]
   },
-  "abertas": 146,
+  "abertas": 191,
   "vencidas": 19,
   "venc_esp": 3,
-  "sem_equipe": 59,
+  "sem_equipe": 64,
   "venc_sem_equipe": 6,
   "esp": [
    92.97,
