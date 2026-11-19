@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "19/11/2026 08h04",
+ "atualizado_em": "19/11/2026 09h04",
  "periodo": "01/11 a 19/11/2026",
  "mes": "11/2026",
- "os_fechadas": 3246,
- "no_prazo": 3078,
- "fora_do_prazo": 168,
- "ipa": 94.82,
+ "os_fechadas": 3253,
+ "no_prazo": 3084,
+ "fora_do_prazo": 169,
+ "ipa": 94.8,
  "nota": "0,8",
  "ipa_anterior": 94.86,
  "atualizado_anterior": "18/11/2026 23h02",
@@ -104,13 +104,13 @@
   },
   {
    "dia": "19",
-   "os": 71,
-   "atrasos": 5
+   "os": 78,
+   "atrasos": 6
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 8.0,
+  "ritmo": 8.1,
   "fila_demais": 8.9,
   "sem_exec": 21.6,
   "equipes": {
@@ -127,7 +127,7 @@
     0
    ],
    "Equipe apoio 2 - OBRA": [
-    17,
+    18,
     1
    ],
    "Equipe apoio 5": [
@@ -147,7 +147,7 @@
     0
    ],
    "OBRAS LEVES - 03 - MOT. LEANDRO": [
-    46,
+    51,
     0
    ],
    "OBRAS LEVES - 05 - MOT. EDUARDO": [
@@ -163,8 +163,8 @@
     0
    ],
    "TURNO 1-1": [
-    174,
-    15
+    175,
+    16
    ],
    "TURNO 1-2": [
     210,
@@ -219,14 +219,14 @@
     11
    ]
   },
-  "abertas": 110,
-  "vencidas": 11,
+  "abertas": 114,
+  "vencidas": 10,
   "venc_esp": 2,
-  "sem_equipe": 26,
+  "sem_equipe": 29,
   "venc_sem_equipe": 4,
   "esp": [
    92.56,
-   95.23
+   95.21
   ],
   "erros": 32.3
  }
