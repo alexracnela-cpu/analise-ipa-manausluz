@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "20/11/2026 11h02",
+ "atualizado_em": "20/11/2026 12h02",
  "periodo": "01/11 a 20/11/2026",
  "mes": "11/2026",
- "os_fechadas": 3434,
- "no_prazo": 3259,
+ "os_fechadas": 3438,
+ "no_prazo": 3263,
  "fora_do_prazo": 175,
- "ipa": 94.9,
+ "ipa": 94.91,
  "nota": "0,8",
  "ipa_anterior": 94.82,
  "atualizado_anterior": "19/11/2026 23h02",
@@ -109,14 +109,14 @@
   },
   {
    "dia": "20",
-   "os": 69,
+   "os": 73,
    "atrasos": 1
   }
  ],
  "auto": true,
  "extra": {
   "ritmo": 8.1,
-  "fila_demais": 9.2,
+  "fila_demais": 9.3,
   "sem_exec": 21.6,
   "equipes": {
    "ADA AMORIM": [
@@ -124,7 +124,7 @@
     0
    ],
    "BRUNO PIMENTEL DE LIMA": [
-    38,
+    39,
     0
    ],
    "DANIEL MARCIEL": [
@@ -136,7 +136,7 @@
     1
    ],
    "Equipe apoio 5": [
-    103,
+    106,
     16
    ],
    "JANDERSON OLIVEIRA": [
@@ -224,15 +224,15 @@
     11
    ]
   },
-  "abertas": 72,
+  "abertas": 68,
   "vencidas": 16,
   "venc_esp": 2,
   "sem_equipe": 38,
   "venc_sem_equipe": 13,
   "esp": [
-   92.53,
+   92.55,
    95.32
   ],
-  "erros": 31.7
+  "erros": 31.8
  }
 }
