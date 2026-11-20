@@ -1,10 +1,10 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "20/11/2026 09h02",
+ "atualizado_em": "20/11/2026 10h02",
  "periodo": "01/11 a 20/11/2026",
  "mes": "11/2026",
- "os_fechadas": 3430,
- "no_prazo": 3255,
+ "os_fechadas": 3431,
+ "no_prazo": 3256,
  "fora_do_prazo": 175,
  "ipa": 94.9,
  "nota": "0,8",
@@ -109,7 +109,7 @@
   },
   {
    "dia": "20",
-   "os": 65,
+   "os": 66,
    "atrasos": 1
   }
  ],
@@ -136,7 +136,7 @@
     1
    ],
    "Equipe apoio 5": [
-    99,
+    100,
     16
    ],
    "JANDERSON OLIVEIRA": [
@@ -224,10 +224,10 @@
     11
    ]
   },
-  "abertas": 70,
+  "abertas": 73,
   "vencidas": 16,
   "venc_esp": 2,
-  "sem_equipe": 34,
+  "sem_equipe": 36,
   "venc_sem_equipe": 13,
   "esp": [
    92.53,
