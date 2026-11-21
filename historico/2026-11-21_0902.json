@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "21/11/2026 08h02",
+ "atualizado_em": "21/11/2026 09h02",
  "periodo": "01/11 a 21/11/2026",
  "mes": "11/2026",
- "os_fechadas": 3536,
- "no_prazo": 3351,
- "fora_do_prazo": 185,
- "ipa": 94.77,
+ "os_fechadas": 3547,
+ "no_prazo": 3361,
+ "fora_do_prazo": 186,
+ "ipa": 94.76,
  "nota": "0,8",
  "ipa_anterior": 94.75,
  "atualizado_anterior": "20/11/2026 23h02",
@@ -114,15 +114,15 @@
   },
   {
    "dia": "21",
-   "os": 28,
-   "atrasos": 0
+   "os": 39,
+   "atrasos": 1
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 8.9,
-  "fila_demais": 9.2,
-  "sem_exec": 21.8,
+  "ritmo": 9.0,
+  "fila_demais": 9.3,
+  "sem_exec": 22.0,
   "equipes": {
    "ADA AMORIM": [
     2,
@@ -141,8 +141,8 @@
     1
    ],
    "Equipe apoio 5": [
-    112,
-    16
+    113,
+    17
    ],
    "JANDERSON OLIVEIRA": [
     3,
@@ -177,7 +177,7 @@
     16
    ],
    "TURNO 1-2": [
-    239,
+    249,
     10
    ],
    "TURNO 1-3": [
@@ -229,15 +229,15 @@
     11
    ]
   },
-  "abertas": 64,
-  "vencidas": 10,
+  "abertas": 54,
+  "vencidas": 9,
   "venc_esp": 0,
-  "sem_equipe": 26,
+  "sem_equipe": 27,
   "venc_sem_equipe": 7,
   "esp": [
    92.35,
-   95.19
+   95.17
   ],
-  "erros": 31.6
+  "erros": 31.5
  }
 }
