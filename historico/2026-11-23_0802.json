@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "23/11/2026 07h02",
+ "atualizado_em": "23/11/2026 08h02",
  "periodo": "01/11 a 23/11/2026",
  "mes": "11/2026",
- "os_fechadas": 3709,
- "no_prazo": 3516,
- "fora_do_prazo": 193,
- "ipa": 94.8,
+ "os_fechadas": 3711,
+ "no_prazo": 3517,
+ "fora_do_prazo": 194,
+ "ipa": 94.77,
  "nota": "0,8",
  "ipa_anterior": 94.8,
  "atualizado_anterior": "22/11/2026 23h02",
@@ -124,15 +124,15 @@
   },
   {
    "dia": "23",
-   "os": 26,
-   "atrasos": 1
+   "os": 28,
+   "atrasos": 2
   }
  ],
  "auto": true,
  "extra": {
   "ritmo": 9.4,
   "fila_demais": 9.3,
-  "sem_exec": 22.2,
+  "sem_exec": 22.3,
   "equipes": {
    "ADA AMORIM": [
     2,
@@ -159,8 +159,8 @@
     1
    ],
    "JOÃO PEDRO": [
-    19,
-    0
+    20,
+    1
    ],
    "OBRAS LEVES - 02 - MOT. EMERSON": [
     5,
@@ -223,7 +223,7 @@
     11
    ],
    "TURNO 3-2": [
-    236,
+    237,
     3
    ],
    "TURNO 3-4": [
@@ -239,14 +239,14 @@
     11
    ]
   },
-  "abertas": 79,
-  "vencidas": 9,
+  "abertas": 80,
+  "vencidas": 8,
   "venc_esp": 0,
-  "sem_equipe": 79,
-  "venc_sem_equipe": 9,
+  "sem_equipe": 15,
+  "venc_sem_equipe": 6,
   "esp": [
    92.34,
-   95.21
+   95.18
   ],
   "erros": 31.6
  }
