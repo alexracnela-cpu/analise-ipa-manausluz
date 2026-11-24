@@ -1,13 +1,13 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "24/11/2026 04h02",
+ "atualizado_em": "24/11/2026 05h02",
  "periodo": "01/11 a 24/11/2026",
  "mes": "11/2026",
- "os_fechadas": 3878,
- "no_prazo": 3683,
+ "os_fechadas": 3930,
+ "no_prazo": 3735,
  "fora_do_prazo": 195,
- "ipa": 94.97,
- "nota": "0,8",
+ "ipa": 95.04,
+ "nota": "1,0",
  "ipa_anterior": 94.97,
  "atualizado_anterior": "23/11/2026 23h02",
  "doc": "https://claude.ai/code/artifact/7456a4e2-628b-4eff-b59f-681bb4a9cf3d",
@@ -124,15 +124,20 @@
   },
   {
    "dia": "23",
-   "os": 195,
+   "os": 198,
    "atrasos": 3
+  },
+  {
+   "dia": "24",
+   "os": 49,
+   "atrasos": 0
   }
  ],
  "auto": true,
  "extra": {
   "ritmo": 9.6,
-  "fila_demais": 9.2,
-  "sem_exec": 21.8,
+  "fila_demais": 9.3,
+  "sem_exec": 21.9,
   "equipes": {
    "ADA AMORIM": [
     3,
@@ -219,15 +224,15 @@
     7
    ],
    "TURNO 3-1": [
-    290,
+    302,
     11
    ],
    "TURNO 3-2": [
-    237,
+    255,
     3
    ],
    "TURNO 3-4": [
-    214,
+    236,
     5
    ],
    "TURNO 3-5": [
@@ -239,15 +244,15 @@
     11
    ]
   },
-  "abertas": 148,
+  "abertas": 101,
   "vencidas": 10,
   "venc_esp": 0,
-  "sem_equipe": 62,
-  "venc_sem_equipe": 4,
+  "sem_equipe": 98,
+  "venc_sem_equipe": 8,
   "esp": [
-   92.44,
-   95.38
+   92.69,
+   95.43
   ],
-  "erros": 32.3
+  "erros": 32.2
  }
 }
