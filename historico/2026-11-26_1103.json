@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "26/11/2026 10h03",
+ "atualizado_em": "26/11/2026 11h03",
  "periodo": "01/11 a 26/11/2026",
  "mes": "11/2026",
- "os_fechadas": 4312,
- "no_prazo": 4112,
+ "os_fechadas": 4320,
+ "no_prazo": 4120,
  "fora_do_prazo": 200,
- "ipa": 95.36,
+ "ipa": 95.37,
  "nota": "1,0",
  "ipa_anterior": 95.35,
  "atualizado_anterior": "25/11/2026 23h05",
@@ -139,7 +139,7 @@
   },
   {
    "dia": "26",
-   "os": 77,
+   "os": 85,
    "atrasos": 3
   }
  ],
@@ -147,7 +147,7 @@
  "extra": {
   "ritmo": 6.7,
   "fila_demais": 9.1,
-  "sem_exec": 22.0,
+  "sem_exec": 21.9,
   "equipes": {
    "ADA AMORIM": [
     4,
@@ -186,11 +186,11 @@
     0
    ],
    "OBRAS LEVES - 03 - MOT. LEANDRO": [
-    72,
+    77,
     0
    ],
    "OBRAS LEVES - 05 - MOT. EDUARDO": [
-    82,
+    85,
     0
    ],
    "OBRAS PESADAS  - 03 - MOT. TEÓFILO": [
@@ -258,15 +258,15 @@
     12
    ]
   },
-  "abertas": 141,
+  "abertas": 146,
   "vencidas": 11,
   "venc_esp": 1,
-  "sem_equipe": 61,
+  "sem_equipe": 60,
   "venc_sem_equipe": 5,
   "esp": [
    92.96,
-   95.75
+   95.76
   ],
-  "erros": 31.3
+  "erros": 31.4
  }
 }
