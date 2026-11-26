@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "25/11/2026 19h05",
+ "atualizado_em": "25/11/2026 20h05",
  "periodo": "01/11 a 25/11/2026",
  "mes": "11/2026",
- "os_fechadas": 4188,
- "no_prazo": 3992,
+ "os_fechadas": 4216,
+ "no_prazo": 4020,
  "fora_do_prazo": 196,
- "ipa": 95.32,
+ "ipa": 95.35,
  "nota": "1,0",
  "ipa_anterior": 95.22,
  "atualizado_anterior": "24/11/2026 23h05",
@@ -134,15 +134,15 @@
   },
   {
    "dia": "25",
-   "os": 105,
+   "os": 133,
    "atrasos": 1
   }
  ],
  "auto": true,
  "extra": {
-  "ritmo": 8.8,
+  "ritmo": 8.7,
   "fila_demais": 9.4,
-  "sem_exec": 22.2,
+  "sem_exec": 22.1,
   "equipes": {
    "ADA AMORIM": [
     4,
@@ -209,7 +209,7 @@
     4
    ],
    "TURNO 2-1": [
-    217,
+    218,
     17
    ],
    "TURNO 2-2": [
@@ -217,11 +217,11 @@
     31
    ],
    "TURNO 2-3": [
-    250,
+    261,
     8
    ],
    "TURNO 2-4": [
-    379,
+    395,
     5
    ],
    "TURNO 2-5": [
@@ -249,15 +249,15 @@
     11
    ]
   },
-  "abertas": 132,
-  "vencidas": 13,
+  "abertas": 122,
+  "vencidas": 14,
   "venc_esp": 1,
-  "sem_equipe": 47,
+  "sem_equipe": 65,
   "venc_sem_equipe": 7,
   "esp": [
    92.8,
-   95.73
+   95.76
   ],
-  "erros": 31.4
+  "erros": 31.5
  }
 }
