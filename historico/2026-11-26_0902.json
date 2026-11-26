@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "26/11/2026 08h02",
+ "atualizado_em": "26/11/2026 09h02",
  "periodo": "01/11 a 26/11/2026",
  "mes": "11/2026",
- "os_fechadas": 4296,
- "no_prazo": 4096,
+ "os_fechadas": 4300,
+ "no_prazo": 4100,
  "fora_do_prazo": 200,
- "ipa": 95.34,
+ "ipa": 95.35,
  "nota": "1,0",
  "ipa_anterior": 95.35,
  "atualizado_anterior": "25/11/2026 23h05",
@@ -139,7 +139,7 @@
   },
   {
    "dia": "26",
-   "os": 61,
+   "os": 65,
    "atrasos": 3
   }
  ],
@@ -186,7 +186,7 @@
     0
    ],
    "OBRAS LEVES - 05 - MOT. EDUARDO": [
-    78,
+    82,
     0
    ],
    "OBRAS PESADAS  - 03 - MOT. TEÓFILO": [
@@ -254,14 +254,14 @@
     12
    ]
   },
-  "abertas": 106,
+  "abertas": 131,
   "vencidas": 11,
   "venc_esp": 1,
-  "sem_equipe": 34,
+  "sem_equipe": 46,
   "venc_sem_equipe": 5,
   "esp": [
    92.94,
-   95.73
+   95.74
   ],
   "erros": 31.2
  }
