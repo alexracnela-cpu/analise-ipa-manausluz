@@ -998,6 +998,19 @@ def reincidencia(df, agora, ant_ex):
     sem_ponto = int(d["ponto"].isna().sum())
     d = d.dropna(subset=["ponto"])
 
+    # endereço = tipo de logradouro (Rua, Avenida, Praça…) + logradouro, sem repetir o tipo quando já vem no nome
+    clog = "Logradouro" if "Logradouro" in d else _coluna(d, [r"^logradouro$", r"^endereco$"])
+    ctipo = _coluna(d, [r"tipo\s*(de|do)?\s*logradouro", r"^tipo\s*(de|do)?\s*via$"])
+
+    def endereco(r):
+        nome = str(r[clog]).strip() if clog and pd.notna(r[clog]) else ""
+        tipo = str(r[ctipo]).strip() if ctipo and pd.notna(r[ctipo]) else ""
+        if nome.upper() in ("NAN", "NONE"):
+            nome = ""
+        if not tipo or tipo.upper() in ("NAN", "NONE") or _norm(nome).startswith(_norm(tipo)):
+            return nome
+        return f"{tipo} {nome}".strip()
+
     d["exe"] = d["Ocorrência"].astype(str).str.upper().eq("EXECUTADO") if "Ocorrência" in d else False
     ini_mes = datetime(agora.year, agora.month, 1)
     pts = []
@@ -1010,7 +1023,7 @@ def reincidencia(df, agora, ant_ex):
         la, lo = g["lat"].median(), g["lon"].median()
         pts.append({
             "ponto": k, "poste": k[2:] if k.startswith("P:") else "sem nº",
-            "end": str(g["Logradouro"].dropna().iloc[-1]).strip() if "Logradouro" in g and g["Logradouro"].notna().any() else "",
+            "end": endereco(g.iloc[-1]),
             "n": len(g), "datas": ", ".join(f"{x:%d/%m}" for x in g["fech"]),
             "equipes": ", ".join(dict.fromkeys(g["Equipe"].astype(str).str.strip())) if "Equipe" in g else "",
             "volta_exe": volta_exe, "gap_min": float(gaps.min()), "ult": g["fech"].iloc[-1],
@@ -1059,7 +1072,7 @@ def reincidencia(df, agora, ant_ex):
     S.append(tabela(["Poste", "Endereço", "OS", "Fechamentos", "Equipes", "Voltou após execução", "Fora do prazo", "Local"],
                     [(r.poste, r.end, br(r.n), r.datas, r.equipes, br(r.volta_exe), br(r.fora), r.mapa)
                      for r in top.itertuples()]))
-    avisa(f"Reincidência: colunas poste = {cp}, coordenadas = {ccoord}; {n_pts} pontos.")
+    avisa(f"Reincidência: colunas poste = {cp}, coordenadas = {ccoord}, endereço = {ctipo} + {clog}; {n_pts} pontos.")
     ex = {"reinc_pontos": n_pts, "reinc_os": n_os, "reinc_3mais": n3, "reinc_volta_exe": n_exe}
     return "\n\n".join(S), ex, {"dias": DIAS_REINCIDENCIA, "ini": f"{ini:%d/%m/%Y}", "pontos": mapa}
 
