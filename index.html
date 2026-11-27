@@ -312,10 +312,17 @@ html.natal footer::after{content:"🎄 Boas Festas! — Equipe Manaus Luz";displ
 .reinc-barra button{border:1px solid var(--line);background:var(--aba);color:var(--text);font:600 13px Inter,system-ui,sans-serif;padding:6px 12px;border-radius:999px;cursor:pointer}
 .reinc-barra button.ativo{background:var(--accent);border-color:var(--accent);color:#fff}
 .reinc-barra input{flex:1;min-width:180px;border:1px solid var(--line);background:var(--card);color:var(--text);font:14px Inter,system-ui,sans-serif;padding:6px 12px;border-radius:999px}
-.reinc-leg{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin:8px 2px}
+.reinc-leg{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 4px}
+.reinc-leg button{display:inline-flex;align-items:center;border:1px solid var(--line);background:transparent;color:var(--muted);
+  font:600 12.5px Inter,system-ui,sans-serif;padding:5px 11px;border-radius:999px;cursor:pointer;opacity:.55;text-decoration:line-through}
+.reinc-leg button.ativo{opacity:1;text-decoration:none;color:var(--text);background:var(--aba);border-color:var(--accent)}
+.reinc-leg button[data-v]{opacity:1;text-decoration:none}
+.reinc-leg button[data-v].ativo{background:var(--accent);color:#fff}
+.reinc-leg button[data-v].ativo i.anel{border-color:#fff}
+#reinc-mapa .leaflet-control-layers{font:12.5px/1.5 Inter,system-ui,sans-serif;color:#14213d}
 .reinc-leg i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px}
 .reinc-leg i.anel{background:transparent;border:2.5px solid var(--text)}
-:root[data-tema="escuro"] #reinc-mapa .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.95) contrast(.9)}
+:root[data-tema="escuro"] #reinc-mapa .tile-ruas{filter:invert(1) hue-rotate(180deg) brightness(.95) contrast(.9)}
 #reinc-mapa{height:480px;border-radius:10px;border:1px solid var(--line);z-index:0}
 .reinc-cont{font-size:13px;color:var(--muted);margin:12px 2px 6px}
 .reinc .tbl{max-height:430px;overflow:auto;margin:0;border:1px solid var(--line);border-radius:10px}
@@ -700,9 +707,21 @@ function carregaLeaflet(){
 }
 const corReinc = n => n >= 6 ? '#8e1b5a' : n >= 4 ? '#d7301f' : n === 3 ? '#f08c2e' : '#f2c14e';
 const raioReinc = n => 4 + Math.min(n, 12) * 0.7;
-function tileReinc(){
-  return L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'});
+const ESRI = n => `https://server.arcgisonline.com/ArcGIS/rest/services/${n}/MapServer/tile/{z}/{y}/{x}`;
+const ATR_ESRI = 'Imagens &copy; Esri, Maxar, Earthstar Geographics';
+function fundosReinc(){
+  const ruas = () => L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {maxZoom: 19, className: 'tile-ruas', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'});
+  const sat = () => L.tileLayer(ESRI('World_Imagery'), {maxZoom: 19, maxNativeZoom: 18, attribution: ATR_ESRI});
+  const rot = () => L.tileLayer(ESRI('Reference/World_Boundaries_and_Places'), {maxZoom: 19, maxNativeZoom: 18});
+  const vias = () => L.tileLayer(ESRI('Reference/World_Transportation'), {maxZoom: 19, maxNativeZoom: 18});
+  return {
+    'Ruas': ruas(),
+    'Satélite': sat(),
+    'Híbrido (satélite + ruas)': L.layerGroup([sat(), vias(), rot()]),
+    'Topográfico': L.tileLayer(ESRI('World_Topo_Map'), {maxZoom: 19, maxNativeZoom: 18, attribution: '&copy; Esri'}),
+    'Cinza': L.tileLayer(ESRI('Canvas/World_Light_Gray_Base'), {maxZoom: 19, maxNativeZoom: 16, attribution: '&copy; Esri'}),
+  };
 }
 // enquadra os pontos ignorando os 1% mais distantes de cada lado (coordenadas erradas, fora da cidade)
 function limitesReinc(P){
@@ -730,16 +749,16 @@ async function montarReinc(c, d){
   box.innerHTML = `
     <div class="reinc-barra">
       <button data-f="todos" class="ativo">Todos</button>
-      <button data-f="3">3 ou mais OS</button>
-      <button data-f="volta">Voltou após execução</button>
       <button data-f="mes">Com OS neste mês</button>
       <input type="search" placeholder="Buscar poste ou rua…">
     </div>
     <div id="reinc-mapa"></div>
-    <div class="reinc-leg">
-      <span><i style="background:${corReinc(2)}"></i>2 OS</span><span><i style="background:${corReinc(3)}"></i>3 OS</span>
-      <span><i style="background:${corReinc(4)}"></i>4–5 OS</span><span><i style="background:${corReinc(6)}"></i>6 ou mais</span>
-      <span><i class="anel"></i>voltou depois de uma OS executada</span>
+    <div class="reinc-leg" title="Clique para mostrar ou esconder">
+      <button data-c="2" class="ativo"><i style="background:${corReinc(2)}"></i>2 OS</button>
+      <button data-c="3" class="ativo"><i style="background:${corReinc(3)}"></i>3 OS</button>
+      <button data-c="4" class="ativo"><i style="background:${corReinc(4)}"></i>4–5 OS</button>
+      <button data-c="6" class="ativo"><i style="background:${corReinc(6)}"></i>6 ou mais</button>
+      <button data-v="1"><i class="anel"></i>só os que voltaram depois de uma OS executada</button>
     </div>
     <div class="reinc-cont"></div>
     <div class="tbl"><table><thead><tr><th>Poste</th><th>Endereço</th><th>OS</th><th>Fechamentos</th><th>Equipes</th><th>Voltou após execução</th><th>Fora do prazo</th></tr></thead><tbody></tbody></table></div>`;
@@ -753,9 +772,19 @@ async function montarReinc(c, d){
     plano.after(sec);
   }
   const corpo = box.querySelector('tbody'), cont = box.querySelector('.reinc-cont'), rolagem = box.querySelector('.tbl');
-  let filtro = 'todos', busca = '', sel = null;
-  const passa = p => (filtro === 'todos' || (filtro === '3' && p.n >= 3) || (filtro === 'volta' && p.volta > 0) || (filtro === 'mes' && p.mes))
+  let soMes = false, soVolta = false, busca = '', sel = null;
+  const cats = new Set(['2', '3', '4', '6']);
+  const cat = n => n >= 6 ? '6' : n >= 4 ? '4' : String(n);
+  const passa = p => cats.has(cat(p.n)) && (!soVolta || p.volta > 0) && (!soMes || p.mes)
     && (!busca || (p.poste + ' ' + p.end).toLowerCase().includes(busca));
+  function marcaBotoes(){
+    const todos = cats.size === 4 && !soVolta && !soMes && !busca;
+    box.querySelector('[data-f="todos"]').classList.toggle('ativo', todos);
+    box.querySelector('[data-f="mes"]').classList.toggle('ativo', soMes);
+    box.querySelectorAll('.reinc-leg [data-c]').forEach(b => b.classList.toggle('ativo', cats.has(b.dataset.c)));
+    box.querySelector('.reinc-leg [data-v]').classList.toggle('ativo', soVolta);
+  }
+  function limpa(){ ['2', '3', '4', '6'].forEach(c => cats.add(c)); soVolta = soMes = false; busca = ''; box.querySelector('input').value = ''; marcaBotoes(); }
   const ordem = [...P].sort((a, b) => b.n - a.n || b.volta - a.volta || a.poste.localeCompare(b.poste));
 
   try { await carregaLeaflet(); } catch(e) { box.querySelector('#reinc-mapa').innerHTML = '<p class="erro" style="padding:12px">Não foi possível carregar o mapa.</p>'; }
@@ -763,7 +792,11 @@ async function montarReinc(c, d){
   let mapa = null, camada = null, marcas = [];
   if (temMapa) {
     mapa = MAPA_R = L.map('reinc-mapa', {preferCanvas: true, scrollWheelZoom: false});
-    tileReinc().addTo(mapa);
+    const fundos = fundosReinc();
+    let escolha = 'Ruas'; try { escolha = localStorage.getItem('farol-mapa') || 'Ruas'; } catch(e) {}
+    (fundos[escolha] || fundos['Ruas']).addTo(mapa);
+    L.control.layers(fundos, null, {collapsed: false, position: 'topright'}).addTo(mapa);
+    mapa.on('baselayerchange', e => { try { localStorage.setItem('farol-mapa', e.name); } catch(x) {} });
     mapa.on('click', () => mapa.scrollWheelZoom.enable());
     camada = L.layerGroup().addTo(mapa);
     marcas = P.map(p => L.circleMarker([p.lat, p.lon], {radius: raioReinc(p.n), color: p.volta ? '#14213d' : '#ffffff',
@@ -783,8 +816,7 @@ async function montarReinc(c, d){
     sel = i; const p = P[i];
     corpo.querySelectorAll('tr.sel').forEach(t => t.classList.remove('sel'));
     let tr = corpo.querySelector(`tr[data-i="${i}"]`);
-    if (!tr) { filtro = 'todos'; busca = ''; box.querySelector('input').value = '';
-      box.querySelectorAll('.reinc-barra button').forEach(b => b.classList.toggle('ativo', b.dataset.f === 'todos')); desenha();
+    if (!tr) { limpa(); desenha();
       tr = corpo.querySelector(`tr[data-i="${i}"]`); }
     if (tr) { tr.classList.add('sel'); rolagem.scrollTop = tr.offsetTop - rolagem.clientHeight / 2 + tr.offsetHeight / 2;
       if (!voar) rolagem.scrollIntoView({block: 'nearest', behavior: 'smooth'}); }
@@ -798,9 +830,14 @@ async function montarReinc(c, d){
     }
   }
   corpo.addEventListener('click', e => { const tr = e.target.closest('tr[data-i]'); if (tr) seleciona(+tr.dataset.i, true); });
-  box.querySelectorAll('.reinc-barra button').forEach(b => b.addEventListener('click', () => {
-    filtro = b.dataset.f; box.querySelectorAll('.reinc-barra button').forEach(x => x.classList.toggle('ativo', x === b)); desenha(); }));
-  box.querySelector('input').addEventListener('input', e => { busca = e.target.value.trim().toLowerCase(); desenha(); });
+  box.querySelector('[data-f="todos"]').addEventListener('click', () => { limpa(); desenha(); });
+  box.querySelector('[data-f="mes"]').addEventListener('click', () => { soMes = !soMes; marcaBotoes(); desenha(); });
+  box.querySelectorAll('.reinc-leg [data-c]').forEach(b => b.addEventListener('click', () => {
+    const c = b.dataset.c;
+    if (cats.has(c)) { if (cats.size > 1) cats.delete(c); } else cats.add(c);
+    marcaBotoes(); desenha(); }));
+  box.querySelector('.reinc-leg [data-v]').addEventListener('click', () => { soVolta = !soVolta; marcaBotoes(); desenha(); });
+  box.querySelector('input').addEventListener('input', e => { busca = e.target.value.trim().toLowerCase(); marcaBotoes(); desenha(); });
   desenha();
 }
 async function carregar(){
