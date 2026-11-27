@@ -43,4 +43,5 @@ O workflow `.github/workflows/atualizar-ipa.yml` é disparado pelo **cron-job.or
 - O robô mantém **uma aba automática por dia** (`"auto": true` no json): cada execução substitui a automática do mesmo dia. Abas feitas à mão nunca são alteradas nem apagadas.
 - Login: secrets `GISWORKS_USUARIO` e `GISWORKS_SENHA` (Settings → Secrets and variables → Actions).
 - Se falhar, o GitHub manda e-mail e o print da tela fica em *Artifacts → erro-gisworks* da execução.
+- **Reincidência de pontos:** o robô baixa também os fechamentos dos últimos 90 dias (download separado e opcional: se falhar, o IPA sai normal). Ponto = nº do poste; OS sem poste entram pela lat-long num raio de 15 m. A seção "Pontos com reincidência" lista os pontos com 2+ OS (uma vez por OS, sem origem Obra), quantas voltaram depois de uma OS executada e o link do mapa. Janela e raio: `DIAS_REINCIDENCIA` e `RAIO_M` em `robo/atualizar_site.py` (a janela também em `robo/baixar_relatorio.py`). As colunas encontradas ficam anotadas em `robo/diagnostico.txt`.
 - Faixas de nota: `FAIXAS_NOTA` no início de `robo/atualizar_site.py`.

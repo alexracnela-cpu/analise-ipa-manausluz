@@ -40,7 +40,7 @@ jobs:
         env:
           GISWORKS_USUARIO: ${{ secrets.GISWORKS_USUARIO }}
           GISWORKS_SENHA: ${{ secrets.GISWORKS_SENHA }}
-        run: python robo/baixar_relatorio.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx"
+        run: python robo/baixar_relatorio.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx" "$RUNNER_TEMP/relatorio_90d.xlsx"
 
       - name: Calcular IPA e gerar a análise
         env:
@@ -51,10 +51,10 @@ jobs:
         run: |
           if [ "$PROTEGIDO" = "true" ]; then
             # repositório público: os logs ficam visíveis, então não imprime os números
-            python robo/atualizar_site.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx" > "$RUNNER_TEMP/resumo.txt"
+            python robo/atualizar_site.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx" "$RUNNER_TEMP/relatorio_90d.xlsx" > "$RUNNER_TEMP/resumo.txt"
             echo "### Análise atualizada e gravada no Supabase" >> "$GITHUB_STEP_SUMMARY"
           else
-            python robo/atualizar_site.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx" | tee "$RUNNER_TEMP/resumo.txt"
+            python robo/atualizar_site.py "$RUNNER_TEMP/relatorio.xlsx" "$RUNNER_TEMP/abertas.xlsx" "$RUNNER_TEMP/relatorio_90d.xlsx" | tee "$RUNNER_TEMP/resumo.txt"
             echo "### $(cat "$RUNNER_TEMP/resumo.txt")" >> "$GITHUB_STEP_SUMMARY"
           fi
 

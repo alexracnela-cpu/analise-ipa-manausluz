@@ -20,6 +20,7 @@ from playwright.sync_api import sync_playwright
 BASE = os.environ.get("GISWORKS_URL", "https://manaus.gestoriluminacaopublica.com.br")
 TZ = ZoneInfo("America/Manaus")
 DIAG = os.path.join(os.path.dirname(os.path.abspath(__file__)), "diagnostico.txt")
+DIAS_REINCIDENCIA = 90  # janela da reincidência de pontos (atualizar_site.py usa o mesmo valor)
 
 
 def diag(msg):
@@ -127,7 +128,7 @@ async () => {
 """
 
 
-def main(saida: str, saida_abertas: str | None = None) -> None:
+def main(saida: str, saida_abertas: str | None = None, saida_90d: str | None = None) -> None:
     with open(DIAG, "w", encoding="utf-8") as f:
         f.write(f"Execução {datetime.now(TZ):%d/%m/%Y %H:%M}\n")
     usuario = os.environ["GISWORKS_USUARIO"]
@@ -137,6 +138,8 @@ def main(saida: str, saida_abertas: str | None = None) -> None:
     # o GisWorks pode tratar a data final como exclusiva: pede até amanhã
     # (fechamentos futuros não existem) e o recorte exato é feito no Python
     fim = (agora + timedelta(days=1)).strftime("%Y-%m-%d")
+    # reincidência de pontos: fechamentos dos últimos 90 dias (download separado e opcional)
+    ini90 = (agora - timedelta(days=DIAS_REINCIDENCIA)).strftime("%Y-%m-%d")
 
     with sync_playwright() as p:
         nav = p.chromium.launch()
@@ -160,6 +163,14 @@ def main(saida: str, saida_abertas: str | None = None) -> None:
             pagina.goto(BASE + "/Relatorio")
             pagina.wait_for_load_state("networkidle")
             r = pagina.evaluate(JS_GERAR, {"ini": ini, "fim": fim})
+            r90 = None
+            if saida_90d:
+                try:
+                    pagina.goto(BASE + "/Relatorio")
+                    pagina.wait_for_load_state("networkidle")
+                    r90 = pagina.evaluate(JS_GERAR, {"ini": ini90, "fim": fim})
+                except Exception as e:  # a reincidência é opcional: o IPA sai sem ela
+                    diag(f"Aviso: não consegui baixar o relatório de {DIAS_REINCIDENCIA} dias ({e})")
             ra = None
             if saida_abertas:
                 try:
@@ -184,6 +195,14 @@ def main(saida: str, saida_abertas: str | None = None) -> None:
     with open(saida, "wb") as f:
         f.write(dados)
     print(f"Relatório baixado: {saida} ({len(dados):,} bytes), fechamentos {ini} a {fim}")
+    if r90:
+        d90 = base64.b64decode(r90["b64"])
+        if d90.startswith(b"PK"):
+            with open(saida_90d, "wb") as f:
+                f.write(d90)
+            diag(f"Relatório de {DIAS_REINCIDENCIA} dias baixado: {len(d90):,} bytes (fechamentos {ini90} a {fim})")
+        else:
+            diag(f"Aviso: relatório de {DIAS_REINCIDENCIA} dias não veio em Excel (tipo {r90['tipo']}, {r90['tamanho']} bytes)")
     if ra:
         da = base64.b64decode(ra["b64"])
         if da.startswith(b"PK"):
@@ -197,4 +216,5 @@ def main(saida: str, saida_abertas: str | None = None) -> None:
 
 if __name__ == "__main__":
     main(sys.argv[1] if len(sys.argv) > 1 else "relatorio.xlsx",
-         sys.argv[2] if len(sys.argv) > 2 else None)
+         sys.argv[2] if len(sys.argv) > 2 else None,
+         sys.argv[3] if len(sys.argv) > 3 else None)

@@ -16,11 +16,13 @@ automática do mesmo dia. Abas feitas à mão (sem "auto": true) nunca são toca
 import calendar
 import json
 import math
+import re
 import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -884,7 +886,178 @@ def backlog(ab, agora):
 
 
 # ---------------------------------------------------------------- gravação
-def main(arquivo, arquivo_abertas=None):
+# ---------------------------------------------------------------- reincidência de pontos
+DIAS_REINCIDENCIA = 90   # janela (o robo/baixar_relatorio.py baixa o mesmo período)
+RAIO_M = 15              # OS sem nº do poste: mesma lat-long num raio de 15 m conta como o mesmo ponto
+INVALIDOS = {"", "NAN", "NONE", "0", "S/N", "SN", "-", "NULL", "NAT"}
+
+
+def _norm(t):
+    import unicodedata
+    t = unicodedata.normalize("NFKD", str(t)).encode("ascii", "ignore").decode().lower()
+    return " ".join(t.replace("º", "").replace("°", "").split())
+
+
+def _coluna(df, testes, evita=()):
+    for c in df.columns:
+        n = _norm(c)
+        if any(e in n for e in evita):
+            continue
+        if any(re.search(t, n) for t in testes):
+            return c
+    return None
+
+
+def _num(v):
+    try:
+        x = float(str(v).strip().replace(",", "."))
+        return x if math.isfinite(x) else None
+    except ValueError:
+        return None
+
+
+def _coords(df):
+    """Devolve (lat, lon) em Series, achando as colunas pelo nome."""
+    clat = _coluna(df, [r"^lat"], evita=("long",))
+    clon = _coluna(df, [r"^lon", r"^lng"], evita=("lat",))
+    if clat and clon:
+        lat, lon = df[clat].map(_num), df[clon].map(_num)
+    else:
+        cj = _coluna(df, [r"lat.*lon", r"lon.*lat", r"coordenad", r"geoloc"])
+        if not cj:
+            return None, None, "nenhuma coluna de lat-long"
+        txt = df[cj].astype(str)
+        par = txt.str.findall(r"-?\d{1,3}[.,]\d{3,}")            # "-3,1234567, -60,0123456" ou com ponto
+        curto = par.map(len) < 2
+        par[curto] = txt[curto].str.findall(r"-?\d{1,3}\.\d+")  # poucas casas, só com ponto decimal
+        lat = par.map(lambda l: _num(l[0]) if len(l) >= 2 else None)
+        lon = par.map(lambda l: _num(l[1]) if len(l) >= 2 else None)
+        clat = clon = cj
+    lat, lon = pd.to_numeric(lat, errors="coerce"), pd.to_numeric(lon, errors="coerce")
+    troca = lat.abs() > lon.abs()          # lat e lon invertidas (em Manaus |lon| ~ 60 > |lat| ~ 3)
+    lat, lon = lat.where(~troca, lon), lon.where(~troca, lat)
+    ok = lat.between(-15, 10) & lon.between(-80, -40)
+    return lat.where(ok), lon.where(ok), f"{clat} / {clon}"
+
+
+def _poste(v):
+    t = str(v).strip().upper()
+    if t.endswith(".0") and t[:-2].isdigit():
+        t = t[:-2]
+    t = "".join(t.split())
+    return None if t in INVALIDOS or not any(ch.isdigit() for ch in t) else t
+
+
+def _dist_m(lat1, lon1, lat2, lon2):
+    dx = (lon2 - lon1) * 111320 * np.cos(np.radians(lat1))
+    dy = (lat2 - lat1) * 110540
+    return np.hypot(dx, dy)
+
+
+def reincidencia(df, agora, ant_ex):
+    """Pontos (poste ou lat-long) com 2 ou mais OS fechadas nos últimos DIAS_REINCIDENCIA dias."""
+    def avisa(msg):
+        print(msg)
+        with open(Path(__file__).parent / "diagnostico.txt", "a", encoding="utf-8") as f:
+            f.write(msg + "\n")
+
+    if df is None or df.empty:
+        return None, {}
+    ini = agora - timedelta(days=DIAS_REINCIDENCIA)
+    d = df[(df["Tipo"] == "Ordem de Serviço") & (df["fech"] >= ini) & (df["fech"] <= agora)]
+    d = d[sem_obra_mask(d)].sort_values("fech").drop_duplicates("ID", keep="last").copy()
+    if d.empty:
+        return None, {}
+
+    cp = (_coluna(d, [r"poste\s*(n|no|num|numero|nr)\b", r"^(n|no|num|numero|nr)\.?\s*(do\s*)?poste"], evita=("inexist",))
+          or _coluna(d, [r"poste"], evita=("inexist", "tipo", "altura", "material", "estrutura")))
+    lat, lon, ccoord = _coords(d)
+    if not cp and lat is None:
+        avisa(f"Aviso: reincidência sem coluna de poste nem de lat-long. Colunas: {list(df.columns)}")
+        return None, {}
+    d["poste"] = d[cp].map(_poste) if cp else None
+    d["lat"], d["lon"] = (lat, lon) if lat is not None else (np.nan, np.nan)
+
+    # 1) chave pelo nº do poste
+    d["ponto"] = "P:" + d["poste"].astype(str)
+    d.loc[d["poste"].isna(), "ponto"] = None
+    cent = d.dropna(subset=["ponto", "lat"]).groupby("ponto")[["lat", "lon"]].median()
+    c_lat, c_lon, c_id = list(cent["lat"]), list(cent["lon"]), list(cent.index)
+    # 2) OS sem poste: junta ao ponto mais próximo num raio de RAIO_M; se não houver, vira ponto novo
+    sem = d[d["ponto"].isna() & d["lat"].notna()]
+    for i, r in sem.iterrows():
+        if c_lat:
+            dist = _dist_m(r["lat"], r["lon"], np.array(c_lat), np.array(c_lon))
+            j = int(dist.argmin())
+            if dist[j] <= RAIO_M:
+                d.at[i, "ponto"] = c_id[j]
+                continue
+        novo = f"C:{r['lat']:.5f},{r['lon']:.5f}"
+        c_lat.append(r["lat"]); c_lon.append(r["lon"]); c_id.append(novo)
+        d.at[i, "ponto"] = novo
+    sem_ponto = int(d["ponto"].isna().sum())
+    d = d.dropna(subset=["ponto"])
+
+    d["exe"] = d["Ocorrência"].astype(str).str.upper().eq("EXECUTADO") if "Ocorrência" in d else False
+    ini_mes = datetime(agora.year, agora.month, 1)
+    pts = []
+    for k, g in d.groupby("ponto"):
+        if len(g) < 2:
+            continue
+        g = g.sort_values("fech")
+        gaps = g["fech"].diff().dt.total_seconds().div(86400).iloc[1:]
+        volta_exe = int(g["exe"].iloc[:-1].sum())   # OS executadas que tiveram outra OS depois
+        la, lo = g["lat"].median(), g["lon"].median()
+        pts.append({
+            "ponto": k, "poste": k[2:] if k.startswith("P:") else "sem nº",
+            "end": str(g["Logradouro"].dropna().iloc[-1]).strip() if "Logradouro" in g and g["Logradouro"].notna().any() else "",
+            "n": len(g), "datas": ", ".join(f"{x:%d/%m}" for x in g["fech"]),
+            "equipes": ", ".join(dict.fromkeys(g["Equipe"].astype(str).str.strip())) if "Equipe" in g else "",
+            "volta_exe": volta_exe, "gap_min": float(gaps.min()), "ult": g["fech"].iloc[-1],
+            "no_mes": bool((g["fech"] >= ini_mes).any()), "fora": int((g["Fechada no Prazo"] != "Sim").sum()),
+            "mapa": f"[mapa](https://www.google.com/maps?q={la:.6f},{lo:.6f})" if pd.notna(la) else "",
+        })
+    if not pts:
+        return (f"## Pontos com reincidência (últimos {DIAS_REINCIDENCIA} dias)\n\n"
+                f"Nenhum ponto teve mais de uma OS entre {ini:%d/%m} e {agora:%d/%m/%Y}."), {"pontos": 0}
+    P = pd.DataFrame(pts).sort_values(["n", "volta_exe", "ult"], ascending=[False, False, False])
+    n_pts, n_os = len(P), int(P["n"].sum())
+    n3 = int((P["n"] >= 3).sum())
+    n_exe = int((P["volta_exe"] > 0).sum())
+    n30 = int((P["gap_min"] <= 30).sum())
+    n_mes = int(P["no_mes"].sum())
+    pref = round(100 * n_os / len(d), 1)
+
+    def pl(n, um, varios):
+        return f"{br(n)} {um if n == 1 else varios}"
+
+    S = [f"## Pontos com reincidência (últimos {DIAS_REINCIDENCIA} dias)"]
+    ant = ""
+    if "reinc_pontos" in ant_ex:
+        dif = n_pts - ant_ex["reinc_pontos"]
+        ant = f" Na aba anterior eram {br(ant_ex['reinc_pontos'])} pontos ({'+' if dif > 0 else ''}{br(dif)})."
+    S.append(
+        f"OS fechadas de {ini:%d/%m/%Y} a {agora:%d/%m/%Y}, exceto origem Obra, uma vez por OS. Ponto = nº do poste; "
+        f"quando a OS não tem poste, vale a lat-long num raio de {RAIO_M} m. "
+        f"**{br(n_pts)} pontos tiveram 2 ou mais OS**, somando {br(n_os)} OS ({pc(pref, 1)} das {br(len(d))} OS da "
+        f"janela); {pl(n3, 'ponto', 'pontos')} com 3 ou mais. {br(n_mes)} {'teve' if n_mes == 1 else 'tiveram'} OS "
+        f"neste mês.{ant}")
+    S.append(
+        f"- **Voltou depois de executada:** em {pl(n_exe, 'ponto', 'pontos')} houve nova OS depois de uma OS fechada como "
+        f"executada — sinal de serviço que não resolveu o defeito.\n"
+        f"- **Retorno rápido:** em {pl(n30, 'ponto', 'pontos')} a nova OS veio em até 30 dias da anterior."
+        + (f"\n- {br(sem_ponto)} OS sem nº do poste e sem lat-long {'ficou' if sem_ponto == 1 else 'ficaram'} "
+           f"fora desta conta." if sem_ponto else ""))
+    top = P.head(20)
+    S.append("Os pontos com mais OS:" if len(top) > 1 else "O ponto:")
+    S.append(tabela(["Poste", "Endereço", "OS", "Fechamentos", "Equipes", "Voltou após execução", "Fora do prazo", "Local"],
+                    [(r.poste, r.end, br(r.n), r.datas, r.equipes, br(r.volta_exe), br(r.fora), r.mapa)
+                     for r in top.itertuples()]))
+    avisa(f"Reincidência: colunas poste = {cp}, coordenadas = {ccoord}; {n_pts} pontos.")
+    return "\n\n".join(S), {"reinc_pontos": n_pts, "reinc_os": n_os, "reinc_3mais": n3, "reinc_volta_exe": n_exe}
+
+
+def main(arquivo, arquivo_abertas=None, arquivo_90d=None):
     agora = datetime.now(TZ).replace(tzinfo=None)
     df, mat = ler_relatorio(arquivo)
     abertas = ler_abertas(arquivo_abertas)
@@ -905,6 +1078,20 @@ def main(arquivo, arquivo_abertas=None):
     ant = json.loads((HIST / f"{restantes[0]['id']}.json").read_text(encoding="utf-8")) if restantes else {}
 
     d, md = analisar(df, mat, abertas, agora, ant)
+    if arquivo_90d and Path(arquivo_90d).exists():
+        try:
+            df90, _ = ler_relatorio(arquivo_90d)
+            ant_ex = ant.get("extra", {}) if ant.get("mes") == agora.strftime("%m/%Y") else {}
+            sec, ex = reincidencia(df90, agora, ant_ex)
+            if sec:
+                marca = next((m for m in ("## Backlog atual", "## Metas e premissas") if m in md), None)
+                md = md.replace(marca, sec + "\n\n" + marca, 1) if marca else md + "\n" + sec + "\n"
+                d["extra"].update(ex)
+        except Exception as e:  # a reincidência nunca pode derrubar o IPA
+            msg = f"Aviso: reincidência não gerada ({type(e).__name__}: {e})"
+            print(msg)
+            with open(Path(__file__).parent / "diagnostico.txt", "a", encoding="utf-8") as f:
+                f.write(msg + "\n")
     mes = agora.strftime("%m/%Y")
     mesmo_mes = ant.get("mes") == mes
     novo_id = agora.strftime("%Y-%m-%d_%H%M")
@@ -945,4 +1132,5 @@ def main(arquivo, arquivo_abertas=None):
 
 if __name__ == "__main__":
     main(sys.argv[1] if len(sys.argv) > 1 else "relatorio.xlsx",
-         sys.argv[2] if len(sys.argv) > 2 else None)
+         sys.argv[2] if len(sys.argv) > 2 else None,
+         sys.argv[3] if len(sys.argv) > 3 else None)
