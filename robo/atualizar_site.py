@@ -962,19 +962,19 @@ def reincidencia(df, agora, ant_ex):
             f.write(msg + "\n")
 
     if df is None or df.empty:
-        return None, {}
+        return None, {}, None
     ini = agora - timedelta(days=DIAS_REINCIDENCIA)
     d = df[(df["Tipo"] == "Ordem de Serviço") & (df["fech"] >= ini) & (df["fech"] <= agora)]
     d = d[sem_obra_mask(d)].sort_values("fech").drop_duplicates("ID", keep="last").copy()
     if d.empty:
-        return None, {}
+        return None, {}, None
 
     cp = (_coluna(d, [r"poste\s*(n|no|num|numero|nr)\b", r"^(n|no|num|numero|nr)\.?\s*(do\s*)?poste"], evita=("inexist",))
           or _coluna(d, [r"poste"], evita=("inexist", "tipo", "altura", "material", "estrutura")))
     lat, lon, ccoord = _coords(d)
     if not cp and lat is None:
         avisa(f"Aviso: reincidência sem coluna de poste nem de lat-long. Colunas: {list(df.columns)}")
-        return None, {}
+        return None, {}, None
     d["poste"] = d[cp].map(_poste) if cp else None
     d["lat"], d["lon"] = (lat, lon) if lat is not None else (np.nan, np.nan)
 
@@ -1016,10 +1016,11 @@ def reincidencia(df, agora, ant_ex):
             "volta_exe": volta_exe, "gap_min": float(gaps.min()), "ult": g["fech"].iloc[-1],
             "no_mes": bool((g["fech"] >= ini_mes).any()), "fora": int((g["Fechada no Prazo"] != "Sim").sum()),
             "mapa": f"[mapa](https://www.google.com/maps?q={la:.6f},{lo:.6f})" if pd.notna(la) else "",
+            "la": la, "lo": lo,
         })
     if not pts:
         return (f"## Pontos com reincidência (últimos {DIAS_REINCIDENCIA} dias)\n\n"
-                f"Nenhum ponto teve mais de uma OS entre {ini:%d/%m} e {agora:%d/%m/%Y}."), {"pontos": 0}
+                f"Nenhum ponto teve mais de uma OS entre {ini:%d/%m} e {agora:%d/%m/%Y}."), {"reinc_pontos": 0}, None
     P = pd.DataFrame(pts).sort_values(["n", "volta_exe", "ult"], ascending=[False, False, False])
     n_pts, n_os = len(P), int(P["n"].sum())
     n3 = int((P["n"] >= 3).sum())
@@ -1048,13 +1049,19 @@ def reincidencia(df, agora, ant_ex):
         f"- **Retorno rápido:** em {pl(n30, 'ponto', 'pontos')} a nova OS veio em até 30 dias da anterior."
         + (f"\n- {br(sem_ponto)} OS sem nº do poste e sem lat-long {'ficou' if sem_ponto == 1 else 'ficaram'} "
            f"fora desta conta." if sem_ponto else ""))
+    # pontos do mapa do site: [lat, lon, OS, voltou após execução, fora do prazo, teve OS no mês, poste, endereço, datas, equipes]
+    pm = P[P["la"].notna()].sort_values("n")
+    mapa = [[round(float(r.la), 5), round(float(r.lo), 5), int(r.n), int(r.volta_exe), int(r.fora), int(r.no_mes),
+             r.poste, r.end, r.datas, r.equipes] for r in pm.itertuples()]
+    S.append("<!-- MAPA -->")
     top = P.head(20)
     S.append("Os pontos com mais OS:" if len(top) > 1 else "O ponto:")
     S.append(tabela(["Poste", "Endereço", "OS", "Fechamentos", "Equipes", "Voltou após execução", "Fora do prazo", "Local"],
                     [(r.poste, r.end, br(r.n), r.datas, r.equipes, br(r.volta_exe), br(r.fora), r.mapa)
                      for r in top.itertuples()]))
     avisa(f"Reincidência: colunas poste = {cp}, coordenadas = {ccoord}; {n_pts} pontos.")
-    return "\n\n".join(S), {"reinc_pontos": n_pts, "reinc_os": n_os, "reinc_3mais": n3, "reinc_volta_exe": n_exe}
+    ex = {"reinc_pontos": n_pts, "reinc_os": n_os, "reinc_3mais": n3, "reinc_volta_exe": n_exe}
+    return "\n\n".join(S), ex, {"dias": DIAS_REINCIDENCIA, "ini": f"{ini:%d/%m/%Y}", "pontos": mapa}
 
 
 def main(arquivo, arquivo_abertas=None, arquivo_90d=None):
@@ -1082,11 +1089,13 @@ def main(arquivo, arquivo_abertas=None, arquivo_90d=None):
         try:
             df90, _ = ler_relatorio(arquivo_90d)
             ant_ex = ant.get("extra", {}) if ant.get("mes") == agora.strftime("%m/%Y") else {}
-            sec, ex = reincidencia(df90, agora, ant_ex)
+            sec, ex, reinc_mapa = reincidencia(df90, agora, ant_ex)
             if sec:
                 marca = next((m for m in ("## Backlog atual", "## Metas e premissas") if m in md), None)
                 md = md.replace(marca, sec + "\n\n" + marca, 1) if marca else md + "\n" + sec + "\n"
                 d["extra"].update(ex)
+                if reinc_mapa:
+                    d["reinc"] = reinc_mapa
         except Exception as e:  # a reincidência nunca pode derrubar o IPA
             msg = f"Aviso: reincidência não gerada ({type(e).__name__}: {e})"
             print(msg)
@@ -1112,6 +1121,8 @@ def main(arquivo, arquivo_abertas=None, arquivo_90d=None):
         "auto": True,
         "extra": d["extra"],
     }
+    if d.get("reinc"):
+        dados["reinc"] = d["reinc"]
     assert sum(x["os"] for x in d["dias"]) == d["os_fechadas"]
     assert sum(x["atrasos"] for x in d["dias"]) == d["fora_do_prazo"]
 

@@ -303,6 +303,29 @@ html.natal footer::after{content:"🎄 Boas Festas! — Equipe Manaus Luz";displ
 :root[data-tema="escuro"].natal footer::after{color:#ff9d93}
 @media (max-width:720px){html.natal header{padding-top:46px}.natal-faixa{font-size:12px}}
 @media (prefers-reduced-motion:reduce){.natal-lamp{animation:none}#natal-neve{display:none}}
+
+/* ===== reincidência: mapa + tabela ===== */
+.secao-reinc h2{border-top:0!important}
+.secao-plano + .secao-reinc{margin-top:28px}
+.reinc{margin:14px 0 8px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;box-shadow:0 4px 14px var(--sombra)}
+.reinc-barra{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:10px}
+.reinc-barra button{border:1px solid var(--line);background:var(--aba);color:var(--text);font:600 13px Inter,system-ui,sans-serif;padding:6px 12px;border-radius:999px;cursor:pointer}
+.reinc-barra button.ativo{background:var(--accent);border-color:var(--accent);color:#fff}
+.reinc-barra input{flex:1;min-width:180px;border:1px solid var(--line);background:var(--card);color:var(--text);font:14px Inter,system-ui,sans-serif;padding:6px 12px;border-radius:999px}
+.reinc-leg{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin:8px 2px}
+.reinc-leg i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px}
+.reinc-leg i.anel{background:transparent;border:2.5px solid var(--text)}
+#reinc-mapa{height:480px;border-radius:10px;border:1px solid var(--line);z-index:0}
+.reinc-cont{font-size:13px;color:var(--muted);margin:12px 2px 6px}
+.reinc .tbl{max-height:430px;overflow:auto;margin:0;border:1px solid var(--line);border-radius:10px}
+.reinc thead th{position:sticky;top:0;z-index:1}
+.reinc tbody tr{cursor:pointer}
+.reinc tbody tr:hover td{background:var(--hover)}
+.reinc tbody tr.sel td{background:#ffe9a8;color:#14213d}
+:root[data-tema="escuro"] .reinc tbody tr.sel td{background:#6b5410;color:#fff}
+.reinc td.n{font-weight:700;text-align:center}
+.reinc .pop b{font-size:14px}.reinc .pop{font:13px/1.5 Inter,system-ui,sans-serif}
+@media (max-width:720px){#reinc-mapa{height:340px}}
 </style>
 </head>
 <body>
@@ -650,12 +673,129 @@ async function abrir(id){
         if(!/detalhad[oa]s nas se[cç][oõ]es abaixo/i.test(box.textContent)) box.appendChild(nota);
       }
     });
+    montarReinc(c, d);
     document.getElementById('rodape').innerHTML = `Fonte: GisWorks (Manaus Luz) · análise completa e histórico no <a href="${d.doc}" target="_blank" rel="noopener">doc do IPA</a>`;
     if(location.hash.slice(1)!==id) history.replaceState(null,'', id===INDICE[0].id ? location.pathname : '#'+id);
   }catch(e){
     document.getElementById('sub').innerHTML = '<span class="erro">Não foi possível carregar esta atualização.</span>';
     console.error(e);
   }
+}
+
+// ===== reincidência: mapa (Leaflet) + tabela; clicar no ponto seleciona a linha e vice-versa =====
+let LEAFLET = null, MAPA_R = null;
+function carregaLeaflet(){
+  if (window.L) return Promise.resolve();
+  if (LEAFLET) return LEAFLET;
+  LEAFLET = new Promise((ok, erro) => {
+    const l = document.createElement('link'); l.rel = 'stylesheet'; l.href = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css';
+    document.head.appendChild(l);
+    const s = document.createElement('script'); s.src = 'https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js';
+    s.onload = ok; s.onerror = erro; document.head.appendChild(s);
+  });
+  return LEAFLET;
+}
+const corReinc = n => n >= 6 ? '#8e1b5a' : n >= 4 ? '#d7301f' : n === 3 ? '#f08c2e' : '#f2c14e';
+const raioReinc = n => 4 + Math.min(n, 12) * 0.7;
+function tileReinc(){
+  const esc = document.documentElement.dataset.tema === 'escuro';
+  return L.tileLayer(`https://{s}.basemaps.cartocdn.com/${esc ? 'dark_all' : 'light_all'}/{z}/{x}/{y}{r}.png`,
+    {maxZoom: 20, subdomains: 'abcd', attribution: '&copy; OpenStreetMap &copy; CARTO'});
+}
+async function montarReinc(c, d){
+  if (MAPA_R) { try { MAPA_R.remove(); } catch(e) {} MAPA_R = null; }
+  const R = d.reinc;
+  if (!R || !R.pontos || !R.pontos.length) return;
+  const h = [...c.querySelectorAll('h2')].find(x => /reincid[eê]ncia/i.test(x.textContent));
+  if (!h) return;
+  // tira a tabela estática (top 20) — a tabela interativa mostra todos
+  let ancora = h, k = h.nextElementSibling;
+  while (k && k.tagName !== 'H2') {
+    const prox = k.nextElementSibling;
+    if (k.tagName === 'P' && /^(Os pontos com mais OS|O ponto)/i.test(k.textContent.trim())) { k.remove(); }
+    else if (k.classList.contains('tbl')) { k.remove(); }
+    else ancora = k;
+    k = prox;
+  }
+  const P = R.pontos.map((p, i) => ({i, lat:p[0], lon:p[1], n:p[2], volta:p[3], fora:p[4], mes:!!p[5], poste:String(p[6]), end:p[7]||'', datas:p[8]||'', eq:p[9]||''}));
+  const box = document.createElement('section'); box.className = 'reinc';
+  box.innerHTML = `
+    <div class="reinc-barra">
+      <button data-f="todos" class="ativo">Todos</button>
+      <button data-f="3">3 ou mais OS</button>
+      <button data-f="volta">Voltou após execução</button>
+      <button data-f="mes">Com OS neste mês</button>
+      <input type="search" placeholder="Buscar poste ou rua…">
+    </div>
+    <div id="reinc-mapa"></div>
+    <div class="reinc-leg">
+      <span><i style="background:${corReinc(2)}"></i>2 OS</span><span><i style="background:${corReinc(3)}"></i>3 OS</span>
+      <span><i style="background:${corReinc(4)}"></i>4–5 OS</span><span><i style="background:${corReinc(6)}"></i>6 ou mais</span>
+      <span><i class="anel"></i>voltou depois de uma OS executada</span>
+    </div>
+    <div class="reinc-cont"></div>
+    <div class="tbl"><table><thead><tr><th>Poste</th><th>Endereço</th><th>OS</th><th>Fechamentos</th><th>Equipes</th><th>Voltou após execução</th><th>Fora do prazo</th></tr></thead><tbody></tbody></table></div>`;
+  ancora.after(box);
+  // a seção inteira (título, resumo, mapa e tabela) vai para logo abaixo do quadro do Plano de ação
+  const plano = c.querySelector('.secao-plano');
+  if (plano) {
+    const sec = document.createElement('section'); sec.className = 'secao-reinc';
+    h.before(sec);
+    let n = h; while (n && !(n !== h && n.tagName === 'H2')) { const prox = n.nextElementSibling; sec.appendChild(n); n = prox; }
+    plano.after(sec);
+  }
+  const corpo = box.querySelector('tbody'), cont = box.querySelector('.reinc-cont'), rolagem = box.querySelector('.tbl');
+  let filtro = 'todos', busca = '', sel = null;
+  const passa = p => (filtro === 'todos' || (filtro === '3' && p.n >= 3) || (filtro === 'volta' && p.volta > 0) || (filtro === 'mes' && p.mes))
+    && (!busca || (p.poste + ' ' + p.end).toLowerCase().includes(busca));
+  const ordem = [...P].sort((a, b) => b.n - a.n || b.volta - a.volta || a.poste.localeCompare(b.poste));
+
+  try { await carregaLeaflet(); } catch(e) { box.querySelector('#reinc-mapa').innerHTML = '<p class="erro" style="padding:12px">Não foi possível carregar o mapa.</p>'; }
+  const temMapa = !!window.L && document.body.contains(box);
+  let mapa = null, camada = null, marcas = [];
+  if (temMapa) {
+    mapa = MAPA_R = L.map('reinc-mapa', {preferCanvas: true, scrollWheelZoom: false});
+    let base = tileReinc().addTo(mapa);
+    new MutationObserver(() => { if (MAPA_R === mapa) { mapa.removeLayer(base); base = tileReinc().addTo(mapa); } })
+      .observe(document.documentElement, {attributes: true, attributeFilter: ['data-tema']});
+    mapa.on('click', () => mapa.scrollWheelZoom.enable());
+    camada = L.layerGroup().addTo(mapa);
+    marcas = P.map(p => L.circleMarker([p.lat, p.lon], {radius: raioReinc(p.n), color: p.volta ? '#14213d' : '#ffffff',
+        weight: p.volta ? 2.2 : 1, fillColor: corReinc(p.n), fillOpacity: .88})
+      .bindTooltip(`Poste ${esc(p.poste)} · ${p.n} OS`)
+      .on('click', () => seleciona(p.i, false)));
+    mapa.fitBounds(L.latLngBounds(P.map(p => [p.lat, p.lon])), {padding: [20, 20]});
+  }
+  function desenha(){
+    const vis = ordem.filter(passa);
+    if (camada) { camada.clearLayers(); vis.slice().reverse().forEach(p => camada.addLayer(marcas[p.i])); }
+    cont.textContent = `${fmt(vis.length)} de ${fmt(P.length)} postes · ${fmt(vis.reduce((s, p) => s + p.n, 0))} OS · clique num ponto para ver na tabela, ou numa linha para ver no mapa`;
+    corpo.innerHTML = vis.map(p => `<tr data-i="${p.i}"${p.i === sel ? ' class="sel"' : ''}><td>${esc(p.poste)}</td><td>${esc(p.end)}</td><td class="n">${p.n}</td><td>${esc(p.datas)}</td><td>${esc(p.eq)}</td><td class="n">${p.volta}</td><td class="n">${p.fora}</td></tr>`).join('');
+  }
+  let destaque = null;
+  function seleciona(i, voar){
+    sel = i; const p = P[i];
+    corpo.querySelectorAll('tr.sel').forEach(t => t.classList.remove('sel'));
+    let tr = corpo.querySelector(`tr[data-i="${i}"]`);
+    if (!tr) { filtro = 'todos'; busca = ''; box.querySelector('input').value = '';
+      box.querySelectorAll('.reinc-barra button').forEach(b => b.classList.toggle('ativo', b.dataset.f === 'todos')); desenha();
+      tr = corpo.querySelector(`tr[data-i="${i}"]`); }
+    if (tr) { tr.classList.add('sel'); rolagem.scrollTop = tr.offsetTop - rolagem.clientHeight / 2 + tr.offsetHeight / 2;
+      if (!voar) rolagem.scrollIntoView({block: 'nearest', behavior: 'smooth'}); }
+    if (mapa) {
+      if (destaque) mapa.removeLayer(destaque);
+      destaque = L.circleMarker([p.lat, p.lon], {radius: raioReinc(p.n) + 6, color: '#1d5fc2', weight: 3, fill: false, interactive: false}).addTo(mapa);
+      if (voar) { mapa.setView([p.lat, p.lon], Math.max(mapa.getZoom(), 17)); box.querySelector('#reinc-mapa').scrollIntoView({block: 'nearest', behavior: 'smooth'}); }
+      L.popup({offset: [0, -4]}).setLatLng([p.lat, p.lon]).setContent(
+        `<div class="pop"><b>Poste ${esc(p.poste)}</b><br>${esc(p.end)}<br>${p.n} OS · voltou após execução: ${p.volta}<br>` +
+        `<a href="https://www.google.com/maps?q=${p.lat},${p.lon}" target="_blank" rel="noopener">abrir no Google Maps</a></div>`).openOn(mapa);
+    }
+  }
+  corpo.addEventListener('click', e => { const tr = e.target.closest('tr[data-i]'); if (tr) seleciona(+tr.dataset.i, true); });
+  box.querySelectorAll('.reinc-barra button').forEach(b => b.addEventListener('click', () => {
+    filtro = b.dataset.f; box.querySelectorAll('.reinc-barra button').forEach(x => x.classList.toggle('ativo', x === b)); desenha(); }));
+  box.querySelector('input').addEventListener('input', e => { busca = e.target.value.trim().toLowerCase(); desenha(); });
+  desenha();
 }
 async function carregar(){
   try{
