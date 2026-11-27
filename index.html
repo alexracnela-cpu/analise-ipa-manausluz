@@ -315,6 +315,7 @@ html.natal footer::after{content:"🎄 Boas Festas! — Equipe Manaus Luz";displ
 .reinc-leg{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--muted);margin:8px 2px}
 .reinc-leg i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px}
 .reinc-leg i.anel{background:transparent;border:2.5px solid var(--text)}
+:root[data-tema="escuro"] #reinc-mapa .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.95) contrast(.9)}
 #reinc-mapa{height:480px;border-radius:10px;border:1px solid var(--line);z-index:0}
 .reinc-cont{font-size:13px;color:var(--muted);margin:12px 2px 6px}
 .reinc .tbl{max-height:430px;overflow:auto;margin:0;border:1px solid var(--line);border-radius:10px}
@@ -698,9 +699,14 @@ function carregaLeaflet(){
 const corReinc = n => n >= 6 ? '#8e1b5a' : n >= 4 ? '#d7301f' : n === 3 ? '#f08c2e' : '#f2c14e';
 const raioReinc = n => 4 + Math.min(n, 12) * 0.7;
 function tileReinc(){
-  const esc = document.documentElement.dataset.tema === 'escuro';
-  return L.tileLayer(`https://{s}.basemaps.cartocdn.com/${esc ? 'dark_all' : 'light_all'}/{z}/{x}/{y}{r}.png`,
-    {maxZoom: 20, subdomains: 'abcd', attribution: '&copy; OpenStreetMap &copy; CARTO'});
+  return L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    {maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'});
+}
+// enquadra os pontos ignorando os 1% mais distantes de cada lado (coordenadas erradas, fora da cidade)
+function limitesReinc(P){
+  const q = (v, f) => { const a = [...v].sort((x, y) => x - y); return a[Math.min(a.length - 1, Math.max(0, Math.floor(f * (a.length - 1))))]; };
+  const la = P.map(p => p.lat), lo = P.map(p => p.lon);
+  return L.latLngBounds([q(la, .01), q(lo, .01)], [q(la, .99), q(lo, .99)]);
 }
 async function montarReinc(c, d){
   if (MAPA_R) { try { MAPA_R.remove(); } catch(e) {} MAPA_R = null; }
@@ -755,16 +761,14 @@ async function montarReinc(c, d){
   let mapa = null, camada = null, marcas = [];
   if (temMapa) {
     mapa = MAPA_R = L.map('reinc-mapa', {preferCanvas: true, scrollWheelZoom: false});
-    let base = tileReinc().addTo(mapa);
-    new MutationObserver(() => { if (MAPA_R === mapa) { mapa.removeLayer(base); base = tileReinc().addTo(mapa); } })
-      .observe(document.documentElement, {attributes: true, attributeFilter: ['data-tema']});
+    tileReinc().addTo(mapa);
     mapa.on('click', () => mapa.scrollWheelZoom.enable());
     camada = L.layerGroup().addTo(mapa);
     marcas = P.map(p => L.circleMarker([p.lat, p.lon], {radius: raioReinc(p.n), color: p.volta ? '#14213d' : '#ffffff',
         weight: p.volta ? 2.2 : 1, fillColor: corReinc(p.n), fillOpacity: .88})
       .bindTooltip(`Poste ${esc(p.poste)} · ${p.n} OS`)
       .on('click', () => seleciona(p.i, false)));
-    mapa.fitBounds(L.latLngBounds(P.map(p => [p.lat, p.lon])), {padding: [20, 20]});
+    mapa.fitBounds(limitesReinc(P), {padding: [20, 20]});
   }
   function desenha(){
     const vis = ordem.filter(passa);
