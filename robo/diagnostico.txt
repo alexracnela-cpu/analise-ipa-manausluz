@@ -1,5 +1,5 @@
-Execução 27/11/2026 13:00
-Relatório de 90 dias baixado: 10,718,936 bytes (fechamentos 2026-08-29 a 2026-11-28)
-OS em aberto baixadas: 323,008 bytes
-Aviso: 4 linhas repetidas removidas do relatório (28933 → 28929).
-Reincidência: colunas poste = Poste Nº, coordenadas = Latitude / Longitude, endereço = Tipo de Logradouro + Logradouro; 2257 pontos.
+Execução 27/11/2026 15:00
+Relatório de 90 dias baixado: 10,788,214 bytes (fechamentos 2026-08-29 a 2026-11-28)
+OS em aberto baixadas: 307,516 bytes
+Aviso: 4 linhas repetidas removidas do relatório (29106 → 29102).
+Reincidência: colunas poste = Poste Nº, coordenadas = Latitude / Longitude, endereço = Tipo de Logradouro + Logradouro; 2259 pontos.
