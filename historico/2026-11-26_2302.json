@@ -1,12 +1,12 @@
 {
  "titulo": "Análise do Indicador de Prazo (Manaus Luz)",
- "atualizado_em": "26/11/2026 22h03",
+ "atualizado_em": "26/11/2026 23h02",
  "periodo": "01/11 a 26/11/2026",
  "mes": "11/2026",
- "os_fechadas": 4437,
- "no_prazo": 4237,
- "fora_do_prazo": 200,
- "ipa": 95.49,
+ "os_fechadas": 4446,
+ "no_prazo": 4245,
+ "fora_do_prazo": 201,
+ "ipa": 95.48,
  "nota": "1,0",
  "ipa_anterior": 95.35,
  "atualizado_anterior": "25/11/2026 23h05",
@@ -139,8 +139,8 @@
   },
   {
    "dia": "26",
-   "os": 202,
-   "atrasos": 3
+   "os": 211,
+   "atrasos": 4
   }
  ],
  "auto": true,
@@ -226,8 +226,8 @@
     17
    ],
    "TURNO 2-2": [
-    295,
-    31
+    304,
+    32
    ],
    "TURNO 2-3": [
     270,
@@ -262,14 +262,14 @@
     12
    ]
   },
-  "abertas": 125,
-  "vencidas": 11,
+  "abertas": 117,
+  "vencidas": 10,
   "venc_esp": 1,
-  "sem_equipe": 80,
+  "sem_equipe": 111,
   "venc_sem_equipe": 4,
   "esp": [
    93.11,
-   95.87
+   95.86
   ],
   "erros": 31.4
  }
