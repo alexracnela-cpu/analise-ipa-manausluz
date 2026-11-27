@@ -172,6 +172,16 @@ def secao_fora_do_prazo(atr, agora, ini_mes):
 def ler_relatorio(arquivo):
     df = pd.read_excel(arquivo, sheet_name="Relatório", header=1)
     df.columns = [str(c).strip() for c in df.columns]
+    # O GisWorks às vezes exporta a mesma OS em várias linhas iguais (27/11/2026 08h04: 4.495 OS viraram 8.307).
+    # Uma OS reaberta e fechada de novo tem outra data de fechamento e continua contando.
+    chave = [c for c in ("Tipo", "ID", "Data Fechamento", "Equipe") if c in df]
+    antes = len(df)
+    df = df.drop_duplicates(subset=chave if len(chave) >= 3 else None).reset_index(drop=True)
+    if len(df) < antes:
+        msg = f"Aviso: {antes - len(df)} linhas repetidas removidas do relatório ({antes} → {len(df)})."
+        print(msg)
+        with open(Path(__file__).parent / "diagnostico.txt", "a", encoding="utf-8") as f:
+            f.write(msg + "\n")
     for c, n in [("Data", "ab"), ("Data Fechamento", "fech"), ("Início da Execução", "iexec"), ("Data Lote", "lote")]:
         df[n] = data_br(df[c]) if c in df else pd.NaT
     try:
